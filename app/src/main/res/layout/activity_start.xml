@@ -6,4 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".screens.StartActivity">
 
+    <!-- TODO:Remove when you are coding the start screen -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="155dp"
+        tools:layout_editor_absoluteY="647dp"
+        android:onClick="next"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
