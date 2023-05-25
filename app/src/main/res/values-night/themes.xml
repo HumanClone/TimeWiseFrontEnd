@@ -1,10 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TimeWiseFrontEnd" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.TimeWiseFrontEnd" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#2E4F4F</item>
         <item name="colorPrimaryVariant">#0E8388</item>
-        <item name="colorOnPrimary">#CBE4DE</item>
+        <item name="colorOnPrimary">#47A992</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#212A3E</item>
         <item name="colorSecondaryVariant">#394867</item>
@@ -12,5 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">#068DA9</item>
         <!-- Customize your theme here. -->
+        <item name="backgroundColor">#202124</item>
+    </style>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/base_background</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
     </style>
 </resources>

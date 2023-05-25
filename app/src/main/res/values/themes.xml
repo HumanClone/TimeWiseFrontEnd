@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TimeWiseFrontEnd" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.TimeWiseFrontEnd" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#088395</item>
         <item name="colorPrimaryVariant">#05BFDB</item>
@@ -12,5 +12,19 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">#6C00FF</item>
         <!-- Customize your theme here. -->
+        <item name="backgroundColor">#E7E7E7</item>
     </style>
+
+    <style name="Theme.TimeWiseFrontEnd.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#2E4F4F</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+    </style>
+
+    <style name="Theme.TimeWiseFrontEnd.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TimeWiseFrontEnd.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

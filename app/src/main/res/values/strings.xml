@@ -1,3 +1,40 @@
 <resources>
-    <string name="app_name">TimeWiseFrontEnd</string>
+    <string name="app_name">TimeWise</string>
+    <string name="Home">Home</string>
+    <string name="Profile">Profile</string>
+    <string name="Settings">Settings</string>
+    <string name="Calendar">Calendar</string>
+    <string name="Logs">Logs</string>
+    <string name="Help">Help</string>
+    <string name="Logout">Logout</string>
+    <string name="Login">Login</string>
+    <string name="Register">Register</string>
+    <string name="Add">Add</string>
+    <string name="Save">Save</string>
+    <string name="Stats">Statistics</string>
+    <string name="Category">Categories</string>
+    <string name="TimeSheet">Time Sheet</string>
+    <string name="Dashboard">Dashboard</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="open">"Open"</string>
+    <string name="close">"Close"</string>
+
+    <string name="nav_profile">nav_profile</string>
+    <string name="nav_home">nav_home</string>
+    <string name="nav_dashboard">nav_dashboard</string>
+    <string name="nav_category">nav_category</string>
+    <string name="nav_logs">nav_logs</string>
+    <string name="nav_calendar">nav_calendar</string>
+    <string name="nav_stats">nav_stats</string>
+    <string name="nav_help">nav_help</string>
+
+
 </resources>
