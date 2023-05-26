@@ -2,11 +2,11 @@ package com.example.timewisefrontend.models
 
 import java.util.Date
 
-class TimeSheet (
+data class TimeSheet (
     val TimesheetId:String?,
-    val CategoryId:String?,
-    val PictureId:String?,
+    val category: Category,
+    val picture: Picture?,
     val Description:String,
-    val StartDate: Date,
-    val EndDate:Date,
+    val hours: Double,
+    val Date: Date,
         )
