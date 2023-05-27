@@ -3,7 +3,7 @@ package com.example.timewisefrontend.api
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofitObject {
+object RetrofitHelper {
 
     //TODO:Use actual base Url when it is ready
     val baseUrl = "https://newsapi.org/v2/"
