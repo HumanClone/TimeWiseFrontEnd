@@ -11,10 +11,14 @@
     <string name="Register">Register</string>
     <string name="Add">Add</string>
     <string name="Save">Save</string>
-    <string name="Stats">Statistics</string>
+
+    <string name="Categorys">Category</string>
     <string name="Category">Categories</string>
     <string name="TimeSheet">Time Sheet</string>
+    <string name="CategoryDash">Categories - This Week</string>
+    <string name="TimeSheetDash">Time Sheets - This Week</string>
     <string name="Dashboard">Dashboard</string>
+    <string name="hours">Hours</string>
 
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>

@@ -14,8 +14,5 @@
         <!-- Customize your theme here. -->
         <item name="backgroundColor">#202124</item>
     </style>
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/base_background</item>
-        <item name="windowSplashScreenAnimationDuration">200</item>
-    </style>
+
 </resources>

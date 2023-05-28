@@ -19,10 +19,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#2E4F4F</item>
-        <item name="windowSplashScreenAnimationDuration">200</item>
-    </style>
+
 
     <style name="Theme.TimeWiseFrontEnd.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

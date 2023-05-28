@@ -1,18 +1,23 @@
 package com.example.timewisefrontend.api
 
-import android.util.Log
-import retrofit2.Response
+import com.example.timewisefrontend.models.Category
+import com.example.timewisefrontend.models.TimeSheet
 import retrofit2.http.GET
-import retrofit2.http.Query
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.http.POST
-import retrofit2.http.PUT
 
-interface TimeWiseapi {
+interface TimeWiseApi {
     //TODO: Use this interface to use the api with defined methods from the api
 //    @GET("addon to base url")
 //    fun getData(): Call<{model}?>?
+    @GET("Url")
+    fun getDataTSDash(): Call<TimeSheet?>?
+
+    @GET("Url")
+    fun getDataTS(): Call<TimeSheet?>?
+
+    @GET("url")
+    fun getDataCTDash(): Call<Category?>?
+
 
     //TODO: Use this method to update  data to the api method
 //    @PUT("Addon to base url")
@@ -68,7 +73,7 @@ interface TimeWiseapi {
 //TODO:TO use to update data in Api
 //private fun updateData()
 //{
-//    val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseapi::class.java)
+//    val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 //
 //    // passing data from our text fields to our model class.
 //    val picture = Picture("", "","","")
@@ -112,7 +117,7 @@ interface TimeWiseapi {
 //TODO: USe methdo to create data in api in activity or on save
 //private fun createData()
 //{
-//    val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseapi::class.java)
+//    val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 //
 //    // passing data from our text fields to our model class.
 //    val picture = Picture("", "","","")

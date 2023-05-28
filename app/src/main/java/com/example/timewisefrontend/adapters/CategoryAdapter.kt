@@ -14,7 +14,6 @@ import com.example.timewisefrontend.models.Category
 class CategoryAdapter (var data: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
 
-    //TODO: Replace with proper ids when view created remove suppress
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("ResourceType")
         var Name: TextView =view.findViewById(R.id.Catname)

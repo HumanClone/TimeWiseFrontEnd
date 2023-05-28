@@ -42,15 +42,13 @@ class MainMenuActivity : AppCompatActivity() {
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_settings ->{ loadFrag(SettingsFragment())
                         binding.drawerLayout.closeDrawers()}
-                    R.id.nav_dashboard -> {loadFrag(DashboardFragment())
-                        binding.drawerLayout.closeDrawers()}
                     R.id.nav_timesheet -> {loadFrag(TimeSheetFragment())
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_category -> {loadFrag(CategoryFragment())
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_stats -> {loadFrag(StatsFragament())
                         binding.drawerLayout.closeDrawers()}
-                    R.id.nav_logout -> {//TODO: removed user data from memory
+                    R.id.nav_logout -> {// TODO: removed user data from memory
                                         val intent = Intent(this@MainMenuActivity, StartActivity ::class.java)
                                         startActivity(intent)}
                 }

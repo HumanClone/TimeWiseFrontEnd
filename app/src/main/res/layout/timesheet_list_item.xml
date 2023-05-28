@@ -13,8 +13,11 @@
         android:id="@+id/TSdate"/>
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:id="@+id/TSpicture"/>
+        android:minHeight="10dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="200dp"
+        android:id="@+id/TSpicture"
+        android:contentDescription="@string/Profile"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
