@@ -15,9 +15,7 @@ import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.CategoryAdapter
 import com.example.timewisefrontend.adapters.TimeSheetAdatper
 import com.example.timewisefrontend.api.RetrofitHelper
-import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.TimeSheet
-import com.example.timewisefrontend.databinding.FragmentDashboardBinding
 import com.example.timewisefrontend.models.Category
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
@@ -51,79 +49,79 @@ class DashboardFragment : Fragment() {
 
 
     //TODO: Implement the two get methods from the data 
+//
+//    private fun getdataTS()
+//    {
+//        val timewiseapi= RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+//        // launching a new coroutine
+//        GlobalScope.launch {
+//            val call: Call<TimeSheet?>? = timewiseapi.getDataTSDash()
+//            //val TimeSheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
+//            Log.d("testing",call.toString())
+//            call!!.enqueue(object : Callback<TimeSheet?> {
+//                override fun onResponse(
+//                    call: Call<TimeSheet?>?,
+//                    response: Response<TimeSheet?>
+//                ) {
+//                    if (response.isSuccessful())
+//                    {
+//                        Log.d("testing",response.body()!!.toString())
+//                        val timeSheet:TimeSheet=response.body()!!
+//                        val jas= Gson().toJson(timeSheet)
+//                        Log.d("testing",jas)
+//                        //generateRecyclerView(TimeSheet)
+//
+//                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
+//                        //Log.d("testing",data.toString())
+//
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<TimeSheet?>?, t: Throwable?) {
+//                    // displaying an error message in toast
+//                    Toast.makeText(context, "Fail to get the data..", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//            })
+//        }
+//    }
 
-    private fun getdataTS()
-    {
-        val timewiseapi= RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
-        // launching a new coroutine
-        GlobalScope.launch {
-            val call: Call<TimeSheet?>? = timewiseapi.getDataTSDash()
-            //val TimeSheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
-            Log.d("testing",call.toString())
-            call!!.enqueue(object : Callback<TimeSheet?> {
-                override fun onResponse(
-                    call: Call<TimeSheet?>?,
-                    response: Response<TimeSheet?>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val timeSheet:TimeSheet=response.body()!!
-                        val jas= Gson().toJson(timeSheet)
-                        Log.d("testing",jas)
-                        //generateRecyclerView(TimeSheet)
-    
-                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
-                        //Log.d("testing",data.toString())
-    
-                    }
-                }
-    
-                override fun onFailure(call: Call<TimeSheet?>?, t: Throwable?) {
-                    // displaying an error message in toast
-                    Toast.makeText(context, "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-        }
-    }
 
-
-    private fun getdataCT()
-    {
-        val timewiseapi= RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
-        // launching a new coroutine
-        GlobalScope.launch {
-            val call: Call<Category?>? = timewiseapi.getDataCTDash()
-            //val Category: Category = Gson().fromJson(result.toString(), Category::class.java)
-            Log.d("testing",call.toString())
-            call!!.enqueue(object : Callback<Category?> {
-                override fun onResponse(
-                    call: Call<Category?>?,
-                    response: Response<Category?>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val category:Category=response.body()!!
-                        val jas= Gson().toJson(category)
-                        Log.d("testing",jas)
-                        //generateRecyclerView(Category)
-
-                        //val data = Gson().fromJson(response.body().toString(), Category::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
-                }
-
-                override fun onFailure(call: Call<Category?>?, t: Throwable?) {
-                    // displaying an error message in toast
-                    Toast.makeText(context, "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                }
-            })
-        }
-    }
+//    private fun getdataCT()
+//    {
+//        val timewiseapi= RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+//        // launching a new coroutine
+//        GlobalScope.launch {
+//            val call: Call<Category?>? = timewiseapi.getDataCTDash()
+//            //val Category: Category = Gson().fromJson(result.toString(), Category::class.java)
+//            Log.d("testing",call.toString())
+//            call!!.enqueue(object : Callback<Category?> {
+//                override fun onResponse(
+//                    call: Call<Category?>?,
+//                    response: Response<Category?>
+//                ) {
+//                    if (response.isSuccessful())
+//                    {
+//                        Log.d("testing",response.body()!!.toString())
+//                        val category:Category=response.body()!!
+//                        val jas= Gson().toJson(category)
+//                        Log.d("testing",jas)
+//                        //generateRecyclerView(Category)
+//
+//                        //val data = Gson().fromJson(response.body().toString(), Category::class.java)
+//                        //Log.d("testing",data.toString())
+//
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<Category?>?, t: Throwable?) {
+//                    // displaying an error message in toast
+//                    Toast.makeText(context, "Fail to get the data..", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
+//            })
+//        }
+//    }
     
     
     //TODO: if needed fix recycler view to card view 

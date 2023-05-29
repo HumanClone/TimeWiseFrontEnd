@@ -3,12 +3,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/backgroundColor"
     tools:context=".fragments.TimeSheetFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/TimeSheets"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:paddingTop="20dp"
+        android:autoSizeMaxTextSize="68dp"
+        android:autoSizeMinTextSize="20dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/Logs" />
+        android:paddingTop="50dp"
+        android:orientation="vertical"
+        android:paddingStart="20dp">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleButton"
+            style="?attr/materialButtonToggleGroupStyle"
+            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:selectionRequired="true"
+            app:singleSelection="true"
+            app:checkedButton="@id/TSWeek">
+            <Button
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/TSWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Week"
+                android:backgroundTint="?attr/colorSecondary"
+                android:textColor="?attr/colorOnSecondary"/>
+            <Button
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/TSMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Month"
+                android:backgroundTint="?attr/colorSecondary"
+                android:textColor="?attr/colorOnSecondary"/>
+            <Button
+                style="?attr/materialButtonOutlinedStyle"
+                android:id="@+id/TSAlltime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/AllTime"
+                android:backgroundTint="?attr/colorSecondary"
+                android:textColor="?attr/colorOnSecondary"/>
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+<!-- TODO: Decide whether to have another drop down small banner for set time selection -->
+<!-- Week,Month,All time -->
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:id="@+id/dashboard_recycler_timesheet"
+        android:paddingTop="20dp" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extended_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/Cr"
+        android:text="@string/CreateTS"
+        app:icon="@drawable/vector_create"/>
+
 
 </FrameLayout>

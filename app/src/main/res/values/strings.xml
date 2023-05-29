@@ -11,15 +11,22 @@
     <string name="Register">Register</string>
     <string name="Add">Add</string>
     <string name="Save">Save</string>
-
-    <string name="Categorys">Category</string>
-    <string name="Category">Categories</string>
+    <string name="Stats">Statistics</string>
+    <string name="Category">Category</string>
+    <string name="Categories">Categories</string>
     <string name="TimeSheet">Time Sheet</string>
+    <string name="TimeSheets">Time Sheets</string>
+    <string name="Cr">Creating </string>
+    <string name="CreateTS">New Sheet</string>
     <string name="CategoryDash">Categories - This Week</string>
     <string name="TimeSheetDash">Time Sheets - This Week</string>
     <string name="Dashboard">Dashboard</string>
+    <string name="ThisWeek">This Week</string>
+    <string name="Week">Week</string>
+    <string name="Month">Month</string>
+    <string name="AllTime">All Time</string>
+    <string name="All">All</string>
     <string name="hours">Hours</string>
-
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -28,8 +35,11 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="open">"Open"</string>
-    <string name="close">"Close"</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="date">Date</string>
+    <string name="picture">Picture</string>
+
 
     <string name="nav_profile">nav_profile</string>
     <string name="nav_home">nav_home</string>
@@ -39,6 +49,8 @@
     <string name="nav_calendar">nav_calendar</string>
     <string name="nav_stats">nav_stats</string>
     <string name="nav_help">nav_help</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

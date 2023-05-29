@@ -42,9 +42,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="?attr/colorOnPrimary"
+        app:itemVerticalPadding="20dp"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
-        app:itemVerticalPadding="20dp"
         app:itemIconSize="40dp"
         app:itemTextAppearance="?android:attr/textAppearanceLarge"/>
 
