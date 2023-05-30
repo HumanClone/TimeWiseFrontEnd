@@ -39,6 +39,8 @@
     <string name="close">Close</string>
     <string name="date">Date</string>
     <string name="picture">Picture</string>
+    <string name="pictureOP">Picture (Optional)</string>
+    <string name="des">Description</string>
 
 
     <string name="nav_profile">nav_profile</string>

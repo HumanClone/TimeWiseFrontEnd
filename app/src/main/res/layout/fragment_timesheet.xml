@@ -18,6 +18,8 @@
         android:autoSizeMaxTextSize="68dp"
         android:autoSizeMinTextSize="20dp"/>
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,35 +31,34 @@
             android:id="@+id/toggleButton"
             style="?attr/materialButtonToggleGroupStyle"
             android:layout_marginTop="50dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:selectionRequired="true"
-            app:singleSelection="true"
-            app:checkedButton="@id/TSWeek">
+            app:checkedButton="@id/TSWeek"
+            android:paddingEnd="20dp">
             <Button
-                style="?attr/materialButtonOutlinedStyle"
+                style="?attr/materialButtonStyle"
                 android:id="@+id/TSWeek"
-                android:layout_width="wrap_content"
+                android:layout_width="124dp"
                 android:layout_height="wrap_content"
                 android:text="@string/Week"
                 android:backgroundTint="?attr/colorSecondary"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="@color/white"/>
             <Button
-                style="?attr/materialButtonOutlinedStyle"
+                style="?attr/materialButtonStyle"
                 android:id="@+id/TSMonth"
-                android:layout_width="wrap_content"
+                android:layout_width="124dp"
                 android:layout_height="wrap_content"
                 android:text="@string/Month"
                 android:backgroundTint="?attr/colorSecondary"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="@color/white"/>
             <Button
-                style="?attr/materialButtonOutlinedStyle"
-                android:id="@+id/TSAlltime"
-                android:layout_width="wrap_content"
+                style="?attr/materialButtonStyle"
+                android:id="@+id/TSAll"
+                android:layout_width="124dp"
                 android:layout_height="wrap_content"
-                android:text="@string/AllTime"
+                android:text="@string/All"
                 android:backgroundTint="?attr/colorSecondary"
-                android:textColor="?attr/colorOnSecondary"/>
+                android:textColor="@color/white"/>
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -75,6 +76,9 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extended_fab"
+        app:backgroundTint="?attr/colorSecondary"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

@@ -8,7 +8,7 @@
         <item android:id="@+id/nav_timesheet" android:icon="@drawable/vector_assignment" android:title="@string/TimeSheet"/>
         <item android:id="@+id/nav_category" android:icon="@drawable/vector_category" android:title="@string/Category"/>
         <item android:id="@+id/nav_stats"   android:icon="@drawable/vector_bar_chart"   android:title="@string/Stats"/>
-        <item android:id="@+id/nav_settings" android:icon="@drawable/vector_settings" android:title="@string/Settings"/>
+<!--        <item android:id="@+id/nav_settings" android:icon="@drawable/vector_settings" android:title="@string/Settings"/>-->
 
     </group>
 

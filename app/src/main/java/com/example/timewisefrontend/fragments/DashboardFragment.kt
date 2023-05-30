@@ -144,10 +144,12 @@ class DashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        val recyclerview:RecyclerView=view.findViewById(R.id.dashboard_recycler_timesheet)
+
 
         
         //TODO:Edit after proper method is established
+
+        // val recyclerview:RecyclerView=view.findViewById(R.id.dashboard_recycler_timesheet)
         //generateRecyclerView(null,recyclerview)
 
     }

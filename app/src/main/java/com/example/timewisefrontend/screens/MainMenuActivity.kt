@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.databinding.ActivityMainMenuBinding
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.drawerlayout.widget.DrawerLayout
@@ -20,6 +21,8 @@ class MainMenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+        actionBar?.hide()
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val toolbar: Toolbar =  findViewById(R.id.toolbar)
@@ -40,8 +43,8 @@ class MainMenuActivity : AppCompatActivity() {
                         binding.drawerLayout.closeDrawers() }
                     R.id.nav_dashboard -> { loadFrag(DashboardFragment())
                         binding.drawerLayout.closeDrawers()}
-                    R.id.nav_settings ->{ loadFrag(SettingsFragment())
-                        binding.drawerLayout.closeDrawers()}
+//                    R.id.nav_settings ->{ loadFrag(SettingsFragment())
+//                        binding.drawerLayout.closeDrawers()}
                     R.id.nav_timesheet -> {loadFrag(TimeSheetFragment())
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_category -> {loadFrag(CategoryFragment())

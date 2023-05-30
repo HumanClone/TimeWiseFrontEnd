@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.TimeWiseFrontEnd" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.TimeWiseFrontEnd" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">#2E4F4F</item>
         <item name="colorPrimaryVariant">#0E8388</item>

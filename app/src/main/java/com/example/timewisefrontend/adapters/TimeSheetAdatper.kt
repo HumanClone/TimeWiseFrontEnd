@@ -34,9 +34,9 @@ RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data[position]
-        holder.Date.text=item.Date.toString()
+        holder.Date.text=item.date.toString()
         holder.Category.text=item.category.Name
-        holder.Description.text=item.Description
+        holder.Description.text=item.description
         holder.Picture.load(item.picture?.url)
         holder.Hours.text=item.hours.toString()
 
