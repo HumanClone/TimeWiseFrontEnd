@@ -1,5 +1,6 @@
 package com.example.timewisefrontend.screens
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -20,10 +21,14 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-    val registerButton = findViewById<Button>(R.id.btnNewRegister)
-        registerButton.setOnClickListener()
-        {
+        val registerButton = findViewById<Button>(R.id.btnNewRegister)
+        registerButton.setOnClickListener{
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+        val loginButton = findViewById<Button>(R.id.btnLogin)
+        loginButton.setOnClickListener{
+            val intent = Intent(this@LoginActivity, MainMenuActivity::class.java)
             startActivity(intent)
         }
     }
