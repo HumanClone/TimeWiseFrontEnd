@@ -35,24 +35,28 @@ class LoginActivity : AppCompatActivity() {
         }
         val loginButton = findViewById<Button>(R.id.btnLogin)
         loginButton.setOnClickListener {
-            val intent = Intent(this@LoginActivity, MainMenuActivity::class.java)
-            startActivity(intent)
+            if (checkCredentials()) {
+                val intent = Intent(this@LoginActivity, MainMenuActivity::class.java)
+                startActivity(intent)
+            }
         }
-        checkCrededentials()
     }
 
-    private fun checkCrededentials() {
+    private fun checkCredentials(): Boolean {
         val email = inputLoginEmail.text.toString()
         val password = inputUserPassword.text.toString()
 
         if (email.isEmpty() || !email.contains("@")) {
             showError(inputLoginEmail, "Your Email is not valid!")
+            return false
         } else if (password.isEmpty() || password.length < 7) {
             showError(inputUserPassword, "Password must be 7 characters")
+            return false
         }
         else
         {
             Toast.makeText(this@LoginActivity, "Call Login Method", Toast.LENGTH_SHORT).show()
+            return true
         }
     }
 

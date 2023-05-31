@@ -29,50 +29,48 @@ class RegisterActivity : AppCompatActivity() {
 
 
         val registerButton = findViewById<Button>(R.id.btnRegister)
-        registerButton.setOnClickListener{
-            Toast.makeText(this@RegisterActivity, "Registered Successful!",Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@RegisterActivity, MainMenuActivity::class.java)
-            startActivity(intent)
+        registerButton.setOnClickListener {
+            if (checkCredentials()) {
+                Toast.makeText(this@RegisterActivity, "Registered Successful!", Toast.LENGTH_SHORT)
+                    .show()
+                val intent = Intent(this@RegisterActivity, MainMenuActivity::class.java)
+                startActivity(intent)
+            }
         }
         val loginButton = findViewById<TextView>(R.id.alreadyHaveAccount)
         loginButton.setOnClickListener{
             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
             startActivity(intent)
         }
-        checkCrededentials()
     }
-    private fun checkCrededentials(){
+    private fun checkCredentials(): Boolean {
         val username = inputUser.text.toString()
         val userjob = inputUserJob.text.toString()
         val email = inputLoginEmail.text.toString()
         val password = inputPassword.text.toString()
         val configurePassword = inputConfirmPassword.text.toString()
 
-        if (username.isEmpty() || username.length <7)
-        {
+        if (username.isEmpty() || username.length < 7) {
             showError(inputUser, "Your username is not valid!")
-        }
-        else if (userjob.isEmpty())
-        {
+            return false
+        } else if (userjob.isEmpty()) {
             showError(inputUserJob, "You havent entered a job")
-        }
-        else if (email.isEmpty() || !email.contains("@"))
-        {
+            return false
+        } else if (email.isEmpty() || !email.contains("@")) {
             showError(inputLoginEmail, "Your Email is not valid!")
-        }
-        else if (password.isEmpty() || password.length <7)
-        {
+            return false
+        } else if (password.isEmpty() || password.length < 7) {
             showError(inputPassword, "Password must be 7 characters")
-        }
-        else if (configurePassword.isEmpty() || configurePassword !=password)
-        {
+            return false
+        } else if (configurePassword.isEmpty() || configurePassword != password) {
             showError(inputConfirmPassword, "Password does not match")
-        }
-        else
-        {
-            Toast.makeText(this@RegisterActivity, "Call Registration Method", Toast.LENGTH_SHORT).show()
+            return false
+        } else {
+            Toast.makeText(this@RegisterActivity, "Call Registration Method", Toast.LENGTH_SHORT)
+                return true
         }
     }
+
     private fun showError(input : EditText, errorMessage: String )
     {
         input.error = errorMessage
