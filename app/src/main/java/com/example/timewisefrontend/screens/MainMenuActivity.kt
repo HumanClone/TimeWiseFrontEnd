@@ -10,7 +10,6 @@ import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import com.example.timewisefrontend.fragments.*
 
@@ -26,6 +25,7 @@ class MainMenuActivity : AppCompatActivity() {
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val toolbar: Toolbar =  findViewById(R.id.toolbar)
+        //toolbar.title=("MAin")
         //setSupportActionBar(toolbar)
 
         binding.apply {

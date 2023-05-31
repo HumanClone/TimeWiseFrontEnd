@@ -190,6 +190,8 @@ class CreateTs : Fragment() {
             Log.d("testing", Gson().toJson(timeSheet) )
         }
 
+        // TODO:upon sucesss
+        //parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
     }
 
 

@@ -38,9 +38,12 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="date">Date</string>
+    <string name="dateR">Date Range</string>
     <string name="picture">Picture</string>
     <string name="pictureOP">Picture (Optional)</string>
     <string name="des">Description</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
 
 
     <string name="nav_profile">nav_profile</string>
