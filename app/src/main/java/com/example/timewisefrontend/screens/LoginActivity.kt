@@ -1,5 +1,6 @@
 package com.example.timewisefrontend.screens
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -11,6 +12,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.databinding.ActivityLoginBinding
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
 class LoginActivity : AppCompatActivity() {
 
@@ -18,6 +20,11 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        var btnNewRegister : Button
+    val registerButton = findViewById<Button>(R.id.btnNewRegister)
+        registerButton.setOnClickListener()
+        {
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
