@@ -5,13 +5,16 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.TimeWiseFrontEnd"
-        android:enableOnBackInvokedCallback="true"
         tools:targetApi="33">
+        <activity
+            android:name=".UserProfileActivty"
+            android:exported="false" />
         <activity
             android:name=".screens.RegisterActivity"
             android:exported="false" />
@@ -21,18 +24,16 @@
             android:theme="@style/Theme.TimeWiseFrontEnd.NoActionBar" />
         <activity
             android:name=".screens.MainMenuActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".screens.StartActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

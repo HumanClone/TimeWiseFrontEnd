@@ -24,6 +24,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var inputConfirmPassword: EditText
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mLoadingBar: ProgressDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -35,6 +36,7 @@ class RegisterActivity : AppCompatActivity() {
         inputConfirmPassword = findViewById(R.id.inputConfirmPassword)
         mAuth = FirebaseAuth.getInstance()
         mLoadingBar = ProgressDialog(this)
+
 
         val registerButton = findViewById<Button>(R.id.btnRegister)
         registerButton.setOnClickListener {
@@ -58,7 +60,7 @@ class RegisterActivity : AppCompatActivity() {
         val password = inputPassword.text.toString()
         val confirmPassword = inputConfirmPassword.text.toString()
 
-        if (username.isEmpty() || username.length < 7) {
+        if (username.isEmpty() || username.length < 2) {
             showError(inputUser, "Your username is not valid, please enter more then 7 letters!")
             return false
         } else if (userJob.isEmpty()) {

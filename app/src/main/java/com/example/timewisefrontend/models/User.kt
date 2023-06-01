@@ -8,5 +8,4 @@ class User (
     val Password:String,
     val Max:Int,
     val Min: Int,
-
         )
