@@ -3,13 +3,166 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
-    tools:context=".fragments.StatsFragament">
 
-    <!-- TODO: Update blank fragment layout -->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/backgroundColor"
+    tools:context=".fragments.StatsFragament"
+    android:scrollbars="none">
+
+
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Stats"
+        android:textAlignment="center"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:paddingTop="20dp"
+        android:autoSizeMaxTextSize="68dp"
+        android:autoSizeMinTextSize="20dp"/>
+
+
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:id="@+id/tabLay"
+        android:background="?attr/colorPrimaryVariant"
+        app:tabTextColor="@color/white"
+        app:tabIconTint="@color/white"
+        app:tabSelectedTextColor="?attr/colorPrimary"
+        android:contentDescription="@string/Stats">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/TimeSheets"
+            android:id="@+id/tabTSd"
+            android:icon="@drawable/vector_assignment"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Categories"
+            android:id="@+id/tabCTd"
+            android:icon="@drawable/vector_category"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/nav_stats" />
+        android:paddingTop="180dp"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:fadeScrollbars="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/DateLay1"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:hint="@string/start"
+                android:contextClickable="true"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/vector_error"
+                app:startIconDrawable="@drawable/vector_calendar_month">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/DateFieldStart"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:textIsSelectable="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/DateLay2"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:hint="@string/end"
+                android:contextClickable="true"
+                android:focusable="false"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/vector_error"
+                app:startIconDrawable="@drawable/vector_calendar_month">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/DateFieldEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:textIsSelectable="false"
+                    android:inputType="none"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/CateLay1"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/Category"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/vector_error"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            app:startIconDrawable="@drawable/vector_category">
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/CatFieldStat"
+                android:inputType="none"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:id="@+id/stats_recycler"
+            android:paddingTop="20dp"/>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        app:indicatorColor="?attr/colorOnPrimary"
+        app:indicatorSize="150dp"
+        app:trackThickness="10dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/extended_fabstats"
+        app:backgroundTint="?attr/colorSecondary"
+        app:iconTint="@color/white"
+        style="?attr/floatingActionButtonLargeStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/Cr"
+        app:srcCompat="@drawable/vector_search"
+        app:tint="@color/white"/>
 
 </FrameLayout>

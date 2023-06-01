@@ -131,6 +131,15 @@ class DashboardFragment : Fragment() {
             recyclerview.layoutManager = LinearLayoutManager(context)
             val adapter = TimeSheetAdatper(data)
             recyclerview.adapter = adapter
+            adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener{
+                override fun onClick(position: Int, model:TimeSheet) {
+                    val tsview=SingleTSView()
+                    val agrs =Bundle()
+                    agrs.putString("TomeSheet", Gson().toJson(model).toString())
+                    tsview.arguments=agrs
+                    parentFragmentManager.beginTransaction().replace(R.id.flContent,tsview).commit()
+                }
+            })
         
     }
     fun generateRecyclerViewCT(data: List<Category>, recyclerview:RecyclerView) {

@@ -1,12 +1,11 @@
 package com.example.timewisefrontend.fragments
 
-import android.graphics.Insets.add
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +14,13 @@ import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.TimeSheetAdatper
 import com.example.timewisefrontend.models.TimeSheet
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.gson.Gson
 
 
 class TimeSheetFragment : Fragment() {
 
+lateinit var adapter:TimeSheetAdatper
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
         val fragmentTransaction = beginTransaction()
         fragmentTransaction.func()
@@ -45,11 +47,48 @@ class TimeSheetFragment : Fragment() {
         }
 
 
-//        toggleButton.addOnButtonCheckedListener { toggleButton, checkedId, isChecked ->
-//            // Respond to button selection
-//        }
+
+        val progress: CircularProgressIndicator=view.findViewById(R.id.progressTS)
+        val TSweek:Button=view.findViewById(R.id.TSWeek)
+        val TSmonth:Button=view.findViewById(R.id.TSMonth)
+        val TSall:Button=view.findViewById(R.id.TSAll)
+        progress.hide()
+
+        TSweek.setOnClickListener {
+            progress.show()
+            //populate view
+            progress.hide()
+        }
+        TSmonth.setOnClickListener {
+            progress.show()
+            //populate view
+            progress.hide()
+        }
+        TSall.setOnClickListener {
+            progress.show()
+            //populate view
+            progress.hide()
+        }
+
+
     }
 
+    fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView) {
+
+
+        recyclerview.layoutManager = LinearLayoutManager(context)
+        adapter = TimeSheetAdatper(data)
+        recyclerview.adapter = adapter
+        adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener{
+            override fun onClick(position: Int, model:TimeSheet) {
+                val tsview=SingleTSView()
+                val agrs =Bundle()
+                agrs.putString("TomeSheet", Gson().toJson(model).toString())
+                tsview.arguments=agrs
+                parentFragmentManager.beginTransaction().replace(R.id.flContent,tsview).commit()
+            }
+        })
+    }
 
 
 }
