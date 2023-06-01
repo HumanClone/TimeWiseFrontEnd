@@ -1,6 +1,6 @@
 package com.example.timewisefrontend.models
 
-class Category (
+data class Category (
     //val UserId:String?,
     val id:String,
     val Name:String,

@@ -45,7 +45,16 @@
     <string name="start">Start</string>
     <string name="end">End</string>
 
+    <!--    Error Messages-->
+    <string name="error_numbers">Only Numbers Allowed</string>
+    <string name="error_select">Please Select A</string>
+    <string name="error_input">Please Enter </string>
+    <string name="error_impossible">Impossible Value Entered</string>
+    <string name="error_letters">Only Letters Allowed</string>
+    <string name="error_fix">Please Fix Values</string>
+    <string name="error_idk">IDK What You Did,Well Done For Break This App</string>
 
+    <!--    Fragments-->
     <string name="nav_profile">nav_profile</string>
     <string name="nav_home">nav_home</string>
     <string name="nav_dashboard">nav_dashboard</string>

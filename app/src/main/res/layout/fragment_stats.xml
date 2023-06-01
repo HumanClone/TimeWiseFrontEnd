@@ -69,6 +69,8 @@
                 android:layout_height="60dp"
                 android:hint="@string/start"
                 android:contextClickable="true"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/vector_error"
                 app:startIconDrawable="@drawable/vector_calendar_month">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -90,6 +92,8 @@
                 android:hint="@string/end"
                 android:contextClickable="true"
                 android:focusable="false"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/vector_error"
                 app:startIconDrawable="@drawable/vector_calendar_month">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -105,11 +109,13 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/CateLay"
+            android:id="@+id/CateLay1"
             android:layout_width="350dp"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:hint="@string/Category"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/vector_error"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:startIconDrawable="@drawable/vector_category">
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -132,10 +138,23 @@
 
     </LinearLayout>
 
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        android:indeterminate="true"
+        android:layout_gravity="center"
+        app:indicatorColor="?attr/colorOnPrimary"
+        app:indicatorSize="150dp"
+        app:trackThickness="10dp"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/extended_fabstats"
         app:backgroundTint="?attr/colorSecondary"
         app:iconTint="@color/white"
+        style="?attr/floatingActionButtonLargeStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
