@@ -23,11 +23,13 @@ import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.Category
 import com.example.timewisefrontend.models.Picture
 import com.example.timewisefrontend.models.TimeSheet
+
 import com.example.timewisefrontend.models.user
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
+
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.ktx.Firebase
@@ -48,6 +50,7 @@ class CreateTs : Fragment() {
     lateinit var category:AutoCompleteTextView
     lateinit var hours:TextInputEditText
     lateinit var des:TextInputEditText
+
     lateinit var datelay:TextInputLayout
     lateinit var catlay:TextInputLayout
     lateinit var hourlay:TextInputLayout
@@ -55,6 +58,7 @@ class CreateTs : Fragment() {
     lateinit var progress: CircularProgressIndicator
     lateinit var categories:List<Category>
     var pos:Int=-1
+
 
     var link:String=""
     var Pdes:String=""
@@ -87,11 +91,13 @@ class CreateTs : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         datelay=view.findViewById(R.id.DateLay)
         catlay=view.findViewById(R.id.CateLay)
         hourlay=view.findViewById(R.id.HourLay)
         deslay=view.findViewById(R.id.DesLay)
         progress=view.findViewById(R.id.progressTSC)
+
         imageView=view.findViewById(R.id.ImageField)
         date =view.findViewById(R.id.DateField)
         category=view.findViewById(R.id.CatField)
@@ -150,6 +156,7 @@ class CreateTs : Fragment() {
             {
                 deslay.error=null
             }
+
 
             if (date.text.isNullOrEmpty())
             {
@@ -218,6 +225,8 @@ class CreateTs : Fragment() {
            date.setText(d)
            datelay.error=null
 
+
+
        }
 
         imageView.setOnClickListener{
@@ -243,8 +252,7 @@ class CreateTs : Fragment() {
         category.setAdapter(adapter)
 
 
-//        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
-//        (textField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
+
 
 
     }
@@ -258,9 +266,11 @@ class CreateTs : Fragment() {
         val TSdate:Date=formatter.parse(date.text.toString())
         Log.d("testing",TSdate.toString())
         Log.d("testing","after date before category  ")
+
         //TODO: Change on implement
         val TScategory=category.text.toString()
         //val TScategory=categories[pos].id
+
         Log.d("testing","after category before hours ")
         val TShours:Double=hours.text.toString().toDouble()
         Log.d("testing","after hours before des ")
@@ -272,11 +282,13 @@ class CreateTs : Fragment() {
         //TODO:send picture object to realtime then send to time object
         if (!link.isNullOrEmpty()) {
             Log.d("testing","entered if")
+
             val picture = Picture(UserId = user.userId, Description = Pdes, url = link)
             Log.d("testing","after picture before timesheet")
 
             val timeSheet =TimeSheet(
                 userId=user.userId,
+
                 category=category,
                 picture = picture,
                 description = TSdes,
@@ -290,6 +302,7 @@ class CreateTs : Fragment() {
             //TODO:Pass to database
             Log.d("testing","entered else before time object")
             val timeSheet = TimeSheet(
+
                 userId=user.userId,
                 category = category,
                 picture = null,
@@ -303,7 +316,6 @@ class CreateTs : Fragment() {
         // TODO:upon sucesss
         //parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
     }
-
 
 
 //    https://www.geeksforgeeks.org/android-upload-an-image-on-firebase-storage-with-kotlin/
@@ -368,6 +380,63 @@ class CreateTs : Fragment() {
         val pattern=Regex("\\d+(\\.\\d+)*")
         return matches(pattern)
 
+
+
+//    https://www.geeksforgeeks.org/android-upload-an-image-on-firebase-storage-with-kotlin/
+    private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
+    // lambda expression to receive a result back, here we
+        // receive single item(photo) on selection
+
+        registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode != RESULT_CANCELED  ) {
+                // getting URI of selected Image
+                val imageUri: Uri? = result.data?.data
+                // val fileName = imageUri?.pathSegments?.last()
+
+                // extract the file name with extension
+                val sd = getFileName(requireContext(), imageUri!!)
+
+                // Upload Task with upload to directory 'file'
+                // and name of the file remains same
+                //TODO:Replace file with userid
+                val uploadTask = storageRef.child("file/$sd").putFile(imageUri)
+
+                // On success, download the file URL and display it
+                uploadTask.addOnSuccessListener {
+                    // using glide library to display the image
+                    storageRef.child("file/$sd").downloadUrl.addOnSuccessListener {
+
+                        Glide.with(this@CreateTs)
+                            .load(it)
+                            .into(imageView)
+                        link=it.toString()
+                        Log.d("testing",link)
+                        Log.e("Firebase", "download passed")
+                    }.addOnFailureListener {
+                        Log.e("Firebase", "Failed in downloading")
+                    }
+                }.addOnFailureListener {
+                    Log.e("Firebase", "Image Upload fail")
+                }
+            }
+        }
+
+
+
+
+
+    private fun getFileName(context: Context, uri: Uri): String? {
+        if (uri.scheme == "content") {
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            cursor.use {
+                if (cursor != null) {
+                    if(cursor.moveToFirst()) {
+                        return cursor.getString(cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+                    }
+                }
+            }
+        }
+        return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
     }
 
 

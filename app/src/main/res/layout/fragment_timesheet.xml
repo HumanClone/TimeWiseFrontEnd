@@ -42,8 +42,10 @@
                 android:layout_width="124dp"
                 android:layout_height="wrap_content"
                 android:text="@string/Week"
+
                 android:backgroundTint="?attr/colorPrimaryVariant"
                 android:textColor="@color/white" />
+
             <Button
                 style="?attr/materialButtonStyle"
                 android:id="@+id/TSMonth"
