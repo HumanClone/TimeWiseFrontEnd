@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
+    android:background="?attr/backgroundColor"
     >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:id="@+id/TSdate"/>
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
-        android:minHeight="10dp"
+        android:minHeight="30dp"
         android:layout_height="wrap_content"
         android:maxHeight="200dp"
         android:id="@+id/TSpicture"

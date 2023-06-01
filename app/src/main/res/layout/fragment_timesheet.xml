@@ -63,7 +63,7 @@
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-<!-- TODO: Decide whether to have another drop down small banner for set time selection -->
+        <!-- TODO: Decide whether to have another drop down small banner for set time selection -->
 <!-- Week,Month,All time -->
 
         <LinearLayout
@@ -81,9 +81,23 @@
             android:id="@+id/timesheet_recycler_timesheet"
             android:paddingTop="20dp"
             android:scrollbars="vertical"/>
+
+
+
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressTS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:elevation="1dp"
+        android:indeterminate="true"
+        app:indicatorColor="?attr/colorOnPrimary"
+        app:indicatorSize="150dp"
+        app:trackThickness="10dp" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extended_fab"

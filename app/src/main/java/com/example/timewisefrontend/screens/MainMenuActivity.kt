@@ -8,6 +8,7 @@ import com.example.timewisefrontend.R
 import com.example.timewisefrontend.databinding.ActivityMainMenuBinding
 import android.view.Menu
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -28,14 +29,22 @@ class MainMenuActivity : AppCompatActivity() {
         //toolbar.title=("MAin")
         //setSupportActionBar(toolbar)
 
+        //TODO: declare global user id variable, look into companion objects
+
+
         binding.apply {
             toggle =
                 ActionBarDrawerToggle(this@MainMenuActivity, drawerLayout,toolbar, R.string.open, R.string.close)
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+//            val email:TextView=drawerLayout.findViewById(R.id.emailPlaceHolder)
+//            email.setText(user.email)
+//            val name:TextView=drawerLayout.findViewById(R.id.usernamePlaceHolder)
+//            name.setText(user.username)
             navView.setCheckedItem(R.id.nav_dashboard)
             navView.setNavigationItemSelectedListener{
+
 
                 it.isChecked=true
                 when(it.itemId) {

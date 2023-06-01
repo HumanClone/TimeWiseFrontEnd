@@ -13,7 +13,7 @@ import com.example.timewisefrontend.models.TimeSheet
 
 class TimeSheetAdatper(var data: List<TimeSheet>) :
 RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
-
+ private var onClickListener:OnClickListener?=null
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var Date:TextView=view.findViewById(R.id.TSdate)
         var Category:TextView=view.findViewById(R.id.TScategory)
@@ -40,6 +40,25 @@ RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
         holder.Picture.load(item.picture?.url)
         holder.Hours.text=item.hours.toString()
 
+        //https://www.geeksforgeeks.org/how-to-apply-onclicklistener-to-recyclerview-items-in-android/
+        holder.itemView.setOnClickListener {
+            if (onClickListener != null) {
+                onClickListener!!.onClick(position, item )
+            }
+        }
+
+    }
+
+
+
+    // A function to bind the onclickListener.
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+    // onClickListener Interface
+    interface OnClickListener {
+        fun onClick(position: Int, model: TimeSheet)
     }
 
 
