@@ -11,9 +11,3 @@ data class User (
 
         )
 
-object user{
-    var userId:String=""
-    var email:String=""
-    var name:String=""
-    var categories:List<Category> = listOf()
-}

@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -20,10 +21,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.example.timewisefrontend.R
+import com.example.timewisefrontend.api.RetrofitHelper
+import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
 import com.example.timewisefrontend.models.Picture
 import com.example.timewisefrontend.models.TimeSheet
-import com.example.timewisefrontend.models.user
+import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -34,6 +37,11 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -54,6 +62,7 @@ class CreateTs : Fragment() {
     lateinit var deslay:TextInputLayout
     lateinit var progress: CircularProgressIndicator
     lateinit var categories:List<Category>
+    lateinit var startDate:String
     var pos:Int=-1
 
     var link:String=""
@@ -216,6 +225,7 @@ class CreateTs : Fragment() {
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
             date.setText(d)
+            startDate=dayOfMonth.toString()+"%2F"+(monthOfYear+1)+"%2F"+year
             datelay.error=null
 
         }
@@ -267,16 +277,16 @@ class CreateTs : Fragment() {
         val TSdes=des.text.toString()
         Log.d("testing","after des before category creation  ")
         //TODO:get id of cetgory
-        val category=Category(id="", Name=TScategory, hours = null)
+        val category=Category(UserId = UserDetails.userId ,id="", Name=TScategory, hours = null)
         Log.d("testing","category created before picture")
         //TODO:send picture object to realtime then send to time object
         if (!link.isNullOrEmpty()) {
             Log.d("testing","entered if")
-            val picture = Picture(UserId = user.userId, Description = Pdes, url = link)
+            val picture = Picture(UserId = UserDetails.userId, Description = Pdes, url = link)
             Log.d("testing","after picture before timesheet")
-
+            addPic(picture)
             val timeSheet =TimeSheet(
-                userId=user.userId,
+                userId=UserDetails.userId,
                 category=category,
                 picture = picture,
                 description = TSdes,
@@ -284,13 +294,15 @@ class CreateTs : Fragment() {
             )
 
             Log.d("testing", Gson().toJson(timeSheet) )
+            addTimeSheet(timeSheet)
+            parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
         }
         else
         {
             //TODO:Pass to database
             Log.d("testing","entered else before time object")
             val timeSheet = TimeSheet(
-                userId=user.userId,
+                userId=UserDetails.userId,
                 category = category,
                 picture = null,
                 description = TSdes,
@@ -298,10 +310,10 @@ class CreateTs : Fragment() {
                 hours = TShours
             )
             Log.d("testing", Gson().toJson(timeSheet) )
+            addTimeSheet(timeSheet)
+            parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
         }
 
-        // TODO:upon sucesss
-        //parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
     }
 
 
@@ -370,5 +382,80 @@ class CreateTs : Fragment() {
 
     }
 
+    private fun addPic(picture: Picture)
+    {
+        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+    
+        // passing data from our text fields to our model class.
+        val json=Gson().toJson(picture)
+    
+        GlobalScope.launch{
+    
+            val call: Call<Picture> = timewiseapi.addPic(picture)
+            // on below line we are executing our method.
+            call!!.enqueue(object : Callback<Picture> {
+                override fun onResponse(call: Call<Picture>, response: Response<Picture>) {
+                    // this method is called when we get response from our api.
+                    Toast.makeText(requireContext(), "Data posted to API", Toast.LENGTH_SHORT).show()
+                    // we are getting a response from our body and
+                    // passing it to our model class.
+                    val model: Picture? = response.body()
+                    // on below line we are getting our data from model class
+                    // and adding it to our string.
+                    val resp =
+                        //"Response Code : " + response.code() + "\n" + "User Name : " + model!!.name + "\n" + "Job : " + model!!.job
+                        "Response Code : " + response.code() + "\n" + json.toString()
+                    // below line we are setting our string to our response.
+                    //result.value = resp
+                }
+    
+                override fun onFailure(call: Call<Picture>, t: Throwable) {
+                    // we get error response from API.
+                    Toast.makeText(requireContext(), "ErrorI", Toast.LENGTH_SHORT).show()
+                    //result.value = "Error found is : " + t.message
+                }
+            })
+    
+        }
+    }
+
+    private fun addTimeSheet(timeSheet: TimeSheet)
+    {
+        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+
+        // passing data from our text fields to our model class.
+        val json=Gson().toJson(timeSheet)
+
+        GlobalScope.launch{
+
+            val call: Call<TimeSheet> = timewiseapi.addTS(timeSheet)
+            // on below line we are executing our method.
+            call!!.enqueue(object : Callback<TimeSheet> {
+                override fun onResponse(call: Call<TimeSheet>, response: Response<TimeSheet>) {
+                    // this method is called when we get response from our api.
+                    Toast.makeText(requireContext(), "Data posted to API", Toast.LENGTH_SHORT).show()
+                    // we are getting a response from our body and
+                    // passing it to our model class.
+                    val model: TimeSheet? = response.body()
+                    // on below line we are getting our data from model class
+                    // and adding it to our string.
+                    val resp =
+                        //"Response Code : " + response.code() + "\n" + "User Name : " + model!!.name + "\n" + "Job : " + model!!.job
+                        "Response Code : " + response.code() + "\n" + json.toString()
+                    // below line we are setting our string to our response.
+                    //result.value = resp
+                }
+
+                override fun onFailure(call: Call<TimeSheet>, t: Throwable) {
+                    // we get error response from API.
+                    Toast.makeText(requireContext(), "ErrorI", Toast.LENGTH_SHORT).show()
+                    //result.value = "Error found is : " + t.message
+                }
+            })
+
+        }
+    }
+        
+    
 
 }

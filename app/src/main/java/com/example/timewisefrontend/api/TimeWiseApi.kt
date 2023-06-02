@@ -1,22 +1,79 @@
 package com.example.timewisefrontend.api
 
 import com.example.timewisefrontend.models.Category
+import com.example.timewisefrontend.models.Picture
 import com.example.timewisefrontend.models.TimeSheet
-import retrofit2.http.GET
+import com.example.timewisefrontend.models.User
 import retrofit2.Call
+import retrofit2.http.*
 
 interface TimeWiseApi {
     //TODO: Use this interface to use the api with defined methods from the api
 //    @GET("addon to base url")
 //    fun getData(): Call<{model}?>?
-    @GET("Url")
-    fun getDataTSDash(): Call<TimeSheet?>?
 
-    @GET("Url")
-    fun getDataTS(): Call<TimeSheet?>?
+    @GET("User/GetAllUsers")
+    fun getUsers(): Call<List<User>>
+    // ALL GET Calls
+    @GET("User/GetUser/?UserId=userID")
+    fun getUser(@Query("UserId")userId:String): Call<User>
 
-    @GET("url")
-    fun getDataCTDash(): Call<Category?>?
+    @GET("Category/GetCategory/?CategoryId=categoryId")
+    fun getCategory(@Query("categoryId")categoryId:String): Call<Category>
+
+    @GET("Category/GetAllUserCategories/?UserId=userId")
+    fun getAllCategories(@Query("userId")userId:String): Call<List<Category>>
+
+    @GET("Category/GetAllUserCategoriesWithHoursSum/?UserId=userId")
+    fun getAllCatHours(@Query("userId")userId:String): Call<List<Category>>
+
+    @GET("Category/GetAllUserCategoriesWithHoursSumWithinDateRange/?UserId=userId&start=startDate&end=endDate")//Naming enddate?
+    fun getAllCatHoursRange(@Query("userId")userId:String ,@Query("startDate")startDate:String,@Query("endDate")endDate:String): Call<List<Category>>
+
+    @GET("Category/GetUserCategorieWithHoursSumWithinDateRange/?UserId=userId&CategoryId=categoryId&start=startDate&end=endDate")//categorie(header)
+    fun getCatHoursRange(@Query("userId")userId:String,@Query("categoryId")categoryId:String,@Query("startDate")startDate:String,@Query("endDate")endDate:String): Call<List<Category>>
+
+    @GET("Picture/GetPicture/?PictureId=pictureId")
+    fun getPicture(@Query("pictureId")pictureId:String): Call<Picture>
+
+    @GET("TimeSheet/GetTimesheet/?TimesheetId=timesheetId")
+    fun getTimesheet(@Query("timesheetId")timesheetId:String):Call<TimeSheet>
+
+    @GET("TimeSheet/TimeSheet/GetAllUserTimesheets?UserId=userId")
+    fun getAllTimesheets(@Query("userId")userId:String):Call<List<TimeSheet>>
+
+    @GET("TimeSheet/GetAllTimesheetsOnWeeks?UserId=userId&date=Date")
+    fun getTSWeek(@Query("userId")userId:String,@Query("Date")Date:String):Call<List<TimeSheet>>
+
+    @GET("TimeSheet/GetAllTimesheetsOnMonths?UserId=userId&date=Date")
+    fun getTSMonth(@Query("userId")userId:String,@Query("Date")Date:String):Call<List<TimeSheet>>
+
+    @GET("TimeSheet/GetAllTimesheetsInRange?start=startDate&end=endDate&UserId=userId")
+    fun getTSRange(@Query("startDate")startDate:String,@Query("endDate")endDate:String,@Query("userId")userId:String):Call<List<TimeSheet>>
+
+    @GET("TimeSheet/GetAllTimesheetsOfUserCategory?UserId={UserId}&CategoryId={CategoryId}")
+    fun getTSCat(@Path("UserId")userId: String,@Path("CategoryId")categoryId: String):Call<List<TimeSheet>>
+
+    @GET("TimeSheet/GetAllTimesheetsInRangeAndCategory?start={sDate}&end={eDate}&UserId={UserId}&CategoryId={CategoryId}")
+    fun getTSCatRange(@Path("sDAte") startDate: String,@Path("eDate")endDate: String,@Path("UserId") userId: String,@Path("CategoryId")categoryId: String):Call<List<TimeSheet>>
+
+    //TODO:See whether path or query works
+
+    //Post Methods
+
+    @POST("User/AddUser")
+    fun addUser(@Body user: User?): Call<User>
+
+
+    @POST("Category/AddCategory")
+    fun addCategory(@Body category: Category?): Call<Category>
+
+    @POST("Picture/AddPicture")
+    fun addPic(@Body picture: Picture?): Call<Picture>
+
+    @POST("TimeSheet/AddTimesheet")
+    fun addTS(@Body timesheet: TimeSheet?): Call<TimeSheet>
+
 
 
     //TODO: Use this method to update  data to the api method
@@ -30,44 +87,7 @@ interface TimeWiseApi {
 
 
 }
-//TODO: USe as basis for api retrival in activity
-//private fun getdata()
-//{
-//    val newsApi = RetrofitHelper.getInstance().create(NewsApi::class.java)
-//    // launching a new coroutine
-//    GlobalScope.launch {
-//        val call: Call<Root?>? = newsApi.getRoot()
-//        //val root: Root = Gson().fromJson(result.toString(), Root::class.java)
-//        Log.d("testing",call.toString())
-//        call!!.enqueue(object : Callback<Root?> {
-//            override fun onResponse(
-//                call: Call<Root?>?,
-//                response: Response<Root?>
-//            ) {
-//                if (response.isSuccessful())
-//                {
-//                    Log.d("testing",response.body()!!.toString())
-//                    val root:Root=response.body()!!
-//                    val jas= Gson().toJson(root)
-//                    Log.d("testing",jas)
-//                    generateRecyclerView(root)
-//
-//                    //val data = Gson().fromJson(response.body().toString(), Root::class.java)
-//                    //Log.d("testing",data.toString())
-//
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<Root?>?, t: Throwable?) {
-//                // displaying an error message in toast
-//                Toast.makeText(this@MainActivity, "Fail to get the data..", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
-//        })
-//    }
-//
-//
-//}
+
 
 
 //TODO:TO use to update data in Api

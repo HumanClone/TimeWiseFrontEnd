@@ -13,11 +13,7 @@ import com.example.timewisefrontend.R
 class SettingsFragment : Fragment() {
 
     //TODO: To be implemented in part 3
-    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
-        val fragmentTransaction = beginTransaction()
-        fragmentTransaction.func()
-        fragmentTransaction.commit()
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

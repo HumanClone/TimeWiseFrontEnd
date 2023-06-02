@@ -35,7 +35,7 @@ class SingleTSView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        //item=api way
         item= Gson().fromJson(arguments?.getString("Timesheet"),TimeSheet::class.java)
         var Date: TextView =view.findViewById(R.id.TSdate)
         var Category: TextView =view.findViewById(R.id.TScategory)

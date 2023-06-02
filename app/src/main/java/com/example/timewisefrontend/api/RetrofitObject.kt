@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitHelper {
 
     //TODO:Use actual base Url when it is ready
-    val baseUrl = "https://newsapi.org/v2/"
+    val baseUrl = "http://localhost:5054/"
 
     fun getInstance(): Retrofit {
         return Retrofit.Builder().baseUrl(baseUrl)
