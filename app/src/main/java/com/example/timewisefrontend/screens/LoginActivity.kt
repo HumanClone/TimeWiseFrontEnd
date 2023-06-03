@@ -1,19 +1,17 @@
 package com.example.timewisefrontend.screens
 
-import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.timewisefrontend.R
-import com.example.timewisefrontend.databinding.ActivityLoginBinding
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.example.timewisefrontend.models.UserDetails
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
 
@@ -72,6 +70,13 @@ class LoginActivity : AppCompatActivity() {
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    UserDetails.email=email
+                    val userf = Firebase.auth.currentUser
+                    userf.let{
+                        UserDetails.name= it!!.displayName.toString()
+                        UserDetails.userId= it.uid
+                    }
+
                     mLoadingBar.dismiss()
                     Toast.makeText(
                         this@LoginActivity,
