@@ -1,7 +1,7 @@
 package com.example.timewisefrontend.models
 
-data class User (
-    val userId:String?,
+class User (
+    val UserId:String?,
     val Name:String,
     val Email:String,
     val Job:String,
@@ -10,4 +10,3 @@ data class User (
     val Min: Int,
 
         )
-

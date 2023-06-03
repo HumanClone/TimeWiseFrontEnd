@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:autofillHints="Job"
     android:background="@drawable/bdimage"
     tools:context=".screens.RegisterActivity">
 
@@ -23,7 +24,7 @@
         app:layout_constraintVertical_bias="0.13999999" />
 
     <EditText
-        android:id="@+id/inputLoginPassword"
+        android:id="@+id/inputUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -62,9 +63,10 @@
         android:paddingBottom="10dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/inputLoginPassword"
-        app:layout_constraintStart_toStartOf="@+id/inputLoginPassword"
-        app:layout_constraintTop_toBottomOf="@+id/inputLoginPassword" />
+        app:layout_constraintEnd_toEndOf="@+id/inputUser"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/inputUser"
+        app:layout_constraintTop_toBottomOf="@+id/inputUserJob" />
 
     <EditText
         android:id="@+id/inputPassword"
@@ -76,7 +78,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="******"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textPassword"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
@@ -97,7 +99,7 @@
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="******"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textPassword"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
@@ -114,10 +116,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/btn_bg"
+        android:backgroundTint="@color/white"
         android:text="Register"
         android:textColor="@color/black"
         app:backgroundTint="@color/white"
-        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/inputConfirmPassword"
         app:layout_constraintStart_toStartOf="@+id/inputConfirmPassword"
         app:layout_constraintTop_toBottomOf="@+id/inputConfirmPassword" />
@@ -133,4 +135,26 @@
         app:layout_constraintEnd_toEndOf="@+id/btnRegister"
         app:layout_constraintStart_toStartOf="@+id/btnRegister"
         app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+
+    <!--android:drawableLeft="@drawable/baseline_work"-->
+    <EditText
+        android:id="@+id/inputUserJob"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/input_bg"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Job"
+        android:inputType="textPersonName"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/inputUser"
+        app:layout_constraintStart_toStartOf="@+id/inputUser"
+        app:layout_constraintTop_toBottomOf="@+id/inputUser" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
