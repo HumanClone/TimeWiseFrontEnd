@@ -1,176 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:autofillHints="Job"
-    android:backgroundTint="@color/design_default_color_error"
-    tools:context=".screens.RegisterActivity">
+    tools:context=".fragments.ProfileFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/userNameCons"
-        android:layout_width="409dp"
-        android:layout_height="200dp"
-        android:background="@color/teal_700"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/userNameCons"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="200dp">-->
 
 
-        <TextView
-            android:id="@+id/userName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/Profile"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="40dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:paddingTop="20dp"-->
+<!--            android:autoSizeMaxTextSize="68dp"-->
+<!--            android:autoSizeMinTextSize="20dp"/>-->
+<!--    </LinearLayout>-->
 
-    <ImageView
-        android:id="@+id/profilePictureImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="464dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:src="@tools:sample/avatars" />
+    <LinearLayout
+            android:id="@+id/userNameCons"
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:src="@drawable/vector_account_circle_lg"
+                android:background="?attr/colorOnSecondary"
+                android:paddingTop="20dp"
+                android:autoSizeMaxTextSize="68dp"
+                android:autoSizeMinTextSize="20dp"/>
+        </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/userInfoCons"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="462dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profilePictureImageView">
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:layout_marginTop="200dp">
 
-        <EditText
-            android:id="@+id/usernameEditText"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/NameLay"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:hint="UserName"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.036" />
+            android:hint="@string/username"
+            android:layout_marginTop="20dp"
+            app:startIconDrawable="@drawable/baseline_person">
 
-        <EditText
-            android:id="@+id/jobEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:hint="Job"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/usernameEditText"
-            app:layout_constraintVertical_bias="0.0" />
 
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/baseline_emaiblack"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/jobEditText"
-            app:layout_constraintVertical_bias="0.106" />
 
-        <EditText
-            android:id="@+id/minEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/baselinetime_24"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailEditText"
-            app:layout_constraintVertical_bias="0.024" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usernameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:textStyle="bold"
+                tools:ignore="SpeakableTextPresentCheck" />
 
-        <EditText
-            android:id="@+id/maxEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/baselinetime_24"
-            android:drawablePadding="10dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:paddingStart="20dp"
-            android:paddingLeft="10dp"
-            android:paddingEnd="10dp"
-            android:paddingRight="10dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/minEditText"
-            app:layout_constraintVertical_bias="0.055" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/JobLay"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
-            android:layout_marginEnd="80dp"
-            android:autoText="false"
-            android:background="@color/teal_700"
-            android:text="Save"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/maxEditText" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:hint="@string/job"
+            android:layout_marginTop="20dp"
+            app:startIconDrawable="@drawable/baseline_work">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/jobEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:enabled="false"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailLay"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_email"
+            android:layout_marginTop="20dp"
+            app:startIconDrawable="@drawable/baseline_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:editable="false"
+                android:textStyle="bold"
+                android:enabled="false"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/maxLay"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/maxH"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/vector_error"
+            app:startIconDrawable="@drawable/vector_access_time_filled">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/maxEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/minLay"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:hint="@string/minH"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@drawable/vector_error"
+            app:startIconDrawable="@drawable/vector_access_time_filled">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/minEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="numberDecimal"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/saveButton"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:layout_gravity="bottom|center"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorSecondary"
+        android:textAlignment="center"
+        android:text="Save"
+        android:textSize="20dp"
+        app:icon="@drawable/vector_check"
+        app:iconGravity="textStart"
+        app:iconPadding="10dp"
+        app:iconTint="@color/white"
+        android:textColor="@color/white"
+        android:layout_marginBottom="60dp"/>
+
+</FrameLayout>

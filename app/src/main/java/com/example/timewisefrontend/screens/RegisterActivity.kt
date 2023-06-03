@@ -4,16 +4,28 @@ import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.NonNull
 import com.example.timewisefrontend.R
-import com.google.firebase.FirebaseApp
+import com.example.timewisefrontend.api.RetrofitHelper
+import com.example.timewisefrontend.api.TimeWiseApi
+import com.example.timewisefrontend.models.User
+import com.example.timewisefrontend.models.UserDetails
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import org.jetbrains.annotations.NonNls
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
+import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.net.UnknownServiceException
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -97,7 +109,34 @@ class RegisterActivity : AppCompatActivity() {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    mLoadingBar.dismiss()
+
+
+                    UserDetails.email = email
+                    UserDetails.name = inputUser.text.toString()
+                    val userf = Firebase.auth.currentUser
+                    userf?.let {
+                        val user = User(
+                            it.uid,
+                            inputUser.text.toString(),
+                            it.email!!,
+                            inputUserJob.text.toString(),
+                            "",
+                            ""
+                        )
+                        //addUser(user)
+                        UserDetails.userId = it.uid
+                        mLoadingBar.dismiss()
+                    }
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = inputUser.text.toString()
+                    }
+
+                    userf!!.updateProfile(profileUpdates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d("register", "User profile updated.")
+                            }
+                        }
                     Toast.makeText(
                         this@RegisterActivity,
                         "Registered Successfully!",
@@ -116,4 +155,83 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
     }
+
+//    private fun addUser(User: User)
+//    {
+//        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+//
+//        // passing data from our text fields to our model class.
+//        val json= Gson().toJson(User)
+//
+//        GlobalScope.launch{
+//
+//            val call: Call<User> = timewiseapi.addUser(User)
+//            // on below line we are executing our method.
+//            call.enqueue(object : Callback<User> {
+//                override fun onResponse(call: Call<User>, response: Response<User>) {
+//                    // this method is called when we get response from our api.
+//                    Toast.makeText(this@RegisterActivity, "Data posted to API", Toast.LENGTH_SHORT).show()
+//                    // we are getting a response from our body and
+//                    // passing it to our model class.
+//                    val model: User? = response.body()
+//                    // on below line we are getting our data from model class
+//                    // and adding it to our string.
+//                    val resp =
+//                        //"Response Code : " + response.code() + "\n" + "User Name : " + model!!.name + "\n" + "Job : " + model!!.job
+//                        "Response Code : " + response.code() + "\n" + json.toString()
+//                    // below line we are setting our string to our response.
+//                    //result.value = resp
+//                    Log.d("register","Success!!!")
+//                }
+//
+//                override fun onFailure(call: Call<User>, t: Throwable) {
+//                    // we get error response from API.
+//                    Toast.makeText(this@RegisterActivity , "ErrorI", Toast.LENGTH_SHORT).show()
+//                    Log.d("register","FAILURE!!")
+//                }
+//            })
+//
+//        }
+//    }
+
+
+//    private fun addUser(user: User)
+//    {
+//        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+//
+//        // passing data from our text fields to our model class.
+//       val json= Gson().toJson(user)
+//        Log.d("register",json)
+//        Log.d("register","here")
+//        GlobalScope.launch{
+//            timewiseapi.addUser2(user).enqueue(
+//                object : Callback<User> {
+//
+//                    override fun onFailure(call: Call<User>, t: Throwable) {
+//                        Log.d("register", "Failure")
+//                    }
+//
+//                    override fun onResponse(call: Call<User>, response: Response<User>) {
+//                        val addedUser = response.body()
+//                        Log.d("register", addedUser.toString()+"end of on response")
+//                    }
+//                })
+//            Log.d("register","end")
+//        }
+//
+//    }
+
+//    private fun addUser(user:User)
+//    {
+//        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+//
+//        // passing data from our text fields to our model class.
+//       val json= Gson().toJson(user)
+//        Log.d("register",json)
+//        Log.d("register","here")
+//        GlobalScope.launch {
+//            timewiseapi.addUser2(json)
+//        }
+//    }
+
 }

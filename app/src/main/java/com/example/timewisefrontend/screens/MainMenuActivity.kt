@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.timewisefrontend.fragments.*
+import com.example.timewisefrontend.models.UserDetails
+import com.google.firebase.auth.FirebaseAuth
 
 class MainMenuActivity : AppCompatActivity() {
 
@@ -26,7 +28,7 @@ class MainMenuActivity : AppCompatActivity() {
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val toolbar: Toolbar =  findViewById(R.id.toolbar)
-        //toolbar.title=("MAin")
+        toolbar.title=("Dashboard")
         //setSupportActionBar(toolbar)
 
         //TODO: declare global user id variable, look into companion objects
@@ -38,10 +40,11 @@ class MainMenuActivity : AppCompatActivity() {
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
             supportActionBar?.setDisplayHomeAsUpEnabled(false)
-//            val email:TextView=drawerLayout.findViewById(R.id.emailPlaceHolder)
-//            email.setText(user.email)
-//            val name:TextView=drawerLayout.findViewById(R.id.usernamePlaceHolder)
-//            name.setText(user.username)
+            val header:View=navView.getHeaderView(0)
+            val email:TextView=header.findViewById(R.id.emailPlaceHolder)
+            email.text=UserDetails.email
+            val name:TextView=header.findViewById(R.id.usernamePlaceHolder)
+            name.text=UserDetails.name
             navView.setCheckedItem(R.id.nav_dashboard)
             navView.setNavigationItemSelectedListener{
 
@@ -49,18 +52,28 @@ class MainMenuActivity : AppCompatActivity() {
                 it.isChecked=true
                 when(it.itemId) {
                     R.id.nav_profile -> {loadFrag(ProfileFragment())
+                        toolbar.title="Profile"
                         binding.drawerLayout.closeDrawers() }
                     R.id.nav_dashboard -> { loadFrag(DashboardFragment())
+                        toolbar.title=("Dashboard")
                         binding.drawerLayout.closeDrawers()}
 //                    R.id.nav_settings ->{ loadFrag(SettingsFragment())
 //                        binding.drawerLayout.closeDrawers()}
                     R.id.nav_timesheet -> {loadFrag(TimeSheetFragment())
+                        toolbar.title=("TimeSheet")
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_category -> {loadFrag(CategoryFragment())
+                        toolbar.title=("Category")
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_stats -> {loadFrag(StatsFragament())
+                        toolbar.title=("Statistics")
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_logout -> {// TODO: removed user data from memory
+                                        FirebaseAuth.getInstance().signOut()
+                                        UserDetails.email=""
+                                        UserDetails.name=""
+                                        UserDetails.userId=""
+                                        UserDetails.categories= emptyList()
                                         val intent = Intent(this@MainMenuActivity, StartActivity ::class.java)
                                         startActivity(intent)}
                 }

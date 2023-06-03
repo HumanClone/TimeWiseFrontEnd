@@ -99,7 +99,6 @@ class DashboardFragment : Fragment() {
         GlobalScope.launch {
             val call: Call<List<Category>> = timewiseApi.getAllCategories(UserDetails.userId)
             //val category: Category = Gson().fromJson(result.toString(), Category::class.java)
-            Log.d("testing",call.toString())
             call.enqueue(object : Callback<List<Category>> {
                 override fun onResponse(
                     call: Call<List<Category>>,
@@ -137,7 +136,6 @@ class DashboardFragment : Fragment() {
         GlobalScope.launch {
             val call: Call<List<TimeSheet>> = timewiseApi.getAllTimesheets(UserDetails.userId)
             //val timesheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
-            Log.d("testing",call.toString())
             call.enqueue(object : Callback<List<TimeSheet>> {
                 override fun onResponse(
                     call: Call<List<TimeSheet>>,

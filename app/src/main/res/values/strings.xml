@@ -29,6 +29,7 @@
     <string name="hours">Hours</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="comPassword">Confirm Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
@@ -42,6 +43,11 @@
     <string name="picture">Picture</string>
     <string name="pictureOP">Picture (Optional)</string>
     <string name="des">Description</string>
+    <string name="username">Username</string>
+    <string name="job">Job</string>
+    <string name="maxH">Max Daily Hours</string>
+    <string name="minH">Min Daily Hours</string>
+    <string name="accH">Already have an account!</string>
 
     <string name="start">Start</string>
     <string name="end">End</string>
