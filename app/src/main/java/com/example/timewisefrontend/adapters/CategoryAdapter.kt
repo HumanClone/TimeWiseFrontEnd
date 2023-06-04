@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.Category
 
@@ -35,7 +33,7 @@ class CategoryAdapter (var data: List<Category>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data[position]
         holder.Name.text=item.Name
-        holder.Hours.text=item.hours?.toString()
+        holder.Hours.text=item.Totalhours?.toString()
     }
 
 

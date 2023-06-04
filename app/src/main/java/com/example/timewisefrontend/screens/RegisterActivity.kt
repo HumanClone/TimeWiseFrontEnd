@@ -119,9 +119,9 @@ class RegisterActivity : AppCompatActivity() {
                             it.uid,
                             inputUser.text.toString(),
                             it.email!!,
-                            inputUserJob.text.toString(),
-                            "",
-                            ""
+                             inputUserJob.text.toString(),
+                            null,
+                            null
                         )
                         //addUser(user)
                         UserDetails.userId = it.uid

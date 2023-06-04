@@ -97,7 +97,7 @@ class DashboardFragment : Fragment() {
         val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<Category>> = timewiseApi.getAllCategories(UserDetails.userId)
+            val call: Call<List<Category>> = timewiseApi.getAllCategoriesCall(UserDetails.userId)
             //val category: Category = Gson().fromJson(result.toString(), Category::class.java)
             call.enqueue(object : Callback<List<Category>> {
                 override fun onResponse(
