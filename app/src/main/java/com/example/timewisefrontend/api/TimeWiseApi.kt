@@ -105,7 +105,7 @@ interface TimeWiseApi {
 
     @Headers("Content-Type: application/json")
     @POST("/User/EditUser")
-    fun editUser(@Body user:User): Call<User>
+    fun editUser(@Query("UserId")userid:String,@Body user:User): Call<User>
 
     @Headers("Content-Type: application/json")
     @POST("Category/AddCategory")

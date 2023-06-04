@@ -55,13 +55,13 @@ class Test : AppCompatActivity() {
 
     private fun updateUser()
     {
-        val user=User("54","name","help@hell.com","doctor",12,2)
+        val user=User("54","name","help@hell.com","doctor",10,2)
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
         Log.d("testing","String of Object  "+ user.toString())
         GlobalScope.launch{
-            timewiseapi.editUser(user).enqueue(
+            timewiseapi.editUser("54",user).enqueue(
                 object : Callback<User> {
 
                     override fun onFailure(call: Call<User>, t: Throwable) {
