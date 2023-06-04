@@ -1,5 +1,6 @@
 package com.example.timewisefrontend.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -25,7 +26,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+private lateinit var recycleCat:RecyclerView
+private lateinit var recycleTS:RecyclerView
 
 class DashboardFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +58,6 @@ class DashboardFragment : Fragment() {
 
 
             val temp:List<TimeSheet> = data.subList(0,5)
-            recyclerview.layoutManager = LinearLayoutManager(context)
             val adapter = TimeSheetAdatper(temp)
             recyclerview.adapter = adapter
             adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener{
@@ -72,28 +73,79 @@ class DashboardFragment : Fragment() {
     }
     fun generateRecyclerViewCT(data: List<Category>, recyclerview:RecyclerView) {
 
-
-        recyclerview.layoutManager = LinearLayoutManager(context)
+        recyclerview.layoutManager=LinearLayoutManager(context)
         val adapter = CategoryAdapter(data)
         recyclerview.adapter = adapter
 
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
-       // getTimeSheets()
-        //getCategories()
+        recycleCat=view.findViewById(R.id.dashboard_recycler_category)
+        recycleTS=view.findViewById(R.id.dashboard_recycler_timesheet)
 
-        
-        //TODO:Edit after proper method is established
-
-        // val recyclerview:RecyclerView=view.findViewById(R.id.dashboard_recycler_timesheet)
-        //generateRecyclerView(null,recyclerview)
-
+        getUserCategoriesNorm()
+        //getUserTSNorm()
     }
 
+    private fun getUserCategoriesNorm()
+    {
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
 
-    
+
+                val call:List<Category> = timeWiseApi.getAllCategoriesNorm(UserDetails.userId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+
+                UserDetails.categories=call
+
+                Log.d("testing", call.toString())
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+        if (UserDetails.categories.isNotEmpty()) {
+            Log.d("testing",UserDetails.categories.toString())
+            generateRecyclerViewCT(UserDetails.categories, recycleCat)
+        }
+    }
+
+//    private fun getUserTSNorm()
+//    {
+//        var ts:List<TimeSheet> =listOf()
+//        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+//        // launching a new coroutine
+//        GlobalScope.launch {
+//            try {
+//
+//
+//                val call:List<TimeSheet> = timeWiseApi.getAllTimesheets(UserDetails.userId)
+//                if (call.isEmpty())
+//                {
+//                    Log.d("testing","no values ")
+//                }
+//                ts=call
+//                Log.d("testing", call.toString())
+//
+//            }
+//            catch (e:kotlin.KotlinNullPointerException)
+//            {
+//                Log.d("testing","no data")
+//            }
+//
+//        }
+//        if (ts.isNotEmpty()) {
+//            generateRecyclerViewTS(ts, recycleTS)
+//        }
+//    }
     
     
 

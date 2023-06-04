@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--https://medium.com/inside-ppl-b7/recyclerview-inside-fragment-with-android-studio-680cbed59d84-->
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -13,7 +13,7 @@
     card_view:cardCornerRadius="8dp"
     card_view:contentPadding="10dp"
     android:foreground="?selectableItemBackground"
-    android:background="?attr/colorOnPrimary"
+    android:backgroundTint="?attr/colorOnPrimary"
     android:clickable="true">
 
     <LinearLayout
@@ -26,17 +26,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxHeight="30dp"
+                android:maxHeight="40dp"
                 android:textStyle="bold"
+                android:textSize="30dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="68dp"
                 android:text="@string/Category"
-                android:id="@+id/name"/>
+                android:id="@+id/CatCardname"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="30dp"
+                android:textSize="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:gravity="end|center_vertical"
@@ -47,15 +49,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="filler"
-                    android:textStyle="bold"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="68dp"
-                    android:id="@+id/Catname"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -66,5 +60,5 @@
                     android:id="@+id/CathoursSpent"/>
             </LinearLayout>
         </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
 

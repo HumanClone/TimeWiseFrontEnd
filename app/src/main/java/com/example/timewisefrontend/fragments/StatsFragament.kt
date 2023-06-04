@@ -451,36 +451,36 @@ class StatsFragament : Fragment() {
         val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<TimeSheet>> = timewiseApi.getAllTimesheets(UserDetails.userId)
-            //val timesheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<TimeSheet>> {
-                override fun onResponse(
-                    call: Call<List<TimeSheet>>,
-                    response: Response<List<TimeSheet>>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val timesheet: List<TimeSheet> =response.body()!!
-                        val jas= Gson().toJson(timesheet)
-                        Log.d("testing",jas)
-
-                        populateRecyclerViewTS(timesheet,view!!.findViewById(R.id.stats_recycler))
-
-                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
-                }
-
-                override fun onFailure(call: Call<List<TimeSheet>>, t: Throwable) {
-                    // displaying an error message in toast
-                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
-                }
-            })
+//            val call: Call<List<TimeSheet>> = timewiseApi.getAllTimesheets(UserDetails.userId)
+//            //val timesheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
+//            Log.d("testing",call.toString())
+//            call.enqueue(object : Callback<List<TimeSheet>> {
+//                override fun onResponse(
+//                    call: Call<List<TimeSheet>>,
+//                    response: Response<List<TimeSheet>>
+//                ) {
+//                    if (response.isSuccessful())
+//                    {
+//                        Log.d("testing",response.body()!!.toString())
+//                        val timesheet: List<TimeSheet> =response.body()!!
+//                        val jas= Gson().toJson(timesheet)
+//                        Log.d("testing",jas)
+//
+//                        populateRecyclerViewTS(timesheet,view!!.findViewById(R.id.stats_recycler))
+//
+//                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
+//                        //Log.d("testing",data.toString())
+//
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<List<TimeSheet>>, t: Throwable) {
+//                    // displaying an error message in toast
+//                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
+//                        .show()
+//                    Log.d("testing","no connection")
+//                }
+//            })
         }
     }
 

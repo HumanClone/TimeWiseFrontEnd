@@ -9,6 +9,7 @@ import com.example.timewisefrontend.databinding.ActivityMainMenuBinding
 import android.view.Menu
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -23,6 +24,11 @@ class MainMenuActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Toast.makeText(
+            this@MainMenuActivity,
+            "Logged in Successfully!",
+            Toast.LENGTH_SHORT
+        ).show()
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
         binding = ActivityMainMenuBinding.inflate(layoutInflater)

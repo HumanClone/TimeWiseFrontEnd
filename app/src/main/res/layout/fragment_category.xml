@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="70dp"
-                android:id="@+id/timesheet_recycler_timesheet"
+                android:id="@+id/category_recycler_category"
                 android:paddingTop="20dp"
                 android:scrollbars="vertical"/>
 
@@ -56,7 +56,7 @@
     </LinearLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progressTS"
+        android:id="@+id/progressCat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

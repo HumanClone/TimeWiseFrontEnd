@@ -126,6 +126,7 @@ class RegisterActivity : AppCompatActivity() {
                         //addUser(user)
                         addUser(user)
                         UserDetails.userId = it.uid
+                        UserDetails.job=inputUserJob.text.toString()
 
                         mLoadingBar.dismiss()
                     }

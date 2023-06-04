@@ -25,7 +25,7 @@ class Test : AppCompatActivity() {
         val button: Button =findViewById<Button>(R.id.button)
         val button2: Button =findViewById<Button>(R.id.button2)
         button.setOnClickListener {
-            addUser() //works
+            //addUser() //works
             //getUserNorm() //works with data and can catch if no data
             //getUserCall()//works with data can catch with no data
             //addCat() //works
@@ -35,7 +35,7 @@ class Test : AppCompatActivity() {
             //getUserCategoriesCall()  //works with data and can catch with if nulls and wont break if not check for null
 
             //addTimesheet() //works
-            //addPicture() // works
+            addPicture() // works
 
             //Multiple parameters
             //getUserCatNorm() // work with data but no data is error 500
@@ -403,7 +403,7 @@ class Test : AppCompatActivity() {
     
     private fun addPicture()
     {
-        val pic=Picture("link go here ","123","blank descript")
+        val pic=Picture(null,"123","blank descript")
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.

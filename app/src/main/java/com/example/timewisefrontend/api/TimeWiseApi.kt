@@ -66,7 +66,7 @@ interface TimeWiseApi {
     fun getTimesheet(@Query("TimesheetId")timesheetId:String):Call<TimeSheet>
 
     @GET("TimeSheet/TimeSheet/GetAllUserTimesheets")
-    fun getAllTimesheets(@Query("UserId")userId:String):Call<List<TimeSheet>>
+    suspend fun getAllTimesheets(@Query("UserId")userId:String):List<TimeSheet>
 
     @GET("TimeSheet/GetAllTimesheetsOnWeeks")
     fun getTSWeek(@Query("UserId")userId:String,

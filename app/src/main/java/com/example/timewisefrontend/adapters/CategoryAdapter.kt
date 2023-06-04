@@ -1,6 +1,7 @@
 package com.example.timewisefrontend.adapters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +15,15 @@ class CategoryAdapter (var data: List<Category>) :
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         @SuppressLint("ResourceType")
-        var Name: TextView =view.findViewById(R.id.Catname)
+        var name: TextView =view.findViewById(R.id.Catname)
         @SuppressLint("ResourceType")
-        var Hours: TextView =view.findViewById(R.id.CathoursSpent)
+        var hours: TextView =view.findViewById(R.id.CathoursSpent)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.timesheet_list_item, parent, false)
+            .inflate(R.layout.category_list_item, parent, false)
         return MyViewHolder(itemView)
     }
 
@@ -32,8 +33,9 @@ class CategoryAdapter (var data: List<Category>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data[position]
-        holder.Name.text=item.Name
-        holder.Hours.text=item.Totalhours?.toString()
+        Log.d("testing","here")
+        holder.name.text=item.Name
+        holder.hours.text=item.Totalhours?.toString()
     }
 
 

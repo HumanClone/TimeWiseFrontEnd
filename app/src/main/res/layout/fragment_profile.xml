@@ -150,6 +150,18 @@
 
     </LinearLayout>
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressProf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:elevation="1dp"
+        app:showAnimationBehavior="outward"
+        app:hideAnimationBehavior="inward"
+        android:indeterminate="true"
+        app:indicatorColor="?attr/colorOnPrimary"
+        app:indicatorSize="150dp"
+        app:trackThickness="10dp" />
 
     <Button
         android:id="@+id/saveButton"
