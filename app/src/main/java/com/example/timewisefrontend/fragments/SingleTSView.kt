@@ -45,9 +45,9 @@ class SingleTSView : Fragment() {
 
 
         Date.text=item.date.toString()
-        Category.text=item.category.Name
+        Category.text=item.categoryId //item.category.Name
         Description.text=item.description
-        Picture.load(item.picture?.url)
+        Picture.load(item.pictureId)
         Hours.text=item.hours.toString()
 
     }

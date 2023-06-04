@@ -272,25 +272,25 @@ class CreateTs : Fragment() {
         val TScategory=category.text.toString()
         //val TScategory=categories[pos].id
         Log.d("testing","after category before hours ")
-        val TShours:Double=hours.text.toString().toDouble()
+        val TShours:Int=hours.text.toString().toInt()
         Log.d("testing","after hours before des ")
         val TSdes=des.text.toString()
         Log.d("testing","after des before category creation  ")
         //TODO:get id of cetgory
-        val category=Category(UserId = UserDetails.userId ,id="", Name=TScategory, hours = null)
+        val category=Category(UserId = UserDetails.userId ,id="", Name=TScategory, Totalhours = null)
         Log.d("testing","category created before picture")
         //TODO:send picture object to realtime then send to time object
         if (!link.isNullOrEmpty()) {
             Log.d("testing","entered if")
-            val picture = Picture(UserId = UserDetails.userId, Description = Pdes, url = link)
+            val picture = Picture(UserId = UserDetails.userId, Description = Pdes, PictureId = link)
             Log.d("testing","after picture before timesheet")
             addPic(picture)
             val timeSheet =TimeSheet(
                 userId=UserDetails.userId,
-                category=category,
-                picture = picture,
+                categoryId=category.id!!,
+                pictureId = picture.PictureId,
                 description = TSdes,
-                date=TSdate,hours=TShours
+                date=TSdate.toString(),hours=TShours
             )
 
             Log.d("testing", Gson().toJson(timeSheet) )
@@ -303,10 +303,10 @@ class CreateTs : Fragment() {
             Log.d("testing","entered else before time object")
             val timeSheet = TimeSheet(
                 userId=UserDetails.userId,
-                category = category,
-                picture = null,
+                categoryId = category.id!!,
+                pictureId = null,
                 description = TSdes,
-                date = TSdate,
+                date = TSdate.toString(),
                 hours = TShours
             )
             Log.d("testing", Gson().toJson(timeSheet) )

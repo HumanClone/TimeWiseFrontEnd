@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.TimeSheet
+import com.example.timewisefrontend.models.UserDetails
 
 class TimeSheetAdatper(var data: List<TimeSheet>) :
 RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
@@ -35,9 +36,9 @@ RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data[position]
         holder.Date.text=item.date.toString()
-        holder.Category.text=item.category.Name
+        holder.Category.text=UserDetails.categories.find { it.id.equals(item.categoryId)}!!.Name//item.category.Name
         holder.Description.text=item.description
-        holder.Picture.load(item.picture?.url)
+        holder.Picture.load(item.pictureId)
         holder.Hours.text=item.hours.toString()
 
         //https://www.geeksforgeeks.org/how-to-apply-onclicklistener-to-recyclerview-items-in-android/

@@ -1,10 +1,12 @@
 package com.example.timewisefrontend.models
 
+import com.google.gson.annotations.SerializedName
+
 
 data class Category (
 
-    val UserId:String?,
-    val id:String,
-    val Name:String,
-    val hours: Double?,
+    @SerializedName("userId") val UserId:String?,
+    @SerializedName("categoryId")val id:String?,
+    @SerializedName("name")val Name:String,
+    @SerializedName("totalHours") val Totalhours: Double?,
         )

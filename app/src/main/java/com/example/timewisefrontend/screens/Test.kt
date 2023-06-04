@@ -8,8 +8,7 @@ import android.widget.Toast
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
-import com.example.timewisefrontend.models.User
-import com.example.timewisefrontend.models.UserDetails
+import com.example.timewisefrontend.models.*
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -18,56 +17,374 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Test : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
         val button: Button =findViewById<Button>(R.id.button)
-        button.setOnClickListener { 
-            getdata()
+        button.setOnClickListener {
+            //addUser() //works
+            //getUserNorm() //works with data and can catch if no data
+            //getUserCall()//works with data can catch with no data
+            //addCat() //works
+
+            //lists
+            //getUserCategoriesNorm() // works with data but can catch with if nall  and wont break if not check for null
+            //getUserCategoriesCall()  //works with data and can catch with if nulls and wont break if not check for null
+
+            //addTimesheet() //works
+            //addPicture() // works
+
+            //Multiple parameters
+             //getUserCatNorm() // does not work
+            getUserCatCall() // does not even show an error
         }
     }
     
    
 
-    private fun getdata()
+
+    
+    private fun getUserCategoriesNorm()
     {
         val newsApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<User>> = newsApi.getUsers()
-            //val user: User = Gson().fromJson(result.toString(), User::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<User>> {
+            try {
+
+
+                val call:List<Category> = newsApi.getAllCategoriesNorm("123")
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+
+                    Log.d("testing", call.toString())
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+    }
+    
+    
+    private fun getUserCategoriesCall()
+    {
+        val newsApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            val call: Call<List<Category>> = newsApi.getAllCategoriesCall("123")
+            call.enqueue(object : Callback<List<Category>> {
                 override fun onResponse(
-                    call: Call<List<User>>,
-                    response: Response<List<User>>
+                    call: Call<List<Category>>,
+                    response: Response<List<Category>>
                 ) {
-                    if (response.isSuccessful())
+                    try {
+
+
+                        if (response.isSuccessful()) {
+                            if (response.body()!!.isEmpty())
+                            {
+                                Log.d("testing","No values")
+                            }
+                            Log.d("testing",response.body()!!.toString())
+                            val root: List<Category> = response.body()!!
+                            // val jas=Gson().toJson(root)
+                            Log.d("testing",root.toString())
+                            // generateRecyclerView(root)
+
+
+                        }
+                    }
+                    catch(e:java.lang.NullPointerException)
                     {
-                        Log.d("testing",response.body()!!.toString())
-                        val user: List<User> =response.body()!!
-                        val jas= Gson().toJson(user)
-                        Log.d("testing",jas)
-
-
-                        //val data = Gson().fromJson(response.body().toString(), User::class.java)
-                        //Log.d("testing",data.toString())
-
+                        Log.d("testing","no data")
                     }
                 }
 
-                override fun onFailure(call: Call<List<User>>, t: Throwable) {
+                override fun onFailure(call: Call<List<Category>>, t: Throwable?) {
                     // displaying an error message in toast
-                    Toast.makeText(this@Test, "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
+//                    Toast.makeText(this@Test, "Fail to get the data..", Toast.LENGTH_SHORT)
+//                        .show()
+                    Log.d("testing","no data")
                 }
             })
+        }
+    }
+    
+
+    private fun getUserNorm()
+    { Log.d("testing","click")
+
+
+
+        val newsApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+
+                val call:User = newsApi.getUserNorm("123")
+                Log.d("testing", call.toString())
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
         }
 
 
     }
 
+
+    private fun getUserCall()
+    {
+        val newsApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            val call: Call<User> = newsApi.getUserCall("123")
+            call.enqueue(object : Callback<User> {
+                override fun onResponse(
+                    call: Call<User>,
+                    response: Response<User>
+                ) {
+                    try {
+
+
+                        if (response.isSuccessful()) {
+                            Log.d("testing",response.body()!!.toString())
+                            val root: User = response.body()!!
+                            // val jas=Gson().toJson(root)
+                            //Log.d("testing",root.toString())
+                            // generateRecyclerView(root)
+
+                            //val data = Gson().fromJson(response.body().toString(), Root::class.java)
+                            //Log.d("testing",data.toString())
+
+                        }
+                    }
+                    catch(e:java.lang.NullPointerException)
+                    {
+                        Log.d("testing","no data")
+                    }
+                }
+
+                override fun onFailure(call: Call<User>, t: Throwable?) {
+                    // displaying an error message in toast
+//                    Toast.makeText(this@Test, "Fail to get the data..", Toast.LENGTH_SHORT)
+//                        .show()
+                    Log.d("testing","no data")
+                }
+            })
+        }
+    }
+
+    private fun getUserCatNorm()
+    { Log.d("testing","click")
+
+
+
+        val newsApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+
+                val call = newsApi.getCatHoursNorm("123","-NX4oECy6Sh9bkJ5fh2q")
+                val user = call.toString()
+                if (call.toString().isNullOrEmpty())
+                {
+                    Log.d("testing","no values")
+                }
+                Log.d("testing",user.toString())
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+
+
+    }
+
+    private fun getUserCatCall()
+    { Log.d("testing","click")
+
+
+
+        val newsApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+
+                val call: Call<Category> = newsApi.getCatHoursCall("123","-NX4oECy6Sh9bkJ5fh2q")
+                call.enqueue(object : Callback<Category> {
+                    override fun onResponse(
+                        call: Call<Category>,
+                        response: Response<Category>
+                    ) { Log.d("testing","hola")
+                        if (response.isSuccessful())
+                        {
+                            if (response.body()!!.toString().isNullOrEmpty())
+                            {
+                                Log.d("testing","no value")
+                            }
+                            else {
+                                Log.d("testing", response.body()!!.toString())
+                                val root: Category = response.body()!!
+                                Log.d("testing", root.toString())
+
+                            }
+    
+                        }
+                    }
+    
+                    override fun onFailure(call: Call<Category>, t: Throwable?) {
+                        // displaying an error message in toast
+                        Log.d("testing","failure")
+                        Log.d("tesing",call.toString())
+
+                    }
+                })
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+
+
+    }
+
+    private fun addCat()
+    {
+        val category=Category("123",null,"trial",null)
+        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+
+        // passing data from our text fields to our model class.
+        Log.d("testing","String of Object  "+ category.toString())
+        GlobalScope.launch{
+            timewiseapi.addCategory(category).enqueue(
+                object : Callback<Category> {
+
+                    override fun onFailure(call: Call<Category>, t: Throwable) {
+                        Log.d("testing", "Failure")
+                    }
+
+                    override fun onResponse(call: Call<Category>, response: Response<Category>) {
+                        val addedUser = response.body()
+                        if (response.isSuccessful)
+                        {
+                            Log.d("testing", addedUser.toString()+"worked!!")
+                        }
+                        Log.d("testing", addedUser.toString()+" fail")
+                    }
+
+                })
+        }
+        
+    }
+
+
+
+
+    private fun addUser(user:User)
+    {
+       // val user=User("YX58vfF4slgysJw6pvVlnlYSQgm1","name","help@hell.com","doctor",12,2)
+        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+
+        // passing data from our text fields to our model class.
+        Log.d("testing","String of Object  "+ user.toString())
+        GlobalScope.launch{
+            timewiseapi.addUser(user).enqueue(
+                object : Callback<User> {
+
+                    override fun onFailure(call: Call<User>, t: Throwable) {
+                        Log.d("testing", "Failure")
+                    }
+
+                    override fun onResponse(call: Call<User>, response: Response<User>) {
+                        val addedUser = response.body()
+                        if (response.isSuccessful)
+                        {
+                            Log.d("testing", addedUser.toString()+"worked!!")
+                        }
+                        Log.d("testing", addedUser.toString()+" fail")
+                    }
+
+                })
+        }
+
+    }
+
+
+
+    
+    private fun addTimesheet()
+    {
+        val ts =TimeSheet("123","-NX4ndgXrltZ7mQs6dzl",null,"this is the second time sheet ",2,"2023-06-02T10:28:51.449943+00:00")
+        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+
+        // passing data from our text fields to our model class.
+        Log.d("testing","String of Object  "+ ts.toString())
+        Log.d("testing",Gson().toJson(ts))
+        GlobalScope.launch{
+            timewiseapi.addTS(ts).enqueue(
+                object : Callback<TimeSheet> {
+
+                    override fun onFailure(call: Call<TimeSheet>, t: Throwable) {
+                        Log.d("testing", "Failure")
+                    }
+
+                    override fun onResponse(call: Call<TimeSheet>, response: Response<TimeSheet>) {
+                        val addedUser = response.body()
+                        if (response.isSuccessful)
+                        {
+                            Log.d("testing", addedUser.toString()+"worked!!")
+                        }
+                        Log.d("testing", addedUser.toString()+" fail")
+                    }
+
+                })
+        }
+    }
+
+    
+    private fun addPicture()
+    {
+        val pic=Picture("link go here ","123","blank descript")
+        val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+
+        // passing data from our text fields to our model class.
+        Log.d("testing","String of Object  "+ pic.toString())
+        GlobalScope.launch{
+            timewiseapi.addPic(pic).enqueue(
+                object : Callback<Picture> {
+
+                    override fun onFailure(call: Call<Picture>, t: Throwable) {
+                        Log.d("testing", "Failure")
+                    }
+
+                    override fun onResponse(call: Call<Picture>, response: Response<Picture>) {
+                        val addedUser = response.body()
+                        if (response.isSuccessful)
+                        {
+                            Log.d("testing", addedUser.toString()+"worked!!")
+                        }
+                        Log.d("testing", addedUser.toString()+" fail")
+                    }
+
+                })
+        }
+    }
 
 
     

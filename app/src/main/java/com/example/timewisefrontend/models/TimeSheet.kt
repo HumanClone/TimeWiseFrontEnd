@@ -1,13 +1,14 @@
 package com.example.timewisefrontend.models
 
+import com.google.gson.annotations.SerializedName
 import java.util.Date
 
 data class TimeSheet (
 
-    val userId:String?,
-    val category: Category,
-    val picture: Picture?,
-    val description:String,
-    val hours: Double,
-    val date: Date,
+    @SerializedName("userId") val userId:String?,
+    @SerializedName("categoryId")val categoryId: String,
+    @SerializedName("pictureId")val pictureId: String?,
+    @SerializedName("description") val description:String,
+    @SerializedName("hours")val hours: Int,
+    @SerializedName("startDate")val date: String?,
         )
