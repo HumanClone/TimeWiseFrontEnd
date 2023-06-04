@@ -18,6 +18,7 @@
     <string name="TimeSheets">Time Sheets</string>
     <string name="Cr">Creating </string>
     <string name="CreateTS">New Sheet</string>
+    <string name="newCat">New Category</string>
     <string name="CategoryDash">Categories - This Week</string>
     <string name="TimeSheetDash">Time Sheets - This Week</string>
     <string name="Dashboard">Dashboard</string>

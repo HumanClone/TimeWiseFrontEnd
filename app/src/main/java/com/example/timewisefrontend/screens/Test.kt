@@ -55,7 +55,7 @@ class Test : AppCompatActivity() {
 
     private fun updateUser()
     {
-        val user=User("3","name","help@hell.com","doctor",12,2)
+        val user=User("54","name","help@hell.com","doctor",12,2)
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
@@ -341,7 +341,7 @@ class Test : AppCompatActivity() {
 
     private fun addUser()
     {
-        val user=User("3","name","help@hell.com","doctor",0,0)
+        val user=User("54","name","help@hell.com","doctor",0,0)
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
