@@ -16,9 +16,11 @@ import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.TimeSheetAdatper
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
+import com.example.timewisefrontend.models.Category
 import com.example.timewisefrontend.models.Search
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.gson.Gson
@@ -54,7 +56,29 @@ lateinit var adapter:TimeSheetAdatper
         val extendedFab:ExtendedFloatingActionButton= view.findViewById(R.id.extended_fab)
         extendedFab.setOnClickListener {
             // Respond to Extended FAB click
-            parentFragmentManager.beginTransaction().replace(R.id.flContent,CreateTs()).commit()
+
+            if(UserDetails.categories.isEmpty())
+            {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.newCat))
+                    .setMessage(getString(R.string.catPro))
+                    .setNeutralButton(resources.getString(R.string.close)) { dialog, which ->
+                        // Respond to neutral button press
+
+
+
+                    }
+                    .setPositiveButton(resources.getString(R.string.create)) { dialog, which ->
+                        // Respond to positive button press
+
+                    }
+                    .show()
+            }
+            else
+            {
+                parentFragmentManager.beginTransaction().replace(R.id.flContent, CreateTs())
+                    .commit()
+            }
         }
 
 
