@@ -262,9 +262,9 @@ class StatsFragament : Fragment() {
 
     private fun search()
     {
-        activity?.runOnUiThread(Runnable {
+
             progress.visibility=View.VISIBLE
-        })
+
         var TScategory:String?=null
         if (!category.text.isNullOrEmpty())
         {
@@ -343,7 +343,7 @@ class StatsFragament : Fragment() {
                 Log.d("testing",TScategory!!)
                 Log.d("testing",cat.toString())
                 var po=UserDetails.categories.indexOf(cat)
-                var temp :List<Category> =UserDetails.categories.subList(po,po)
+                var temp :List<Category> =UserDetails.categories.subList(po,po+1)
                 Log.d("testing",temp.toString())
                 populateRecyclerViewCT(temp,recycler)
                 Timer().schedule(3000) {

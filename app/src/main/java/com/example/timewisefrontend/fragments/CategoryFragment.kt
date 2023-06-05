@@ -83,7 +83,7 @@ class CategoryFragment : Fragment() {
                         {
                             val category= Category(UserDetails.userId,null,name,null)
                             addCat(category)
-                            Timer().schedule(2000) {
+                            Timer().schedule(4000) {
 
                                 activity?.runOnUiThread(Runnable {
                                     populateRecyclerViewCT(UserDetails.categories,recycle)
