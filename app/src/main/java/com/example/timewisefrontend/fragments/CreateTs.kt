@@ -222,6 +222,7 @@ class CreateTs : Fragment() {
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
             date.setText(d)
+
             startDate=year.toString()+"-"
             if(monthOfYear<9)
             {
@@ -240,6 +241,7 @@ class CreateTs : Fragment() {
                 startDate+=dayOfMonth.toString()
             }
             startDate+="T10:28:51.449943+00:00"
+
             datelay.error=null
 
         }
@@ -267,7 +269,8 @@ class CreateTs : Fragment() {
         category.setAdapter(adapter)
 
 
-
+//        val adapter = ArrayAdapter(requireContext(), R.layout.list_item, items)
+//        (textField.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
 
     }
@@ -284,9 +287,11 @@ class CreateTs : Fragment() {
         //Log.d("testing",TSdate.toString())
         Log.d("testing","after date before category  ")
         //TODO: Change on implement
+
         //val TScategory=UserDetails.categories.find { it.Name.equals(category.text.toString() }.Name
         val TScategory=UserDetails.categories[pos].id
         Log.d("testing",TScategory!!)
+
         Log.d("testing","after category before hours ")
         val TShours:Int=hours.text.toString().toInt()
         Log.d("testing","after hours before des ")
@@ -295,14 +300,17 @@ class CreateTs : Fragment() {
         //TODO:send picture object to realtime then send to time object
         if (!link.isNullOrEmpty()) {
             Log.d("testing","entered if")
+
             val picture = Picture(null,UserDetails.userId,link)
             addPicture(picture)
+
             Log.d("testing","after picture before timesheet")
             //addPicture(picture)
             val timeSheet =TimeSheet(
                 userId=UserDetails.userId,
                 categoryId=TScategory!!,
                 pictureId = link,
+
                 description = TSdes,
                 date=startDate
                 ,hours=TShours
@@ -323,6 +331,7 @@ class CreateTs : Fragment() {
             //TODO:Pass to database
             Log.d("testing","entered else before time object")
             val timeSheet = TimeSheet(
+
                 userId=UserDetails.userId,
                 categoryId = TScategory!!,
                 pictureId = null,
@@ -405,6 +414,7 @@ class CreateTs : Fragment() {
     {
         val pattern=Regex("\\d+(\\.\\d+)*")
         return matches(pattern)
+
 
     }
 
@@ -517,6 +527,7 @@ class CreateTs : Fragment() {
             }
 
         }
+
     }
     
 
