@@ -10,5 +10,5 @@ object Search {
     var catID: String = ""
     var timesheetId=""
     val cal=LocalDate.now()
-    var today:String=cal.dayOfMonth.toString() + "%2F"+ cal.monthValue+1 + "%2F" + cal.year
+    var today:String=cal.dayOfMonth.toString() + "/"+ cal.monthValue+1 + "/" + cal.year
 }

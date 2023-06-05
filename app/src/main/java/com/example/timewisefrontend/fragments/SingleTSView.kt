@@ -10,6 +10,7 @@ import android.widget.TextView
 import coil.load
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.TimeSheet
+import com.example.timewisefrontend.models.UserDetails
 import com.google.gson.Gson
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,7 +37,7 @@ class SingleTSView : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //item=api way
-        item= Gson().fromJson(arguments?.getString("Timesheet"),TimeSheet::class.java)
+        item= UserDetails.temp
         var Date: TextView =view.findViewById(R.id.TSdate)
         var Category: TextView =view.findViewById(R.id.TScategory)
         var Description: TextView =view.findViewById(R.id.TSdescription)
@@ -44,11 +45,11 @@ class SingleTSView : Fragment() {
         var Hours: TextView =view.findViewById(R.id.TShours)
 
 
-        Date.text=item.date.toString()
-        Category.text=item.categoryId //item.category.Name
+        Date.text=item.date.toString().substring(0,10)
+        Category.text= UserDetails.categories.find { it.id.equals(item.categoryId)}!!.Name //item.category.Name
         Description.text=item.description
         Picture.load(item.pictureId)
-        Hours.text=item.hours.toString()
+        Hours.text=item.hours.toString()+" hours"
 
     }
 

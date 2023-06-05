@@ -23,7 +23,7 @@ interface TimeWiseApi {
     suspend fun getUserNorm(@Query("UserId")userId:String): User
 
     @GET("/Category/GetCategory/")
-    fun getCategory(@Query("CategoryId")categoryId:String): Call<Category>
+    suspend fun getCategory(@Query("CategoryId")categoryId:String): Call<Category>
 
     @GET("/Category/GetAllUserCategories")
     suspend fun getAllCategoriesNorm(@Query("UserId")userId:String): List<Category>
@@ -32,13 +32,13 @@ interface TimeWiseApi {
     fun getAllCategoriesCall(@Query("UserId")userId:String): Call<List<Category>>
 
     @GET("/Category/GetAllUserCategoriesWithHoursSum/")
-    fun getAllCatHours(@Query("UserId")userId:String): Call<List<Category>>
+    suspend fun getAllCatHours(@Query("UserId")userId:String): List<Category>
 
     @GET("/Category/GetAllUserCategoriesWithHoursSumWithinDateRange")
-    fun getAllCatHoursRange(@Query("UserId")userId:String ,
+    suspend fun getAllCatHoursRange(@Query("UserId")userId:String ,
                             @Query("start")startDate:String,
                             @Query("end")endDate:String):
-            Call<List<Category>>
+            List<Category>
 
 
     //TODO:TEst Multiple Queries
@@ -48,16 +48,16 @@ interface TimeWiseApi {
 
 
     @GET("/Category/GetUserCategoryWithHoursSum")
-    fun getCatHoursCall(@Query("UserId")userId:String,
+    suspend fun getCatHoursCall(@Query("UserId")userId:String,
                         @Query("CategoryId")categoryId:String):
         Call<List<Category>>
 
     @GET("Category/GetUserCategoryWithHoursSumWithinDateRange/")
-    fun getCatHoursRange(@Query("UserId")userId:String,
+    suspend fun getCatHoursRange(@Query("UserId")userId:String,
                          @Query("CategoryId")categoryId:String,
                          @Query("start")startDate:String,
                          @Query("end")endDate:String):
-            Call<List<Category>>
+            List<Category>
 
     @GET("Picture/GetPicture/")
     fun getPicture(@Query("PictureId")pictureId:String): Call<Picture>
@@ -65,36 +65,39 @@ interface TimeWiseApi {
     @GET("TimeSheet/GetTimesheet")
     fun getTimesheet(@Query("TimesheetId")timesheetId:String):Call<TimeSheet>
 
-    @GET("TimeSheet/TimeSheet/GetAllUserTimesheets")
+    @GET("/TimeSheet/GetAllUserTimesheets")
     suspend fun getAllTimesheets(@Query("UserId")userId:String):List<TimeSheet>
 
-    @GET("TimeSheet/GetAllTimesheetsOnWeeks")
-    fun getTSWeek(@Query("UserId")userId:String,
+    @GET("/TimeSheet/GetAllTimesheetsOnWeeks")
+    suspend fun getTSWeek(@Query("UserId")userId:String,
                   @Query("date")Date:String):
-            Call<List<TimeSheet>>
+            List<TimeSheet>
 
-    @GET("TimeSheet/GetAllTimesheetsOnMonths?")
-    fun getTSMonth(@Query("UserId")userId:String,
+    @GET("TimeSheet/GetAllTimesheetsOnMonths")
+    suspend fun getTSMonth(@Query("UserId")userId:String,
                    @Query("date")Date:String):
-            Call<List<TimeSheet>>
+            List<TimeSheet>
 
+
+
+    //Stats Screen methods
     @GET("TimeSheet/GetAllTimesheetsInRange")
-    fun getTSRange(@Query("start")startDate:String,
+    suspend fun getTSRange(@Query("start")startDate:String,
                    @Query("end")endDate:String,
                    @Query("UserId")userId:String):
-            Call<List<TimeSheet>>
+            List<TimeSheet>
 
     @GET("TimeSheet/GetAllTimesheetsOfUserCategory")
-    fun getTSCat(@Query("UserId")userId: String,
+    suspend fun getTSCat(@Query("UserId")userId: String,
                  @Query("CategoryId")categoryId: String):
-            Call<List<TimeSheet>>
+            List<TimeSheet>
 
     @GET("TimeSheet/GetAllTimesheetsInRangeAndCategory")
-    fun getTSCatRange(@Query("start") startDate: String,
-                      @Query("end")endDate: String,
-                      @Query("UserId") userId: String,
-                      @Query("CategoryId")categoryId: String):
-            Call<List<TimeSheet>>
+    suspend fun getTSCatRange(@Query("start") startDate: String,
+                              @Query("end")endDate: String,
+                              @Query("UserId") userId: String,
+                              @Query("CategoryId")categoryId: String):
+                    List<TimeSheet>
 
 
 
@@ -118,10 +121,5 @@ interface TimeWiseApi {
     @Headers("Content-Type: application/json")
     @POST("TimeSheet/AddTimesheet")
     fun addTS(@Body timesheet: TimeSheet?): Call<TimeSheet>
-
-
-
-
-
 
 }

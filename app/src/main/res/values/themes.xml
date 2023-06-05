@@ -13,6 +13,7 @@
         <item name="android:statusBarColor">#6C00FF</item>
         <!-- Customize your theme here. -->
         <item name="backgroundColor">#E7E7E7</item>
+
     </style>
 
     <style name="Theme.TimeWiseFrontEnd.NoActionBar">

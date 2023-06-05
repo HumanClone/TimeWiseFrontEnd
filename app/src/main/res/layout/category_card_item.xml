@@ -3,21 +3,22 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:maxWidth="380dp"
     android:layout_marginTop="12dp"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     android:id="@+id/category_card_item"
-    card_view:cardBackgroundColor="#FFFF"
-    card_view:cardCornerRadius="8dp"
-    card_view:contentPadding="10dp"
+    card_view:cardCornerRadius="10dp"
+    card_view:contentPadding="5dp"
     android:foreground="?selectableItemBackground"
-    android:backgroundTint="?attr/colorOnPrimary"
+    android:backgroundTint="?attr/colorOnSecondary"
     android:clickable="true">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
@@ -27,23 +28,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxHeight="40dp"
+                android:minHeight="15dp"
                 android:textStyle="bold"
-                android:textSize="30dp"
+                android:textSize="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="68dp"
                 android:text="@string/Category"
                 android:id="@+id/CatCardname"/>
+
             <TextView
+                android:id="@+id/hours"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:textSize="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:gravity="end|center_vertical"
+                android:minHeight="0dp"
+                android:paddingLeft="30dp"
                 android:text="@string/hours"
-                android:id="@+id/hours"/>
+                android:textSize="15dp"
+                android:textStyle="bold"
+                tools:ignore="TextSizeCheck" />
         </LinearLayout>
 
             <LinearLayout
@@ -54,7 +60,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="30dp"
-                    android:layout_marginTop="16dp"
+                    android:textSize="20dp"
+                    android:minHeight="0dp"
+                    android:maxHeight="30dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
                     android:gravity="end|center_vertical"
                     android:id="@+id/CathoursSpent"/>

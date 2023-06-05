@@ -21,6 +21,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class ProfileFragment : Fragment() {
@@ -77,8 +79,7 @@ class ProfileFragment : Fragment() {
             progress.visibility=View.VISIBLE
             if (valid())
             {
-                val user=User(
-                    UserDetails.userId,
+                val user=User(UserDetails.userId,
                     usernameEditText.text.toString(),
                     emailEditText.text.toString(),
                     jobEditText.text.toString(),
@@ -86,10 +87,18 @@ class ProfileFragment : Fragment() {
                     minEditText.text.toString().toInt())
 
                     updateUser(user)
+                Timer().schedule(2000) {
+
+                    activity?.runOnUiThread(Runnable {
+                        progress.visibility=View.GONE
+                        Snackbar.make(view,"Saved", Snackbar.LENGTH_SHORT).show()
+                    })
+
+                }
             }
             else
             {
-                Snackbar.make(view,getString(R.string.error_fix), Snackbar.LENGTH_LONG)
+                Snackbar.make(view,getString(R.string.error_fix), Snackbar.LENGTH_LONG).show()
             }
             progress.visibility=View.GONE
         }

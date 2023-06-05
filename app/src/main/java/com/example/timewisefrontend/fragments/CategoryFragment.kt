@@ -15,6 +15,7 @@ import com.example.timewisefrontend.adapters.CategoryAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
+import com.example.timewisefrontend.models.User
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -25,6 +26,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class CategoryFragment : Fragment() {
@@ -70,6 +73,7 @@ class CategoryFragment : Fragment() {
                     }
                     else
                     {
+                        progress.visibility=View.VISIBLE
                         name=catName.text.toString()
                         if (UserDetails.categories.any { it.Name.equals(name) } )
                         {
@@ -79,6 +83,14 @@ class CategoryFragment : Fragment() {
                         {
                             val category= Category(UserDetails.userId,null,name,null)
                             addCat(category)
+                            Timer().schedule(2000) {
+
+                                activity?.runOnUiThread(Runnable {
+                                    populateRecyclerViewCT(UserDetails.categories,recycle)
+                                    progress.visibility=View.GONE
+                                })
+
+                            }
                         }
                     }
                 }
@@ -99,6 +111,7 @@ class CategoryFragment : Fragment() {
 
                     override fun onFailure(call: Call<Category>, t: Throwable) {
                         Log.d("testing", "Failure")
+                        UserDetails.categories+category
                         getUserCategoriesNorm()
                     }
 
@@ -128,7 +141,7 @@ class CategoryFragment : Fragment() {
                     Log.d("testing","no values ")
                 }
                 UserDetails.categories=call
-                populateRecyclerViewCT( UserDetails.categories, recycle)
+
                 Log.d("testing", call.toString())
 
             }
@@ -138,6 +151,7 @@ class CategoryFragment : Fragment() {
             }
 
         }
+        populateRecyclerViewCT( UserDetails.categories, recycle)
     }
 
     fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {

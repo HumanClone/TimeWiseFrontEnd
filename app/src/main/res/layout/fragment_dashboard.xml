@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.DashboardFragment"
     android:background="?attr/backgroundColor"
+    android:scrollbars="vertical"
     android:fadeScrollbars="true">
 
     <LinearLayout
@@ -17,16 +19,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp"
+            android:paddingTop="10dp"
             android:textSize="30dp"
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
             android:textStyle="bold"
-            android:text="@string/TimeSheetDash"/>
+            android:text="@string/TimeSheets"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:id="@+id/dashboard_recycler_timesheet"
-            android:paddingTop="20dp" />
+            android:scrollbars="vertical"
+            android:fadeScrollbars="true"
+            android:paddingTop="20dp"
+            android:paddingEnd="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
@@ -39,12 +46,18 @@
             android:paddingTop="30dp"
             android:textSize="30dp"
             android:textStyle="bold"
-            android:text="@string/CategoryDash"/>
+            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+            android:text="@string/Categories"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dashboard_recycler_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+            android:fadeScrollbars="true"
             android:paddingTop="20dp"
-            android:id="@+id/dashboard_recycler_category"/>
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </LinearLayout>
 </FrameLayout>

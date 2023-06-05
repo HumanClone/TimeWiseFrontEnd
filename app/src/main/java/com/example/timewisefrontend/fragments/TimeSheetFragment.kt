@@ -29,11 +29,19 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDate
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class TimeSheetFragment : Fragment() {
 
-lateinit var adapter:TimeSheetAdatper
+    lateinit var adapter:TimeSheetAdatper
+    lateinit var recycler:RecyclerView
+    var tsMonth:List<TimeSheet> = listOf()
+    var tsWeek:List<TimeSheet> = listOf()
+
+    var date:String=""
     inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
         val fragmentTransaction = beginTransaction()
         fragmentTransaction.func()
@@ -52,6 +60,28 @@ lateinit var adapter:TimeSheetAdatper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        recycler=view.findViewById(R.id.timesheet_recycler_timesheet)
+        val cal= LocalDate.now()
+        if(cal.monthValue<10)
+        {
+            date+="0"+(cal.monthValue)+ "/"
+        }
+        else
+        {
+            date+=(cal.monthValue).toString() + "/"
+        }
+        if (cal.dayOfMonth<10)
+        {
+            date+="0"+cal.dayOfMonth.toString()+"/"
+        }
+        else
+        {
+            date+=cal.dayOfMonth.toString()+"/"
+        }
+
+
+        date+= cal.year
+        Log.d("testing",date)
 
         val extendedFab:ExtendedFloatingActionButton= view.findViewById(R.id.extended_fab)
         extendedFab.setOnClickListener {
@@ -81,29 +111,45 @@ lateinit var adapter:TimeSheetAdatper
             }
         }
 
-
-
+        getTSWeek()
+        getTS()
+        getTSMonth()
+        getTSWeek()
         val progress: CircularProgressIndicator=view.findViewById(R.id.progressTS)
         val TSweek:Button=view.findViewById(R.id.TSWeek)
         val TSmonth:Button=view.findViewById(R.id.TSMonth)
         val TSall:Button=view.findViewById(R.id.TSAll)
-       // getTimeSheetsWeek()
-        progress.hide()
+        progress.visibility=View.GONE
 
         TSweek.setOnClickListener {
-            progress.show()
-            //getTimeSheetsWeek()
-            progress.hide()
+            activity?.runOnUiThread(Runnable {
+                progress.visibility=View.VISIBLE
+            })
+            getTSWeek()
+            Timer().schedule(2000) {
+
+                populateRecyclerViewTS(tsWeek,recycler)
+            }
+            progress.visibility=View.GONE
         }
         TSmonth.setOnClickListener {
-            progress.show()
-            //getTimeSheetsMonth()
-            progress.hide()
+
+            activity?.runOnUiThread(Runnable {
+                progress.visibility=View.VISIBLE
+            })
+            getTSMonth()
+            Timer().schedule(2000) {
+
+                populateRecyclerViewTS(tsMonth,recycler)
+            }
+            progress.visibility=View.GONE
         }
         TSall.setOnClickListener {
-            progress.show()
-           // getTimeSheetsAll()
-            progress.hide()
+            activity?.runOnUiThread(Runnable {
+                progress.visibility=View.VISIBLE
+            })
+            populateRecyclerViewTS(UserDetails.ts,recycler)
+            progress.visibility=View.GONE
         }
 
 
@@ -113,21 +159,106 @@ lateinit var adapter:TimeSheetAdatper
     fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView) {
 
 
-        recyclerview.layoutManager = LinearLayoutManager(context)
-        adapter = TimeSheetAdatper(data)
-        recyclerview.adapter = adapter
-        adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener{
-            override fun onClick(position: Int, model:TimeSheet) {
-                val tsview=SingleTSView()
-                val agrs =Bundle()
-                agrs.putString("TomeSheet", Gson().toJson(model).toString())
-                tsview.arguments=agrs
-                parentFragmentManager.beginTransaction().replace(R.id.flContent,tsview).commit()
-            }
-        })
+        if (data.isNotEmpty()) {
+            activity?.runOnUiThread(Runnable {
+                recyclerview.layoutManager = LinearLayoutManager(context)
+
+
+                adapter = TimeSheetAdatper(data)
+                recyclerview.adapter = adapter
+                adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener {
+                    override fun onClick(position: Int, model: TimeSheet) {
+                        UserDetails.temp=model
+                        parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView())
+                            .commit()
+                    }
+                })
+            })
+        }
     }
 
+    private fun getTSWeek()
+    {
+        Log.d("testing","Week")
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
 
+                Log.d("testing",UserDetails.userId+"\t"+date)
+
+                val call:List<TimeSheet> = timeWiseApi.getTSWeek(UserDetails.userId,date)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+                tsWeek=call
+
+                Log.d("testing", call.toString())
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+        populateRecyclerViewTS(tsWeek,recycler)
+    }
+
+    private fun getTSMonth()
+    {
+        Log.d("testing","Month")
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+                Log.d("testing",UserDetails.userId+"\t"+date)
+                val call:List<TimeSheet> = timeWiseApi.getTSMonth(UserDetails.userId,date)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+                tsMonth=call
+                Log.d("testing", call.toString())
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+        populateRecyclerViewTS(tsMonth,recycler)
+    }
+
+    private fun getTS()
+    {
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+
+                val call:List<TimeSheet> = timeWiseApi.getAllTimesheets(UserDetails.userId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+
+                Log.d("testing", call.toString())
+                UserDetails.ts=call
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+        populateRecyclerViewTS(UserDetails.ts,recycler)
+    }
 
 
 }

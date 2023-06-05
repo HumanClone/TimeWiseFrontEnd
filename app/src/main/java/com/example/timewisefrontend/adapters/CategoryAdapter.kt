@@ -13,20 +13,32 @@ import com.example.timewisefrontend.models.Category
 class CategoryAdapter (var data: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
 
+//    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+//        @SuppressLint("ResourceType")
+//        var name: TextView =view.findViewById(R.id.Catname)
+//        @SuppressLint("ResourceType")
+//        var hours: TextView =view.findViewById(R.id.CathoursSpent)
+//
+//    }
+
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+//        val itemView = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.category_list_item, parent, false)
+//        return MyViewHolder(itemView)
+//    }
+
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        @SuppressLint("ResourceType")
-        var name: TextView =view.findViewById(R.id.Catname)
-        @SuppressLint("ResourceType")
+        var name: TextView =view.findViewById(R.id.CatCardname)
         var hours: TextView =view.findViewById(R.id.CathoursSpent)
+        var hourHeader:TextView=view.findViewById(R.id.hours)
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.category_list_item, parent, false)
+            .inflate(R.layout.category_card_item, parent, false)
         return MyViewHolder(itemView)
     }
-
     override fun getItemCount(): Int {
         return data.size
     }
@@ -35,6 +47,10 @@ class CategoryAdapter (var data: List<Category>) :
         val item = data[position]
         Log.d("testing","here")
         holder.name.text=item.Name
+        if (item.Totalhours.toString().isNullOrEmpty())
+        {
+            holder.hourHeader.text=null
+        }
         holder.hours.text=item.Totalhours?.toString()
     }
 

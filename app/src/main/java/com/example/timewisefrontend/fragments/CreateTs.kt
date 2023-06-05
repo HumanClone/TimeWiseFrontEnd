@@ -44,9 +44,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
-
-
-
+import kotlin.concurrent.schedule
 
 
 class CreateTs : Fragment() {
@@ -112,7 +110,7 @@ class CreateTs : Fragment() {
         val extendedFab: ExtendedFloatingActionButton = view.findViewById(R.id.extended_fabCS)
         extendedFab.setOnClickListener {
             // Respond to Extended FAB click
-            progress.show()
+            progress.visibility=View.VISIBLE
             var empty:Boolean=false
             var incorrect:Boolean=false
 
@@ -277,6 +275,8 @@ class CreateTs : Fragment() {
 
     fun save()
     {
+        progress.visibility=View.VISIBLE
+
         Log.d("testing","start ")
         val formatter=SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         Log.d("testing",startDate)
@@ -302,7 +302,7 @@ class CreateTs : Fragment() {
             val timeSheet =TimeSheet(
                 userId=UserDetails.userId,
                 categoryId=TScategory!!,
-                pictureId = picture.PictureId,
+                pictureId = link,
                 description = TSdes,
                 date=startDate
                 ,hours=TShours
@@ -310,7 +310,13 @@ class CreateTs : Fragment() {
 
             Log.d("testing", Gson().toJson(timeSheet) )
             addTimesheet(timeSheet)
-            parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
+            Timer().schedule(2000) {
+
+                activity?.runOnUiThread(Runnable {
+                    parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
+                })
+            }
+
         }
         else
         {
@@ -326,7 +332,12 @@ class CreateTs : Fragment() {
             )
             Log.d("testing", Gson().toJson(timeSheet) )
             addTimesheet(timeSheet)
-            parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
+           Timer().schedule(2000) {
+
+                   activity?.runOnUiThread(Runnable {
+               parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
+                })
+           }
         }
 
     }
@@ -436,7 +447,10 @@ class CreateTs : Fragment() {
                 object : Callback<TimeSheet> {
 
                     override fun onFailure(call: Call<TimeSheet>, t: Throwable) {
+                        UserDetails.ts+ts
                         Log.d("testing", "Failure")
+                        getTS()
+                        getUserCatHours()
                     }
 
                     override fun onResponse(call: Call<TimeSheet>, response: Response<TimeSheet>) {
@@ -451,7 +465,59 @@ class CreateTs : Fragment() {
                 })
         }
     }
-        
+
+    private fun getTS()
+    {
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+
+                val call:List<TimeSheet> = timeWiseApi.getAllTimesheets(UserDetails.userId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+
+                Log.d("testing", call.toString())
+                UserDetails.ts=call
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+    }
+
+    private fun getUserCatHours()
+    {
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+
+                val call:List<Category> = timeWiseApi.getAllCatHours(UserDetails.userId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+
+                UserDetails.categories=call
+
+                Log.d("testing", call.toString())
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+    }
     
 
 }

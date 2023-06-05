@@ -3,18 +3,23 @@ package com.example.timewisefrontend.screens
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.*
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import kotlin.concurrent.schedule
 
 class Test : AppCompatActivity() {
 
@@ -23,8 +28,22 @@ class Test : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
         val button: Button =findViewById<Button>(R.id.button)
-        val button2: Button =findViewById<Button>(R.id.button2)
+        //val button2: Button =findViewById<Button>(R.id.button2)
+        val progress:CircularProgressIndicator = findViewById<CircularProgressIndicator>(R.id.progressTest)
+        progress.visibility= View.GONE
         button.setOnClickListener {
+            progress.visibility= View.VISIBLE
+//            Timer().schedule(3000) {
+//
+//                val progress:CircularProgressIndicator = findViewById<CircularProgressIndicator>(R.id.progressTest)
+//
+//            }
+            Timer().schedule(3000) {
+                runOnUiThread {
+                    progress.visibility=View.GONE
+                }
+            }
+
             //addUser() //works
             //getUserNorm() //works with data and can catch if no data
             //getUserCall()//works with data can catch with no data
@@ -35,7 +54,7 @@ class Test : AppCompatActivity() {
             //getUserCategoriesCall()  //works with data and can catch with if nulls and wont break if not check for null
 
             //addTimesheet() //works
-            addPicture() // works
+            //addPicture() // works
 
             //Multiple parameters
             //getUserCatNorm() // work with data but no data is error 500
@@ -43,10 +62,13 @@ class Test : AppCompatActivity() {
 
             //Post method override data
             //updateUser()//
+
+            //Testing Progress Bar
+
         }
-        button2.setOnClickListener {
-            updateUser()
-        }
+//        button2.setOnClickListener {
+//            //updateUser()
+//        }
 
     }
     

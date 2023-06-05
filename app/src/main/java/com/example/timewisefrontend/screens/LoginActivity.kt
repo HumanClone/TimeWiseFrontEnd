@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
+import com.example.timewisefrontend.models.Category
+import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.User
 import com.example.timewisefrontend.models.UserDetails
 import com.google.firebase.auth.FirebaseAuth
@@ -85,8 +87,9 @@ class LoginActivity : AppCompatActivity() {
 
                 } else {
                     mLoadingBar.dismiss()
-                    val message = task.exception?.message ?: "Login failed. Please try again."
+                    val message =  "Incorrect Credentials. Please Try Again "
                     Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
+                    inputLoginEmail.error="Inncorrect Email or Password"
                 }
             }
     }
@@ -95,6 +98,8 @@ class LoginActivity : AppCompatActivity() {
 
     private fun getUserNorm()
     { Log.d("testing","click")
+        getUserCategoriesNorm()
+        getUserTSNorm()
         val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
@@ -111,11 +116,12 @@ class LoginActivity : AppCompatActivity() {
                 {
                     UserDetails.min=call.Min!!
                 }
-                mLoadingBar.dismiss()
+
                 Log.d("testing", call.toString())
 
                 val intent = Intent(this@LoginActivity, MainMenuActivity::class.java)
                 startActivity(intent)
+                mLoadingBar.dismiss()
                 finish()
             }
             catch (e:kotlin.KotlinNullPointerException)
@@ -124,17 +130,69 @@ class LoginActivity : AppCompatActivity() {
             }
             catch (e:java.lang.NullPointerException)
             {
-                mLoadingBar.dismiss()
+
                 UserDetails.min=0
                 UserDetails.max=0
                 val intent = Intent(this@LoginActivity, MainMenuActivity::class.java)
                 startActivity(intent)
+                mLoadingBar.dismiss()
                 finish()
             }
         }
     }
 
+    private fun getUserCategoriesNorm()
+    {
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
 
+
+                val call:List<Category> = timeWiseApi.getAllCatHours(UserDetails.userId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+
+                UserDetails.categories=call
+
+                Log.d("testing", call.toString())
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+    }
+
+    private fun getUserTSNorm()
+    {
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        // launching a new coroutine
+        GlobalScope.launch {
+            try {
+
+
+                val call:List<TimeSheet> = timeWiseApi.getAllTimesheets(UserDetails.userId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
+                }
+                UserDetails.ts=call
+                Log.d("testing", call.toString())
+
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
+        }
+
+    }
 
 
 

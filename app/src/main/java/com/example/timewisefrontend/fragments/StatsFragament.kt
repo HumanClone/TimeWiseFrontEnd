@@ -9,9 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -20,7 +18,6 @@ import com.example.timewisefrontend.adapters.TimeSheetAdatper
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
-import com.example.timewisefrontend.models.Search
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,11 +30,8 @@ import com.google.gson.Gson
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.time.LocalDate
 import java.util.*
+import kotlin.concurrent.schedule
 
 
 class StatsFragament : Fragment() {
@@ -46,22 +40,19 @@ class StatsFragament : Fragment() {
     lateinit var dateEnd:TextInputEditText
     lateinit var category:AutoCompleteTextView
     lateinit var tabLay:TabLayout
-    lateinit var catResults:List<Category>
-    lateinit var tsResults:List<TimeSheet>
+    var catResults:List<Category> = listOf()
+    var tsResults:List<TimeSheet> = listOf()
     lateinit var datelay1:TextInputLayout
     lateinit var datelay2:TextInputLayout
     lateinit var catlay:TextInputLayout
     var calStart=Calendar.getInstance()
     var calEnd=Calendar.getInstance()
+    lateinit var recycler:RecyclerView
     lateinit var progress:CircularProgressIndicator
     var pos:Int=-1
-    lateinit var startDate:String
-    lateinit var endDate: String
-    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
-        val fragmentTransaction = beginTransaction()
-        fragmentTransaction.func()
-        fragmentTransaction.commit()
-    }
+    var startDate:String=""
+    var endDate: String=""
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,8 +78,13 @@ class StatsFragament : Fragment() {
         dateStart.inputType=(InputType.TYPE_NULL)
         dateEnd.inputType=(InputType.TYPE_NULL)
         progress.hide()
+        recycler=view.findViewById(R.id.stats_recycler)
 
 
+        if(UserDetails.ts.isNotEmpty())
+        {
+            populateRecyclerViewTS(UserDetails.ts,recycler)
+        }
         val dpd = DatePickerDialog()
         val dpd2=DatePickerDialog()
         dateStart.setOnClickListener {
@@ -114,7 +110,18 @@ class StatsFragament : Fragment() {
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
             calStart.set(year,monthOfYear,dayOfMonth)
-            startDate=dayOfMonth.toString()+"%2F"+(monthOfYear+1)+"%2F"+year
+            startDate += if(monthOfYear<9) {
+                "0"+(monthOfYear+1)+ "/"
+            } else {
+                (monthOfYear+1).toString() + "/"
+            }
+            startDate += if (dayOfMonth<10) {
+                "0"+dayOfMonth.toString()+"/"
+            } else {
+                dayOfMonth.toString()+"/"
+            }
+            startDate+= year
+            //startDate=dayOfMonth.toString()+"%2F"+(monthOfYear+1)+"%2F"+year
             dateStart.setText(d)
             datelay1.error=null
 
@@ -122,7 +129,17 @@ class StatsFragament : Fragment() {
         dpd2.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
             calEnd.set(year,monthOfYear,dayOfMonth)
-            endDate=dayOfMonth.toString()+"%2F"+(monthOfYear+1)+"%2F"+year
+            endDate += if(monthOfYear<9) {
+                "0"+(monthOfYear+1)+ "/"
+            } else {
+                (monthOfYear+1).toString() + "/"
+            }
+            endDate += if (dayOfMonth<10) {
+                "0"+dayOfMonth.toString()+"/"
+            } else {
+                dayOfMonth.toString()+"/"
+            }
+            endDate+= year
             dateEnd.setText(d)
             datelay2.error=null
 
@@ -131,7 +148,7 @@ class StatsFragament : Fragment() {
         val extendedFab: FloatingActionButton = view.findViewById(R.id.extended_fabstats)
         extendedFab.setOnClickListener {
             // Respond to Extended FAB click
-            progress.show()
+            progress.visibility=View.VISIBLE
 
             if (dateStart.text.isNullOrEmpty() || dateEnd.text.isNullOrEmpty() )
             {
@@ -141,19 +158,19 @@ class StatsFragament : Fragment() {
                      datelay1.error=getString(R.string.error_select) +" Date"
                      datelay2.error=getString(R.string.error_select) +" Date"
                      catlay.error=getString(R.string.error_select)+ "A Category"
-                     Snackbar.make(view,getString(R.string.error_input)+" Either a Date Range,Category Or Both",Snackbar.LENGTH_LONG)
+                     Snackbar.make(view,getString(R.string.error_input)+" Either a Date Range,Category Or Both",Snackbar.LENGTH_LONG).show()
                  }
                 else
                  {
-                    if (dateStart.text.isNullOrEmpty())
+                    if (dateStart.text.isNullOrEmpty() && !dateEnd.text.isNullOrEmpty())
                     {
                         datelay1.error=getString(R.string.error_select) +" Date"
-                        Snackbar.make(view,getString(R.string.error_input)+" A Start Date",Snackbar.LENGTH_LONG)
+                        Snackbar.make(view,getString(R.string.error_input)+" A Start Date",Snackbar.LENGTH_LONG).show()
                     }
-                    else if(dateEnd.text.isNullOrEmpty())
+                    else if(dateEnd.text.isNullOrEmpty() && !dateStart.text.isNullOrEmpty())
                     {
                         datelay2.error=getString(R.string.error_select) +" Date"
-                        Snackbar.make(view,getString(R.string.error_input)+" An End Date",Snackbar.LENGTH_LONG)
+                        Snackbar.make(view,getString(R.string.error_input)+" An End Date",Snackbar.LENGTH_LONG).show()
                     }
                     else
                     {
@@ -172,8 +189,7 @@ class StatsFragament : Fragment() {
                 }
                 catch (e:Exception)
                 {
-                    Snackbar.make(view,getString(R.string.error_idk),Snackbar.LENGTH_LONG)
-                        .show()
+                    Snackbar.make(view,getString(R.string.error_idk),Snackbar.LENGTH_LONG).show()
                 }
 
             }
@@ -187,9 +203,8 @@ class StatsFragament : Fragment() {
 
 
 
-        //TODO:replace with actual list
-        val items = arrayOf("Item 1", "Item 2", "Item 3", "Item 4")
-        val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item, items)
+        val sub=UserDetails.categories.map{it.Name }
+        val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item,sub)
         category.setAdapter(adapter)
         category.setOnItemClickListener { parent, view, position,id ->
             pos=position
@@ -200,8 +215,16 @@ class StatsFragament : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if(tabLay.selectedTabPosition==0)
                 {
-                    progress.show()
-                    getAllTS()
+                    activity?.runOnUiThread(Runnable {
+                        progress.visibility=View.VISIBLE
+                    })
+                    if(UserDetails.ts.isNotEmpty())
+                    {
+                        populateRecyclerViewTS(UserDetails.ts,recycler)
+                        activity?.runOnUiThread(Runnable {
+                            progress.visibility=View.GONE
+                        })
+                    }
                     progress.hide()
                     dateStart.text=null
                     dateEnd.text=null
@@ -209,8 +232,17 @@ class StatsFragament : Fragment() {
                 }
                 if (tabLay.selectedTabPosition==1)
                 {
-                    progress.show()
-                    getAllCat()
+                    activity?.runOnUiThread(Runnable {
+                        progress.visibility=View.VISIBLE
+                    })
+                    if(UserDetails.categories.isNotEmpty())
+                    {
+                        activity?.runOnUiThread(Runnable {
+                            populateRecyclerViewCT(UserDetails.categories,recycler)
+                            progress.visibility=View.GONE
+                        })
+
+                    }
                     progress.hide()
                     dateStart.text=null
                     dateEnd.text=null
@@ -230,42 +262,73 @@ class StatsFragament : Fragment() {
 
     private fun search()
     {
-
+        activity?.runOnUiThread(Runnable {
+            progress.visibility=View.VISIBLE
+        })
         var TScategory:String?=null
         if (!category.text.isNullOrEmpty())
         {
             TScategory=UserDetails.categories[pos].id
         }
 
-        var start:Date?=null
-        var end:Date?=null
-        if (!dateStart.text.isNullOrEmpty())
-        {
-
-            start=calStart.time
-        }
-
-        if (!dateEnd.text.isNullOrEmpty())
-        {
-            end=calEnd.time
-        }
-        //val search=Search(userid = UserDetails.userDd, catID = TScategory, start = start, end = end)
+//        var start:Date?=null
+//        var end:Date?=null
+//        if (!dateStart.text.isNullOrEmpty())
+//        {
+//
+//            start=calStart.time
+//        }
+//
+//        if (!dateEnd.text.isNullOrEmpty())
+//        {
+//            end=calEnd.time
+//        }
         if (tabLay.selectedTabPosition==0)
         {
 
             if (TScategory.isNullOrEmpty())
             {
                 getTSRange()
+                Timer().schedule(3000) {
+
+
+
+                    activity?.runOnUiThread(Runnable {
+                        populateRecyclerViewTS(tsResults,recycler)
+                        progress.visibility=View.GONE
+                    })
+
+                }
             }
             else
             {
                 if (startDate.isNullOrEmpty() && endDate.isNullOrEmpty())
                 {
                     getTSCat(TScategory)
+                    Timer().schedule(3000) {
+
+
+
+                        activity?.runOnUiThread(Runnable {
+                            populateRecyclerViewTS(tsResults,recycler)
+                            progress.visibility=View.GONE
+                        })
+
+                    }
                 }
                 else
                 {
                     getTSCatRange(TScategory)
+                    Timer().schedule(3000) {
+
+
+
+                        activity?.runOnUiThread(Runnable {
+                            populateRecyclerViewTS(tsResults,recycler)
+                            progress.visibility=View.GONE
+                        })
+
+                    }
                 }
 
             }
@@ -276,18 +339,45 @@ class StatsFragament : Fragment() {
 
             if (startDate.isNullOrEmpty() && endDate.isNullOrEmpty())
             {
+                val cat=UserDetails.categories.find { it.id.equals(TScategory) }
+                Log.d("testing",TScategory!!)
+                Log.d("testing",cat.toString())
+                var po=UserDetails.categories.indexOf(cat)
+                var temp :List<Category> =UserDetails.categories.subList(po,po)
+                Log.d("testing",temp.toString())
+                populateRecyclerViewCT(temp,recycler)
+                Timer().schedule(3000) {
 
-                //TODO:Method for a single category
+
+                    activity?.runOnUiThread(Runnable {
+                        populateRecyclerViewCT(temp,recycler)
+                        progress.visibility=View.GONE
+                    })
+                }
             }
             else
             {
                 if (TScategory.isNullOrEmpty())
                 {
                     getCategoriesRange()
+                    Timer().schedule(3000) {
+                        activity?.runOnUiThread(Runnable {
+                            populateRecyclerViewCT(catResults,recycler)
+                            progress.visibility=View.GONE
+                        })
+                    }
                 }
                 else
                 {
                     getCategoryRange(TScategory)
+                    Timer().schedule(3000) {
+
+
+                        activity?.runOnUiThread(Runnable {
+                            populateRecyclerViewCT(catResults,recycler)
+                            progress.visibility=View.GONE
+                        })
+                    }
                 }
             }
         }
@@ -295,6 +385,11 @@ class StatsFragament : Fragment() {
         dateStart.text=null
         dateEnd.text=null
         category.text=null
+        startDate=""
+        endDate=""
+        val sub=UserDetails.categories.map{it.Name }
+        val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item,sub)
+        category.setAdapter(adapter)
 
     }
 
@@ -307,11 +402,8 @@ class StatsFragament : Fragment() {
         recyclerview.adapter = adapter
         adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener{
             override fun onClick(position: Int, model:TimeSheet) {
-                val tsview=SingleTSView()
-                val agrs =Bundle()
-                agrs.putString("TomeSheet", Gson().toJson(model).toString())
-                tsview.arguments=agrs
-                parentFragmentManager.beginTransaction().replace(R.id.flContent,tsview).commit()
+                UserDetails.temp=model
+                parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView()).commit()
             }
         })
 
@@ -328,280 +420,141 @@ class StatsFragament : Fragment() {
 
 
     //Category Api Methods
-    private fun getAllCat()
-    {
-        val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
-        // launching a new coroutine
-        GlobalScope.launch {
-            val call: Call<List<Category>> = timewiseApi.getAllCatHours(UserDetails.userId)
-            //val category: Category = Gson().fromJson(result.toString(), Category::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<Category>> {
-                override fun onResponse(
-                    call: Call<List<Category>>,
-                    response: Response<List<Category>>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val category: List<Category>? = response.body()
-
-                        val jas= Gson().toJson(category)
-                        Log.d("testing",jas)
-                        populateRecyclerViewCT(category!!,view!!.findViewById(R.id.stats_recycler))
-
-
-                        //val data = Gson().fromJson(response.body().toString(), Category::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
-                }
-
-                override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                    // displaying an error message in toast
-                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
-                }
-            })
-        }
-    }
 
     private fun getCategoriesRange()
     {
-        val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        Log.d("testing",startDate+"\t"+endDate+"\t"+UserDetails.userId)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<Category>> = timewiseApi.getAllCatHoursRange(UserDetails.userId,startDate,endDate)
-            //val category: Category = Gson().fromJson(result.toString(), Category::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<Category>> {
-                override fun onResponse(
-                    call: Call<List<Category>>,
-                    response: Response<List<Category>>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val category: List<Category>? = response.body()
-                        val jas= Gson().toJson(category)
-                        Log.d("testing",jas)
-                        populateRecyclerViewCT(category!!,view!!.findViewById(R.id.stats_recycler))
+            try {
 
-
-                        //val data = Gson().fromJson(response.body().toString(), Category::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
+                Log.d("testing",startDate+"\t"+endDate+"\t"+UserDetails.userId)
+                val call:List<Category> = timeWiseApi.getAllCatHoursRange(UserDetails.userId,startDate,endDate)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
                 }
+                catResults=call
+                Log.d("testing", call.toString())
 
-                override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                    // displaying an error message in toast
-                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
-                }
-            })
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
         }
+        populateRecyclerViewCT(catResults,recycler)
     }
 
     private fun getCategoryRange(categoryId:String)
     {
-        val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        Log.d("testing",startDate+"\t"+endDate+"\t"+UserDetails.userId +"\t"+ categoryId)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<Category>> = timewiseApi.getCatHoursRange(UserDetails.userId,categoryId,startDate,endDate)
-            //val category: Category = Gson().fromJson(result.toString(), Category::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<Category>> {
-                override fun onResponse(
-                    call: Call<List<Category>>,
-                    response: Response<List<Category>>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val category: List<Category>? = response.body()
-                        val jas= Gson().toJson(category)
-                        Log.d("testing",jas)
-                        populateRecyclerViewCT(category!!,view!!.findViewById(R.id.stats_recycler))
+            try {
 
-
-                        //val data = Gson().fromJson(response.body().toString(), Category::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
+                Log.d("testing",startDate+"\t"+endDate+"\t"+UserDetails.userId)
+                val call:List<Category> = timeWiseApi.getCatHoursRange(UserDetails.userId,categoryId,startDate,endDate,)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
                 }
+                catResults=call
+                Log.d("testing", call.toString())
 
-                override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                    // displaying an error message in toast
-                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
-                }
-            })
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
         }
+        populateRecyclerViewCT(catResults,recycler)
     }
 
 
     //TimeSheet
 
-    private fun getAllTS()
-    {
-        val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
-        // launching a new coroutine
-        GlobalScope.launch {
-//            val call: Call<List<TimeSheet>> = timewiseApi.getAllTimesheets(UserDetails.userId)
-//            //val timesheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
-//            Log.d("testing",call.toString())
-//            call.enqueue(object : Callback<List<TimeSheet>> {
-//                override fun onResponse(
-//                    call: Call<List<TimeSheet>>,
-//                    response: Response<List<TimeSheet>>
-//                ) {
-//                    if (response.isSuccessful())
-//                    {
-//                        Log.d("testing",response.body()!!.toString())
-//                        val timesheet: List<TimeSheet> =response.body()!!
-//                        val jas= Gson().toJson(timesheet)
-//                        Log.d("testing",jas)
-//
-//                        populateRecyclerViewTS(timesheet,view!!.findViewById(R.id.stats_recycler))
-//
-//                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
-//                        //Log.d("testing",data.toString())
-//
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<List<TimeSheet>>, t: Throwable) {
-//                    // displaying an error message in toast
-//                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-//                        .show()
-//                    Log.d("testing","no connection")
-//                }
-//            })
-        }
-    }
-
     private fun getTSRange()
     {
-        val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<TimeSheet>> = timewiseApi.getTSRange(startDate,endDate,UserDetails.userId)
-            //val timesheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<TimeSheet>> {
-                override fun onResponse(
-                    call: Call<List<TimeSheet>>,
-                    response: Response<List<TimeSheet>>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val timesheet: List<TimeSheet> =response.body()!!
-                        val jas= Gson().toJson(timesheet)
-                        Log.d("testing",jas)
+            try {
 
-                        populateRecyclerViewTS(timesheet,view!!.findViewById(R.id.stats_recycler))
-
-                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
+                Log.d("testing",startDate+"\t"+endDate+"\t"+UserDetails.userId)
+                val call:List<TimeSheet> = timeWiseApi.getTSRange(startDate,endDate,UserDetails.userId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
                 }
+                tsResults=call
+                Log.d("testing", call.toString())
 
-                override fun onFailure(call: Call<List<TimeSheet>>, t: Throwable) {
-                    // displaying an error message in toast
-                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
-                }
-            })
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
         }
+        populateRecyclerViewTS(tsResults, recycler)
     }
 
     private fun getTSCatRange(categoryId: String)
     {
-        val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<TimeSheet>> = timewiseApi.getTSCatRange(startDate,endDate,UserDetails.userId,categoryId)
-            //val timesheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<TimeSheet>> {
-                override fun onResponse(
-                    call: Call<List<TimeSheet>>,
-                    response: Response<List<TimeSheet>>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val timesheet: List<TimeSheet> =response.body()!!
-                        val jas= Gson().toJson(timesheet)
-                        Log.d("testing",jas)
+            try {
 
-                        populateRecyclerViewTS(timesheet,view!!.findViewById(R.id.stats_recycler))
-
-                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
+                Log.d("testing",startDate+"\t"+endDate+"\t"+UserDetails.userId +"\t"+ categoryId)
+                val call:List<TimeSheet> = timeWiseApi.getTSCatRange(startDate,endDate,UserDetails.userId,categoryId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
                 }
+                tsResults=call
+                Log.d("testing", call.toString())
 
-                override fun onFailure(call: Call<List<TimeSheet>>, t: Throwable) {
-                    // displaying an error message in toast
-                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
-                }
-            })
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
         }
+        populateRecyclerViewTS(tsResults, recycler)
     }
 
     private fun getTSCat(categoryId: String)
     {
-        val timewiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
+        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
-            val call: Call<List<TimeSheet>> = timewiseApi.getTSCat(UserDetails.userId,categoryId)
-            //val timesheet: TimeSheet = Gson().fromJson(result.toString(), TimeSheet::class.java)
-            Log.d("testing",call.toString())
-            call.enqueue(object : Callback<List<TimeSheet>> {
-                override fun onResponse(
-                    call: Call<List<TimeSheet>>,
-                    response: Response<List<TimeSheet>>
-                ) {
-                    if (response.isSuccessful())
-                    {
-                        Log.d("testing",response.body()!!.toString())
-                        val timesheet: List<TimeSheet> =response.body()!!
-                        val jas= Gson().toJson(timesheet)
-                        Log.d("testing",jas)
+            try {
 
-                        populateRecyclerViewTS(timesheet,view!!.findViewById(R.id.stats_recycler))
-
-                        //val data = Gson().fromJson(response.body().toString(), TimeSheet::class.java)
-                        //Log.d("testing",data.toString())
-
-                    }
+                Log.d("testing",UserDetails.userId+"\t"+categoryId)
+                val call:List<TimeSheet> = timeWiseApi.getTSCat(UserDetails.userId,categoryId)
+                if (call.isEmpty())
+                {
+                    Log.d("testing","no values ")
                 }
+                tsResults=call
+                Log.d("testing", call.toString())
 
-                override fun onFailure(call: Call<List<TimeSheet>>, t: Throwable) {
-                    // displaying an error message in toast
-                    Toast.makeText(requireContext(), "Fail to get the data..", Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("testing","no connection")
-                }
-            })
+            }
+            catch (e:kotlin.KotlinNullPointerException)
+            {
+                Log.d("testing","no data")
+            }
+
         }
+        populateRecyclerViewTS(tsResults, recycler)
     }
-
-
-
-
-
 
 
 

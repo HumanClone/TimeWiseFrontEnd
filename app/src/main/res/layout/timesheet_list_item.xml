@@ -4,38 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="10dp"
     android:background="?attr/backgroundColor"
     >
+
+    <com.google.android.material.imageview.ShapeableImageView
+    android:layout_width="match_parent"
+    android:minHeight="30dp"
+    android:layout_height="300dp"
+    android:maxHeight="200dp"
+    android:id="@+id/TSpicture"
+    android:contentDescription="@string/Profile"/>
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
+        android:textSize="40dp"
         android:id="@+id/TSdate"/>
-    <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="match_parent"
-        android:minHeight="30dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="200dp"
-        android:id="@+id/TSpicture"
-        android:contentDescription="@string/Profile"/>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal">
+        android:layout_height="120dp"
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
+            android:textSize="40dp"
             android:id="@+id/TScategory"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
+            android:textSize="40dp"
             android:id="@+id/TShours"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="40dp"
         android:id="@+id/TSdescription"/>
 
 </LinearLayout>
