@@ -25,12 +25,12 @@
         android:layout_height="700dp"
         android:layout_marginTop="100dp"
         android:paddingStart="20dp"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingEnd="40dp"
+        android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/DateLay"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:hint="@string/date"
         app:errorEnabled="true"
@@ -49,7 +49,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/CateLay"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:hint="@string/Category"
@@ -71,17 +71,15 @@
 
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/PictureLay"
-                android:layout_width="350dp"
+                android:layout_width="match_parent"
                 android:layout_height="225dp"
-
-
                 android:hint="@string/picture"
                 app:hintEnabled="true"
                 app:startIconDrawable="@drawable/vector_add_photo">
@@ -98,7 +96,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/HourLay"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:hint="@string/hours"
@@ -116,8 +114,9 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/DesLay"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxHeight="80dp"
             android:layout_marginTop="20dp"
             android:hint="@string/des"
             app:errorEnabled="true"
