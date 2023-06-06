@@ -1,15 +1,12 @@
 package com.example.timewisefrontend.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -23,9 +20,7 @@ import com.example.timewisefrontend.models.UserDetails
 import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 private lateinit var recycleCat:RecyclerView
 private lateinit var recycleTS:RecyclerView
 
@@ -37,11 +32,6 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
-        val fragmentTransaction = beginTransaction()
-        fragmentTransaction.func()
-        fragmentTransaction.commit()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +43,7 @@ class DashboardFragment : Fragment() {
 
 
     
-    //TODO: if needed fix recycler view to card view 
+    //recycler view with use of on click listener
     fun generateRecyclerViewTS(data: List<TimeSheet>, recyclerview:RecyclerView) {
 
             if(data.isNotEmpty()) {

@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitHelper {
 
-    //TODO:Use actual base Url when it is ready
+    //creating a client for the object to maintain and facilitate timeouts
     val baseUrl = "https://timewise20230603104655.azurewebsites.net/"
     val clientSetup = OkHttpClient.Builder()
         .connectTimeout(1, TimeUnit.MINUTES)
@@ -15,6 +15,7 @@ object RetrofitHelper {
         .readTimeout(1, TimeUnit.MINUTES) // read timeout
         .build()
 
+    //object that will be used to send and retrieve data
     fun getInstance(): Retrofit {
         return Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())

@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -15,11 +13,11 @@ import com.example.timewisefrontend.adapters.CategoryAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
-import com.example.timewisefrontend.models.User
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -50,13 +48,13 @@ class CategoryFragment : Fragment() {
         recycle=view.findViewById(R.id.category_recycler_category)
         progress =view.findViewById(R.id.progressCat)
         progress.visibility=View.GONE
-        if (!UserDetails.categories.isEmpty())
+        if (UserDetails.categories.isNotEmpty())
         {
             populateRecyclerViewCT(UserDetails.categories,recycle)
         }
+        //button that prompts dialog and saves category in database
         val extendedFab: ExtendedFloatingActionButton = view.findViewById(R.id.extended_fabCat)
         extendedFab.setOnClickListener{
-            //TODO:PRompt for a name check list if not existing then create category
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(getString(R.string.newCat))
                 .setMessage(getString(R.string.catPro))
@@ -69,7 +67,7 @@ class CategoryFragment : Fragment() {
                 .setPositiveButton(resources.getString(R.string.create)) { dialog, which ->
                     // Respond to positive button press
                     if (catName.text.isNullOrEmpty()) {
-
+                        Snackbar.make(view,"No Value given", Snackbar.LENGTH_LONG).show()
                     }
                     else
                     {
@@ -83,11 +81,13 @@ class CategoryFragment : Fragment() {
                         {
                             val category= Category(UserDetails.userId,null,name,null)
                             addCat(category)
-                            Timer().schedule(4000) {
+                            Timer().schedule(3000) {
 
                                 activity?.runOnUiThread(Runnable {
-                                    populateRecyclerViewCT(UserDetails.categories,recycle)
+
                                     progress.visibility=View.GONE
+                                    populateRecyclerViewCT(UserDetails.categories,recycle)
+                                    Snackbar.make(view,"Saved", Snackbar.LENGTH_LONG).show()
                                 })
 
                             }
@@ -99,6 +99,7 @@ class CategoryFragment : Fragment() {
         }
     }
 
+    //adds category
     private fun addCat(category: Category)
     {
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
@@ -129,6 +130,7 @@ class CategoryFragment : Fragment() {
 
     }
 
+    //gets categories to update local list
     private fun getUserCategoriesNorm()
     {
         val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)

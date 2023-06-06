@@ -7,28 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.TimeSheetAdatper
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
-import com.example.timewisefrontend.models.Category
-import com.example.timewisefrontend.models.Search
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.time.LocalDate
 import java.util.*
 import kotlin.concurrent.schedule
@@ -42,11 +33,7 @@ class TimeSheetFragment : Fragment() {
     var tsWeek:List<TimeSheet> = listOf()
 
     var date:String=""
-    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
-        val fragmentTransaction = beginTransaction()
-        fragmentTransaction.func()
-        fragmentTransaction.commit()
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -120,17 +107,20 @@ class TimeSheetFragment : Fragment() {
         val TSmonth:Button=view.findViewById(R.id.TSMonth)
         val TSall:Button=view.findViewById(R.id.TSAll)
         progress.visibility=View.GONE
+        populateRecyclerViewTS(tsWeek,recycler)
 
         TSweek.setOnClickListener {
             activity?.runOnUiThread(Runnable {
                 progress.visibility=View.VISIBLE
             })
             getTSWeek()
-            Timer().schedule(2000) {
+            Timer().schedule(1000) {
 
                 populateRecyclerViewTS(tsWeek,recycler)
+                activity?.runOnUiThread(Runnable {
+                    progress.visibility=View.GONE
+                })
             }
-            progress.visibility=View.GONE
         }
         TSmonth.setOnClickListener {
 
@@ -138,18 +128,23 @@ class TimeSheetFragment : Fragment() {
                 progress.visibility=View.VISIBLE
             })
             getTSMonth()
-            Timer().schedule(2000) {
+            Timer().schedule(1000) {
 
                 populateRecyclerViewTS(tsMonth,recycler)
+                activity?.runOnUiThread(Runnable {
+                    progress.visibility=View.GONE
+                })
             }
-            progress.visibility=View.GONE
         }
         TSall.setOnClickListener {
             activity?.runOnUiThread(Runnable {
                 progress.visibility=View.VISIBLE
             })
             populateRecyclerViewTS(UserDetails.ts,recycler)
-            progress.visibility=View.GONE
+            activity?.runOnUiThread(Runnable {
+                progress.visibility=View.GONE
+            })
+
         }
 
 

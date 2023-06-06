@@ -88,9 +88,9 @@
         android:layout_gravity="center"
         android:elevation="1dp"
         android:indeterminate="true"
-        app:indicatorColor="?attr/colorOnPrimary"
+        app:indicatorColor="?attr/colorSecondary"
         app:indicatorSize="150dp"
-        app:trackThickness="10dp" />
+        app:trackThickness="20dp" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extended_fab"

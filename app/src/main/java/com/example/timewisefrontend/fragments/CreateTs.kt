@@ -13,12 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import com.bumptech.glide.Glide
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.api.RetrofitHelper
@@ -42,7 +39,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.schedule
 
@@ -63,7 +59,6 @@ class CreateTs : Fragment() {
     var pos:Int=-1
 
     var link:String=""
-    var Pdes:String=""
     val storageRef= Firebase.storage.reference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,11 +68,7 @@ class CreateTs : Fragment() {
         }
     }
 
-    inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
-        val fragmentTransaction = beginTransaction()
-        fragmentTransaction.func()
-        fragmentTransaction.commit()
-    }
+
 
 
     override fun onCreateView(
@@ -93,6 +84,7 @@ class CreateTs : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //assigning variables
         datelay=view.findViewById(R.id.DateLay)
         catlay=view.findViewById(R.id.CateLay)
         hourlay=view.findViewById(R.id.HourLay)
@@ -105,7 +97,9 @@ class CreateTs : Fragment() {
         des=view.findViewById(R.id.DesField)
         date.inputType=(InputType.TYPE_NULL)
         date.setKeyListener(null)
-        progress.hide()
+        progress.visibility=View.GONE
+
+        //validation sand setting onclick listeners
 
         val extendedFab: ExtendedFloatingActionButton = view.findViewById(R.id.extended_fabCS)
         extendedFab.setOnClickListener {
@@ -200,6 +194,8 @@ class CreateTs : Fragment() {
 
 
 //        https://github.com/wdullaer/MaterialDateTimePicker
+        // code atributed
+        //used thier very own made date picker because it gave access to selection better that google native one
         val dpd = DatePickerDialog()
         date.setOnClickListener{
 
@@ -261,7 +257,6 @@ class CreateTs : Fragment() {
         }
 
 
-        //TODO:replace with actual list
         val sub=UserDetails.categories.map{it.Name }
         val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item,sub)
         category.setAdapter(adapter)
@@ -278,13 +273,8 @@ class CreateTs : Fragment() {
         progress.visibility=View.VISIBLE
 
         Log.d("testing","start ")
-        val formatter=SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         Log.d("testing",startDate)
-        //val TSdate:Date=formatter.parse(date.text.toString())
-        //Log.d("testing",TSdate.toString())
         Log.d("testing","after date before category  ")
-        //TODO: Change on implement
-        //val TScategory=UserDetails.categories.find { it.Name.equals(category.text.toString() }.Name
         val TScategory=UserDetails.categories[pos].id
         Log.d("testing",TScategory!!)
         Log.d("testing","after category before hours ")
@@ -292,16 +282,14 @@ class CreateTs : Fragment() {
         Log.d("testing","after hours before des ")
         val TSdes=des.text.toString()
         Log.d("testing","descript before picture")
-        //TODO:send picture object to realtime then send to time object
         if (!link.isNullOrEmpty()) {
             Log.d("testing","entered if")
             val picture = Picture(null,UserDetails.userId,link)
             addPicture(picture)
             Log.d("testing","after picture before timesheet")
-            //addPicture(picture)
             val timeSheet =TimeSheet(
                 userId=UserDetails.userId,
-                categoryId=TScategory!!,
+                categoryId=TScategory,
                 pictureId = link,
                 description = TSdes,
                 date=startDate
@@ -324,7 +312,7 @@ class CreateTs : Fragment() {
             Log.d("testing","entered else before time object")
             val timeSheet = TimeSheet(
                 userId=UserDetails.userId,
-                categoryId = TScategory!!,
+                categoryId = TScategory,
                 pictureId = null,
                 description = TSdes,
                 date = startDate,
@@ -332,7 +320,7 @@ class CreateTs : Fragment() {
             )
             Log.d("testing", Gson().toJson(timeSheet) )
             addTimesheet(timeSheet)
-           Timer().schedule(2000) {
+            Timer().schedule(2000) {
 
                    activity?.runOnUiThread(Runnable {
                parentFragmentManager.beginTransaction().replace(R.id.flContent,TimeSheetFragment()).commit()
@@ -343,8 +331,10 @@ class CreateTs : Fragment() {
     }
 
 
-
-    //    https://www.geeksforgeeks.org/android-upload-an-image-on-firebase-storage-with-kotlin/
+    //Code attributed
+    //https://www.geeksforgeeks.org/android-upload-an-image-on-firebase-storage-with-kotlin/
+    //used as a reference to add image file to firebase
+    //changed for all formats and t also get download link
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
     // lambda expression to receive a result back, here we
         // receive single item(photo) on selection
@@ -360,7 +350,6 @@ class CreateTs : Fragment() {
 
                 // Upload Task with upload to directory 'file'
                 // and name of the file remains same
-                //TODO:Replace file with userid
                 val uploadTask = storageRef.child("${UserDetails.userId}/$sd").putFile(imageUri)
 
                 // On success, download the file URL and display it
@@ -401,6 +390,7 @@ class CreateTs : Fragment() {
         return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
     }
 
+    //simple method fed into the string class
     fun String.isNumber():Boolean
     {
         val pattern=Regex("\\d+(\\.\\d+)*")

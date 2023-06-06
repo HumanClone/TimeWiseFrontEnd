@@ -26,7 +26,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.google.gson.Gson
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -77,10 +76,11 @@ class StatsFragament : Fragment() {
         catlay=view.findViewById(R.id.CateLay1)
         dateStart.inputType=(InputType.TYPE_NULL)
         dateEnd.inputType=(InputType.TYPE_NULL)
-        progress.hide()
+        progress.visibility=View.GONE
         recycler=view.findViewById(R.id.stats_recycler)
 
 
+        //setting variables and on click listeners
         if(UserDetails.ts.isNotEmpty())
         {
             populateRecyclerViewTS(UserDetails.ts,recycler)
@@ -193,7 +193,6 @@ class StatsFragament : Fragment() {
                 }
 
             }
-            progress.hide()
         }
 
 
@@ -225,7 +224,6 @@ class StatsFragament : Fragment() {
                             progress.visibility=View.GONE
                         })
                     }
-                    progress.hide()
                     dateStart.text=null
                     dateEnd.text=null
                     category.text=null
@@ -243,7 +241,6 @@ class StatsFragament : Fragment() {
                         })
 
                     }
-                    progress.hide()
                     dateStart.text=null
                     dateEnd.text=null
                     category.text=null
@@ -271,25 +268,14 @@ class StatsFragament : Fragment() {
             TScategory=UserDetails.categories[pos].id
         }
 
-//        var start:Date?=null
-//        var end:Date?=null
-//        if (!dateStart.text.isNullOrEmpty())
-//        {
-//
-//            start=calStart.time
-//        }
-//
-//        if (!dateEnd.text.isNullOrEmpty())
-//        {
-//            end=calEnd.time
-//        }
+
         if (tabLay.selectedTabPosition==0)
         {
 
             if (TScategory.isNullOrEmpty())
             {
                 getTSRange()
-                Timer().schedule(3000) {
+                Timer().schedule(2000) {
 
 
 
@@ -305,7 +291,7 @@ class StatsFragament : Fragment() {
                 if (startDate.isNullOrEmpty() && endDate.isNullOrEmpty())
                 {
                     getTSCat(TScategory)
-                    Timer().schedule(3000) {
+                    Timer().schedule(2000) {
 
 
 
@@ -319,7 +305,7 @@ class StatsFragament : Fragment() {
                 else
                 {
                     getTSCatRange(TScategory)
-                    Timer().schedule(3000) {
+                    Timer().schedule(2000) {
 
 
 
@@ -360,7 +346,7 @@ class StatsFragament : Fragment() {
                 if (TScategory.isNullOrEmpty())
                 {
                     getCategoriesRange()
-                    Timer().schedule(3000) {
+                    Timer().schedule(2000) {
                         activity?.runOnUiThread(Runnable {
                             populateRecyclerViewCT(catResults,recycler)
                             progress.visibility=View.GONE
@@ -370,7 +356,7 @@ class StatsFragament : Fragment() {
                 else
                 {
                     getCategoryRange(TScategory)
-                    Timer().schedule(3000) {
+                    Timer().schedule(2000) {
 
 
                         activity?.runOnUiThread(Runnable {

@@ -1,6 +1,5 @@
 package com.example.timewisefrontend.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,20 +14,8 @@ import com.example.timewisefrontend.models.UserDetails
 class TimeSheetAdatper(var data: List<TimeSheet>) :
 RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
  private var onClickListener:OnClickListener?=null
-//    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//        var Date:TextView=view.findViewById(R.id.TSdate)
-//        var Category:TextView=view.findViewById(R.id.TScategory)
-//        var Description:TextView=view.findViewById(R.id.TSdescription)
-//        var Picture:ImageView=view.findViewById(R.id.TSpicture)
-//        var Hours:TextView=view.findViewById(R.id.TShours)
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-//        val itemView = LayoutInflater.from(parent.context)
-//            .inflate(R.layout.timesheet_list_item, parent, false)
-//        return MyViewHolder(itemView)
-//    }
 
+    //binds and sets elements and values in a viewholder  to that of each object
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var Date:TextView=view.findViewById(R.id.TSdate)
         var Category:TextView=view.findViewById(R.id.TScategory)
@@ -59,7 +46,11 @@ RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
         }
         holder.Hours.text=item.hours.toString()+" Hours"
 
+
+        //Code attributed
         //https://www.geeksforgeeks.org/how-to-apply-onclicklistener-to-recyclerview-items-in-android/
+        // to set an onclick listener to an item in a recycler view
+        //aurthor chinmaya121221
         holder.itemView.setOnClickListener {
             if (onClickListener != null) {
                 onClickListener!!.onClick(position, item )

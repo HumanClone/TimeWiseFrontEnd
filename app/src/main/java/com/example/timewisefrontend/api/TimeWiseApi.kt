@@ -5,13 +5,11 @@ import com.example.timewisefrontend.models.Picture
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.User
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface TimeWiseApi {
-    //TODO: Use this interface to use the api with defined methods from the api
 
-
+// interface methods that will be used in the application some are duplicates that are use case based
     @GET("/User/GetAllUsers")
     fun getUsers(): Call<List<User>>
 
@@ -41,7 +39,7 @@ interface TimeWiseApi {
             List<Category>
 
 
-    //TODO:TEst Multiple Queries
+
     @GET("/Category/GetUserCategoryWithHoursSum")
     suspend fun getCatHoursNorm(@Query("UserId")userId:String,
                                 @Query("CategoryId")categoryId:String):List<Category>

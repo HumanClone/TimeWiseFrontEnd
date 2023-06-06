@@ -37,11 +37,6 @@ class ProfileFragment : Fragment() {
     private lateinit var saveButton: Button
     private lateinit var profilePictureImageView: ImageView
 
-    /*inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> Unit) {
-        val fragmentTransaction = beginTransaction()
-        fragmentTransaction.func()
-        fragmentTransaction.commit()
-    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,14 +67,14 @@ class ProfileFragment : Fragment() {
         saveButton = view.findViewById(R.id.saveButton)
 
 
-        // Update EditText fields with the user's current information
-//        updateFields()
+        //get vaiables and set them following then updates the database after validation
 
         saveButton.setOnClickListener {
             progress.visibility=View.VISIBLE
             if (valid())
             {
-                val user=User(UserDetails.userId,
+                val user=User(
+                    UserDetails.userId,
                     usernameEditText.text.toString(),
                     emailEditText.text.toString(),
                     jobEditText.text.toString(),
@@ -98,9 +93,11 @@ class ProfileFragment : Fragment() {
             }
             else
             {
+                progress.visibility=View.GONE
                 Snackbar.make(view,getString(R.string.error_fix), Snackbar.LENGTH_LONG).show()
             }
-            progress.visibility=View.GONE
+
+
         }
 
 

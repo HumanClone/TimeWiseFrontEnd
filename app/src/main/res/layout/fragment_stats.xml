@@ -141,9 +141,9 @@
         android:elevation="1dp"
         android:indeterminate="true"
         android:layout_gravity="center"
-        app:indicatorColor="?attr/colorOnPrimary"
+        app:indicatorColor="?attr/colorSecondary"
         app:indicatorSize="150dp"
-        app:trackThickness="10dp"/>
+        app:trackThickness="20dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/extended_fabstats"

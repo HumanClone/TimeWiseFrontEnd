@@ -24,6 +24,8 @@ import kotlin.concurrent.schedule
 class Test : AppCompatActivity() {
 
 
+
+    //this is a test  screen that uses the resources of the application to test elements before rolling out into application
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)

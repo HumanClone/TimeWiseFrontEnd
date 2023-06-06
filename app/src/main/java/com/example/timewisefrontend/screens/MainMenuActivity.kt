@@ -35,9 +35,7 @@ class MainMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         val toolbar: Toolbar =  findViewById(R.id.toolbar)
         toolbar.title=("Dashboard")
-        //setSupportActionBar(toolbar)
 
-        //TODO: declare global user id variable, look into companion objects
 
 
         binding.apply {

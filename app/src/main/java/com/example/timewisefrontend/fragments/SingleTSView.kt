@@ -11,15 +11,8 @@ import coil.load
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
-import com.google.gson.Gson
 
-// TODO: Rename parameter arguments, choose names that match
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SingleTSView.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SingleTSView : Fragment() {
 
     lateinit var item:TimeSheet
@@ -36,7 +29,6 @@ class SingleTSView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //item=api way
         item= UserDetails.temp
         var Date: TextView =view.findViewById(R.id.TSdate)
         var Category: TextView =view.findViewById(R.id.TScategory)
@@ -44,10 +36,11 @@ class SingleTSView : Fragment() {
         var Picture: ImageView =view.findViewById(R.id.TSpicture)
         var Hours: TextView =view.findViewById(R.id.TShours)
 
+        //sets the view with better headings + values
 
-        Date.text=item.date.toString().substring(0,10)
-        Category.text= UserDetails.categories.find { it.id.equals(item.categoryId)}!!.Name //item.category.Name
-        Description.text=item.description
+        Date.text="Date: " + item.date.toString().substring(0,10)
+        Category.text= "CAtegory: "+UserDetails.categories.find { it.id.equals(item.categoryId)}!!.Name //item.category.Name
+        Description.text="Description: "+ item.description
         Picture.load(item.pictureId)
         Hours.text=item.hours.toString()+" hours"
 
