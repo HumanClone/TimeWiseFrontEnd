@@ -38,7 +38,7 @@ class CategoryAdapter (var data: List<Category>) :
         {
             holder.hourHeader.text=null
         }
-        holder.hours.text=item.Totalhours?.toString()
+        holder.hours.text=item.Totalhours?.toInt().toString()
     }
 
 

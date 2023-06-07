@@ -174,7 +174,14 @@ class StatsFragament : Fragment() {
                     }
                     else
                     {
-                        search()
+                        try {
+                            search()
+                        }
+                        catch(e:Exception)
+                        {
+
+                        }
+
                     }
 
                  }
@@ -191,6 +198,7 @@ class StatsFragament : Fragment() {
                 {
                     Snackbar.make(view,getString(R.string.error_idk),Snackbar.LENGTH_LONG).show()
                 }
+
 
             }
         }

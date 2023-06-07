@@ -1,9 +1,9 @@
 package com.example.timewisefrontend.models
 
 object UserDetails {
-    var userId:String="-NWGSp-bpe4VmtgrUMt-"
-    var email:String="testFakeemail@fakeemail.com"
-    var name:String="Dylan"
+    var userId:String=""
+    var email:String=""
+    var name:String=""
     var categories:List<Category> = listOf()
     var max:Int=0
     var min:Int=0

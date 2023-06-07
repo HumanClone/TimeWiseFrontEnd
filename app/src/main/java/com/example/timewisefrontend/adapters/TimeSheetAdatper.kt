@@ -44,7 +44,7 @@ RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
             holder.Picture.load(item.pictureId)
 
         }
-        holder.Hours.text=item.hours.toInt().toString()+" Hours"
+        holder.Hours.text=item.hours.toString()+" Hours"
 
 
         //Code attributed
