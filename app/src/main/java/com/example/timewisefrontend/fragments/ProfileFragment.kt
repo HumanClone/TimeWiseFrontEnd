@@ -82,6 +82,8 @@ class ProfileFragment : Fragment() {
                     minEditText.text.toString().toInt())
 
                     updateUser(user)
+                UserDetails.max=maxEditText.text.toString().toInt()
+                UserDetails.min= minEditText.text.toString().toInt()
                 Timer().schedule(2000) {
 
                     activity?.runOnUiThread(Runnable {
