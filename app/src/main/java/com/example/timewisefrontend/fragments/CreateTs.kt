@@ -131,7 +131,7 @@ class CreateTs : Fragment() {
                 incorrect=true
 
             }
-            else if(hours.text.toString().toDouble()>20)
+            else if(hours.text.toString().toInt()>20)
             {
                 hourlay.error=getString(R.string.error_impossible)
                 incorrect=true
@@ -176,7 +176,7 @@ class CreateTs : Fragment() {
                     }
                     catch (e:Exception)
                     {
-                        Snackbar.make(view,getString(R.string.error_idk),Snackbar.LENGTH_LONG)
+                        Snackbar.make(view,"Please ensure hours is a whole number",Snackbar.LENGTH_LONG)
                             .show()
                     }
                 }
