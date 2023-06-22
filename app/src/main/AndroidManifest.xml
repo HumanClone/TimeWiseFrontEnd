@@ -31,11 +31,11 @@
         <activity
             android:name=".screens.LoginActivity"
             android:exported="false"
-            android:theme="@style/Theme.TimeWiseFrontEnd.NoActionBar" />
+            />
         <activity
             android:name=".screens.MainMenuActivity"
             android:exported="true"
-            android:theme="@style/Theme.TimeWiseFrontEnd.NoActionBar">
+            >
 
         </activity>
         <activity

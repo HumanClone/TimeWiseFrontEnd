@@ -16,6 +16,51 @@
         android:orientation="vertical"
         android:paddingStart="20dp">
 
+
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:paddingTop="30dp"-->
+<!--                    android:textSize="30dp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"-->
+<!--                    android:text="Goal"/>-->
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingTop="30dp"-->
+<!--            android:textSize="25dp"-->
+<!--            android:textStyle="bold"-->
+<!--            style="@style/Widget.Material3.Button.ElevatedButton.Icon"-->
+<!--            android:text="Today"/>-->
+
+<!--        <com.google.android.material.slider.Slider-->
+<!--        android:layout_width="360dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingEnd="20dp"-->
+<!--        app:labelBehavior="visible"-->
+<!--        android:id="@+id/slider"-->
+<!--        android:valueFrom="0"-->
+<!--        android:valueTo="24"-->
+<!--        android:stepSize="1"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingTop="30dp"-->
+<!--            android:textSize="25dp"-->
+<!--            android:textStyle="bold"-->
+<!--            style="@style/Widget.Material3.Button.ElevatedButton.Icon"-->
+<!--            android:text="Past Month"/>-->
+
+
+<!--        <com.google.android.material.divider.MaterialDivider-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="5dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:paddingTop="20dp"/>-->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,6 +83,7 @@
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="5dp"
+            android:layout_marginTop="10dp"
             android:paddingTop="20dp"/>
 
         <TextView

@@ -81,7 +81,7 @@ class ProfileFragment : Fragment() {
                     maxEditText.text.toString().toInt(),
                     minEditText.text.toString().toInt())
 
-                    updateUser(user)
+                updateUser(user)
                 UserDetails.max=maxEditText.text.toString().toInt()
                 UserDetails.min= minEditText.text.toString().toInt()
                 Timer().schedule(2000) {
@@ -107,18 +107,18 @@ class ProfileFragment : Fragment() {
 
     private fun valid():Boolean
     {
-        var valid:Boolean=true;
+        var valid:Boolean=true
         if (maxEditText.text.toString().toInt()>minEditText.text.toString().toInt())
         {
             if (maxEditText.text.isNullOrEmpty())
             {
                 maxEditText.error=getString(R.string.error_input)+" Max Daily Hours"
-                valid=false;
+                valid=false
             }
             else if (maxEditText.text.toString().toInt()>20)
             {
                 maxEditText.error="Max Daily Hours Cannot be Greater Than 20"
-                valid=false;
+                valid=false
             }
             else
             {
@@ -127,12 +127,12 @@ class ProfileFragment : Fragment() {
             if (minEditText.text.isNullOrEmpty())
             {
                 minEditText.error=getString(R.string.error_input)+" Max Daily Hours"
-                valid=false;
+                valid=false
             }
             else if (minEditText.text.toString().toInt()<0)
             {
                 minEditText.error="Min Daily Hours Cannot be Less Than 0"
-                valid=false;
+                valid=false
             }
             else
             {

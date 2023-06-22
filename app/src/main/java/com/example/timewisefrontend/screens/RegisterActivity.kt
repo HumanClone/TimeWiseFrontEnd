@@ -146,6 +146,13 @@ class RegisterActivity : AppCompatActivity() {
                     val intent = Intent(this@RegisterActivity, MainMenuActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
+                    runOnUiThread(kotlinx.coroutines.Runnable {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "Registered Successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    })
                 } else {
                     mLoadingBar.dismiss()
                     val exception = task.exception as? FirebaseAuthException
