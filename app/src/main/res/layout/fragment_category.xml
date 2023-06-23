@@ -9,6 +9,14 @@
     android:scrollbars="none">
 
 
+    <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="30dp"
+    android:textSize="30dp"
+    android:textStyle="bold"
+    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+    android:text="@string/Categories"/>
 
 
 
