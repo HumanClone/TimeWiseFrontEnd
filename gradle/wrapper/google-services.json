@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "545644690410",
+    "firebase_url": "https://timewise-2ba0e-default-rtdb.firebaseio.com",
+    "project_id": "timewise-2ba0e",
+    "storage_bucket": "timewise-2ba0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545644690410:android:ff4328e2881913fb2e5093",
+        "android_client_info": {
+          "package_name": "com.example.timewisefrontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-eB3ZeXkVuANZUGQPeEM1z38u9Q2EJw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
