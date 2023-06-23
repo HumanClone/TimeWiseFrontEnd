@@ -62,8 +62,6 @@ class DashboardFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 
-
-    
     //recycler view with use of on click listener
     fun generateRecyclerViewTS(data: List<TimeSheet>, recyclerview:RecyclerView) {
 
@@ -76,9 +74,8 @@ class DashboardFragment : Fragment() {
                         override fun onClick(position: Int, model: TimeSheet) {
                             val tsview = SingleTSView()
                             val agrs = Bundle()
-                            agrs.putString("TimeSheet", Gson().toJson(model).toString())
-                            tsview.arguments = agrs
-                            parentFragmentManager.beginTransaction().replace(R.id.flContent, tsview)
+                            UserDetails.temp=model
+                            parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView())
                                 .commit()
                         }
                     })
@@ -90,6 +87,7 @@ class DashboardFragment : Fragment() {
                     recyclerview.adapter = adapter
                     adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener {
                         override fun onClick(position: Int, model: TimeSheet) {
+                            Log.d("testing", "clicked" )
                             UserDetails.temp=model
                             parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView())
                                 .commit()
@@ -140,36 +138,10 @@ class DashboardFragment : Fragment() {
 
     //TODO: Uncomment on full runs
         getTSMonth()
-        //getUserCategoriesNorm()
         getUserTSNorm()
     }
 
-    private fun getUserCategoriesNorm()
-    {
-        val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
-        // launching a new coroutine
-        GlobalScope.launch {
-            try {
 
-
-                val call:List<Category> = timeWiseApi.getAllCatHours(UserDetails.userId)
-                if (call.isEmpty())
-                {
-                    Log.d("testing","no values ")
-                }
-
-                UserDetails.categories=call
-
-                Log.d("testing", call.toString())
-
-            }
-            catch (e:kotlin.KotlinNullPointerException)
-            {
-                Log.d("testing","no data")
-            }
-
-        }
-    }
 
     private fun getUserTSNorm()
     {
