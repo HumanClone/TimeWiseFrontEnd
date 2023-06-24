@@ -10,7 +10,6 @@
 
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +22,7 @@
             style="?attr/materialButtonToggleGroupStyle"
             android:layout_marginTop="50dp"
             android:layout_width="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center|top"
             android:layout_height="wrap_content"
             app:checkedButton="@id/TSWeek"
             android:paddingEnd="20dp">
@@ -34,7 +33,7 @@
                 android:text="@string/Week"
                 android:layout_width="match_parent"
                 android:backgroundTint="?attr/colorSecondary"
-                android:textColor="@color/white" />
+                android:textColor="@color/yellow" />
 
             <Button
                 style="?attr/materialButtonStyle"
@@ -60,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="40dp"
+            android:paddingTop="10dp"
             android:orientation="vertical"
             android:scrollbars="vertical">
 
@@ -70,6 +69,7 @@
             android:id="@+id/timesheet_recycler_timesheet"
             android:paddingTop="20dp"
             android:paddingEnd="20dp"
+            android:layout_marginBottom="20dp"
             android:scrollbars="vertical"
             android:fadeScrollbars="true"/>
 
@@ -84,6 +84,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        app:showAnimationBehavior="inward"
+        app:hideAnimationBehavior="inward"
         android:elevation="1dp"
         android:indeterminate="true"
         app:indicatorColor="?attr/colorSecondary"
@@ -102,6 +104,32 @@
         android:contentDescription="@string/Cr"
         android:text="@string/CreateTS"
         app:icon="@drawable/vector_create"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extended_fab_ex"
+        app:backgroundTint="?attr/colorSecondary"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="top|end"
+        android:contentDescription="@string/Cr"
+        android:text="Export All Sheets"
+        app:icon="@drawable/vector_export"/>
+
+    <TextView
+        android:id="@+id/no_results"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:elevation="1dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:text="No Results Found"/>
 
 
 </FrameLayout>

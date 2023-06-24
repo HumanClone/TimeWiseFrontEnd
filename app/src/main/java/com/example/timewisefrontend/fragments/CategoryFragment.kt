@@ -97,6 +97,20 @@ class CategoryFragment : Fragment() {
                 .setView(catName)
                 .show()
         }
+
+        recycle.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                // Called when the scroll state changes (e.g., idle, dragging, settling)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    extendedFab.extend()  // Extend the FAB if scroll state is idle
+                }
+                if(newState==RecyclerView.SCROLL_STATE_DRAGGING)
+                {
+                    extendedFab.shrink()
+                }
+            }
+        })
     }
 
     //adds category
@@ -105,7 +119,7 @@ class CategoryFragment : Fragment() {
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
-        Log.d("testing","String of Object  "+ category.toString())
+        Log.d("testing", "String of Object  $category")
         GlobalScope.launch{
             timewiseapi.addCategory(category).enqueue(
                 object : Callback<Category> {

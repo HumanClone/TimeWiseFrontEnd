@@ -6,7 +6,6 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.databinding.ActivityMainMenuBinding
@@ -15,18 +14,14 @@ import android.view.View
 import android.view.Window.FEATURE_NO_TITLE
 import android.view.WindowManager
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.timewisefrontend.fragments.*
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.materialswitch.MaterialSwitch
-import com.google.android.material.resources.MaterialResources
 import com.google.firebase.auth.FirebaseAuth
 
 class MainMenuActivity : AppCompatActivity() {
@@ -117,16 +112,20 @@ class MainMenuActivity : AppCompatActivity() {
                     R.id.nav_dashboard -> { loadFrag(DashboardFragment())
                         toolbar.title=("Dashboard")
                         binding.drawerLayout.closeDrawers()}
-//                    R.id.nav_settings ->{ loadFrag(SettingsFragment())
-//                        binding.drawerLayout.closeDrawers()}
                     R.id.nav_timesheet -> {loadFrag(TimeSheetFragment())
                         toolbar.title=("TimeSheet")
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_category -> {loadFrag(CategoryFragment())
                         toolbar.title=("Category")
                         binding.drawerLayout.closeDrawers()}
-                    R.id.nav_stats -> {loadFrag(StatsFragament())
+                    R.id.nav_stats -> {loadFrag(StatsFragment())
                         toolbar.title=("Statistics")
+                        binding.drawerLayout.closeDrawers()}
+                    R.id.nav_graph -> {loadFrag(GraphFragment())
+                        toolbar.title=("Graphs")
+                        binding.drawerLayout.closeDrawers()}
+                    R.id.nav_calendar -> {loadFrag(CalendarFragment())
+                        toolbar.title=("Calendar")
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_logout -> {// TODO: removed user data from memory
                                         FirebaseAuth.getInstance().signOut()

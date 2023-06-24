@@ -49,7 +49,7 @@
                 android:textAlignment="center"
                 android:textStyle="bold"
                 style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-                android:text="Minimum "/>
+                android:text="Minimum"/>
             <!--progress bar implementation-->
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progress_bar_min"
@@ -73,7 +73,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginStart="20dp"
                     android:gravity="center"
-                    android:text="number here"
+                    android:text="0"
                     android:textAlignment="center"
                     android:textSize="20dp"
                     android:textStyle="bold" />
@@ -120,9 +120,10 @@
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="20dp"
                     android:gravity="center"
-                    android:text="number here"
+                    android:text="0"
                     android:textAlignment="center"
                     android:textSize="20dp"
                     android:textStyle="bold" />
