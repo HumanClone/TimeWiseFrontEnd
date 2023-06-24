@@ -147,12 +147,11 @@
             android:id="@+id/avg_slider"
             android:layout_width="320dp"
             android:layout_height="10dp"
-            android:value="3"
             app:trackColorActive="@color/red"
             app:labelBehavior="visible"
             android:layout_marginStart="30dp"
             android:valueFrom="0.0"
-            android:valueTo="24.0"
+            android:valueTo="1.0"
             android:elevation="0dp"
             app:elevationOverlayEnabled="true"/>
 

@@ -131,11 +131,6 @@ class DashboardFragment : Fragment() {
         })
 
 
-
-
-
-
-
     //TODO: Uncomment on full runs
         getTSMonth()
         getUserTSNorm()
@@ -255,7 +250,7 @@ class DashboardFragment : Fragment() {
                 activity?.runOnUiThread(Runnable {
                     minMaxDisplay()
                 })
-                Log.d("testing",max.toString()+"%\t"+min.toString()+"%\t"+average.toString())
+                Log.d("testing", "$max%\t$min%\t$average")
             }
             catch (e:kotlin.KotlinNullPointerException)
             {
