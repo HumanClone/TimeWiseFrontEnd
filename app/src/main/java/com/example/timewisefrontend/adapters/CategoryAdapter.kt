@@ -34,7 +34,7 @@ class CategoryAdapter (var data: List<Category>) :
         val item = data[position]
         Log.d("testing","here")
         holder.name.text=item.Name
-        if (item.Totalhours.toString().isNullOrEmpty())
+        if (item.Totalhours.toString().isEmpty())
         {
             holder.hourHeader.text=null
         }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -15,6 +16,7 @@ import com.example.timewisefrontend.models.Category
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.User
 import com.example.timewisefrontend.models.UserDetails
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -39,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
             val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
             startActivity(intent)
+
         }
         val loginButton = findViewById<Button>(R.id.btnLogin)
         loginButton.setOnClickListener {
@@ -122,6 +125,9 @@ class LoginActivity : AppCompatActivity() {
                 val intent = Intent(this@LoginActivity, MainMenuActivity::class.java)
                 startActivity(intent)
                 mLoadingBar.dismiss()
+                runOnUiThread(Runnable {
+                    Toast.makeText(this@LoginActivity, "Welcome Back ${UserDetails.name}", Toast.LENGTH_SHORT).show()
+                })
                 finish()
             }
             catch (e:kotlin.KotlinNullPointerException)

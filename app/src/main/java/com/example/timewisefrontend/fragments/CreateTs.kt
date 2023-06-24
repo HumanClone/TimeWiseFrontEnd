@@ -218,7 +218,7 @@ class CreateTs : Fragment() {
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
             date.setText(d)
-            startDate=year.toString()+"-"
+            startDate= "$year-"
             if(monthOfYear<9)
             {
                 startDate+="0"+(monthOfYear+1)+ "-"
@@ -227,13 +227,10 @@ class CreateTs : Fragment() {
             {
                 startDate+=(monthOfYear+1).toString() + "-"
             }
-            if (dayOfMonth<10)
-            {
-                startDate+="0"+dayOfMonth.toString()
-            }
-            else
-            {
-                startDate+=dayOfMonth.toString()
+            startDate += if (dayOfMonth<10) {
+                "0$dayOfMonth"
+            } else {
+                dayOfMonth.toString()
             }
             startDate+="T10:28:51.449943+00:00"
             datelay.error=null
@@ -403,7 +400,7 @@ class CreateTs : Fragment() {
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
-        Log.d("testing","String of Object  "+ pic.toString())
+        Log.d("testing", "String of Object  $pic")
         GlobalScope.launch{
             timewiseapi.addPic(pic).enqueue(
                 object : Callback<Picture> {
@@ -430,7 +427,7 @@ class CreateTs : Fragment() {
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
-        Log.d("testing","String of Object  "+ ts.toString())
+        Log.d("testing", "String of Object  $ts")
         Log.d("testing",Gson().toJson(ts))
         GlobalScope.launch{
             timewiseapi.addTS(ts).enqueue(

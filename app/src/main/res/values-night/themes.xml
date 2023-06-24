@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.TimeWiseFrontEnd" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#2E4F4F</item>
+        <item name="colorPrimary">#177245</item>
         <item name="colorPrimaryVariant">#0E8388</item>
         <item name="colorOnPrimary">#47A992</item>
         <!-- Secondary brand color. -->

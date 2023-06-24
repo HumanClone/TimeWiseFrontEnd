@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single"  >
         <item android:id="@+id/nav_profile" android:icon="@drawable/vector_account_circle_" android:title="@string/Profile"/>
@@ -8,14 +9,20 @@
         <item android:id="@+id/nav_category" android:icon="@drawable/vector_category" android:title="@string/Category"/>
         <item android:id="@+id/nav_timesheet" android:icon="@drawable/vector_assignment" android:title="@string/TimeSheet"/>
         <item android:id="@+id/nav_stats"   android:icon="@drawable/vector_bar_chart"   android:title="@string/Stats"/>
-<!--        <item android:id="@+id/nav_settings" android:icon="@drawable/vector_settings" android:title="@string/Settings"/>-->
+        <item android:id="@+id/nav_graph" android:icon="@drawable/vector_graph" android:title="Graphs"/>
+        <item android:id="@+id/nav_calendar" android:icon="@drawable/vector_calendar_month" android:title="@string/Calendar"/>
+    </group>
 
+    <group android:checkableBehavior="single">
+        <item
+            android:checkable="false"
+            android:id="@+id/night_mode"
+            app:actionViewClass="com.google.android.material.materialswitch.MaterialSwitch"
+            tools:ignore="MenuTitle" />
     </group>
 
     <group android:checkableBehavior="none" android:id="@+id/menu_bottom" >
         <item android:id="@+id/nav_logout" android:icon="@drawable/vector_logout" android:title="@string/Logout"/>
     </group>
-
-
 
 </menu>

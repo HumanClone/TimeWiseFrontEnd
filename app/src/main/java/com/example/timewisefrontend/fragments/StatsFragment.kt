@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +34,7 @@ import java.util.*
 import kotlin.concurrent.schedule
 
 
-class StatsFragament : Fragment() {
+class StatsFragment : Fragment() {
 
     lateinit var dateStart:TextInputEditText
     lateinit var dateEnd:TextInputEditText
@@ -51,6 +52,7 @@ class StatsFragament : Fragment() {
     var pos:Int=-1
     var startDate:String=""
     var endDate: String=""
+    private lateinit var noR: TextView
 
 
     override fun onCreateView(
@@ -78,6 +80,7 @@ class StatsFragament : Fragment() {
         dateEnd.inputType=(InputType.TYPE_NULL)
         progress.visibility=View.GONE
         recycler=view.findViewById(R.id.stats_recycler)
+        noR=view.findViewById(R.id.no_results1)
 
 
         //setting variables and on click listeners
@@ -116,9 +119,9 @@ class StatsFragament : Fragment() {
                 (monthOfYear+1).toString() + "/"
             }
             startDate += if (dayOfMonth<10) {
-                "0"+dayOfMonth.toString()+"/"
+                "0$dayOfMonth/"
             } else {
-                dayOfMonth.toString()+"/"
+                "$dayOfMonth/"
             }
             startDate+= year
             //startDate=dayOfMonth.toString()+"%2F"+(monthOfYear+1)+"%2F"+year
@@ -135,9 +138,9 @@ class StatsFragament : Fragment() {
                 (monthOfYear+1).toString() + "/"
             }
             endDate += if (dayOfMonth<10) {
-                "0"+dayOfMonth.toString()+"/"
+                "0$dayOfMonth/"
             } else {
-                dayOfMonth.toString()+"/"
+                "$dayOfMonth/"
             }
             endDate+= year
             dateEnd.setText(d)
@@ -149,6 +152,7 @@ class StatsFragament : Fragment() {
         extendedFab.setOnClickListener {
             // Respond to Extended FAB click
             progress.visibility=View.VISIBLE
+            noR.visibility=View.GONE
 
             if (dateStart.text.isNullOrEmpty() || dateEnd.text.isNullOrEmpty() )
             {
@@ -428,6 +432,10 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
                 }
                 catResults=call
                 Log.d("testing", call.toString())
@@ -455,6 +463,10 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
                 }
                 catResults=call
                 Log.d("testing", call.toString())
@@ -484,6 +496,10 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
                 }
                 tsResults=call
                 Log.d("testing", call.toString())
@@ -510,6 +526,10 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
                 }
                 tsResults=call
                 Log.d("testing", call.toString())
@@ -536,6 +556,10 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
                 }
                 tsResults=call
                 Log.d("testing", call.toString())
