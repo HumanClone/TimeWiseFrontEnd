@@ -5,32 +5,24 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
 
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
-import com.example.timewisefrontend.adapters.CategoryAdapter
-import com.example.timewisefrontend.adapters.TimeSheetAdatper
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.TimeSheet
-import com.example.timewisefrontend.models.Category
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
-import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.Calendar
 
 private lateinit var recycleCat:RecyclerView
 private lateinit var recycleTS:RecyclerView
@@ -38,6 +30,8 @@ private lateinit var slider:Slider
 private lateinit var progMin:CircularProgressIndicator
 private lateinit var maxText:TextView
 private lateinit var minText: TextView
+private lateinit var maxDes:TextView
+private lateinit var minDes: TextView
 private lateinit var progMax:CircularProgressIndicator
 var min:Double =0.0
 var max:Double=0.0
@@ -63,14 +57,14 @@ class DashboardFragment : Fragment() {
     }
 
     //recycler view with use of on click listener
-    fun generateRecyclerViewTS(data: List<TimeSheet>, recyclerview:RecyclerView) {
+    private fun generateRecyclerViewTS(data: List<TimeSheet>, recyclerview:RecyclerView) {
 
             if(data.isNotEmpty()) {
                 if (data.count()>5) {
                     val temp: List<TimeSheet> = data.subList(0, 5)
-                    val adapter = TimeSheetAdatper(temp)
+                    val adapter = TimeSheetAdapter(temp)
                     recyclerview.adapter = adapter
-                    adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener {
+                    adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                         override fun onClick(position: Int, model: TimeSheet) {
                             val tsview = SingleTSView()
                             val agrs = Bundle()
@@ -81,11 +75,11 @@ class DashboardFragment : Fragment() {
                     })
                 }
                 else {
-                    val adapter = TimeSheetAdatper(data)
+                    val adapter = TimeSheetAdapter(data)
 
 
                     recyclerview.adapter = adapter
-                    adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener {
+                    adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                         override fun onClick(position: Int, model: TimeSheet) {
                             Log.d("testing", "clicked" )
                             UserDetails.temp=model
@@ -95,8 +89,8 @@ class DashboardFragment : Fragment() {
                     })
                 }
             }
-        
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //recycleCat=view.findViewById(R.id.dashboard_recycler_category)
@@ -106,7 +100,8 @@ class DashboardFragment : Fragment() {
         progMax=view.findViewById(R.id.progress_bar_max)
         maxText=view.findViewById(R.id.progress_text_max)
         minText=view.findViewById(R.id.progress_text_min)
-
+        maxDes=view.findViewById(R.id.progress_text_max_des)
+        minDes=view.findViewById(R.id.progress_text_min_des)
         slider.setOnTouchListener { v, event -> true  }
         val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
 
@@ -131,12 +126,7 @@ class DashboardFragment : Fragment() {
         })
 
 
-
-
-
-
-
-    //TODO: Uncomment on full runs
+    //TODO: Uncomment on full runs,comment on rest runs with no data needed
         getTSMonth()
         getUserTSNorm()
     }
@@ -170,7 +160,7 @@ class DashboardFragment : Fragment() {
         generateRecyclerViewTS(UserDetails.ts, recycleTS)
     }
 
-    fun minMaxDisplay()
+   private fun minMaxDisplay()
     {
         progMax.progress=max.toInt()
         maxText.text=max.toInt().toString()+" %"
@@ -193,6 +183,8 @@ class DashboardFragment : Fragment() {
 
 
 //TODO: Discuss with team on whether month or last 30 days is more appropriate for the requirement
+    //this function gets the timesheets for the current month then fines all the days in which
+    //the minimum and maximum hours were worked and then calculates the average hours worked
     private fun getTSMonth()
     {
         val cal= LocalDate.now()
@@ -255,7 +247,7 @@ class DashboardFragment : Fragment() {
                 activity?.runOnUiThread(Runnable {
                     minMaxDisplay()
                 })
-                Log.d("testing",max.toString()+"%\t"+min.toString()+"%\t"+average.toString())
+                Log.d("testing", "$max%\t$min%\t$average")
             }
             catch (e:kotlin.KotlinNullPointerException)
             {
@@ -266,34 +258,48 @@ class DashboardFragment : Fragment() {
 
     }
 
+    //returns colors based on the percentage of the minimum hours reached
    private fun getStatusColorMin(num:Int):Int
     {
         if (num>=80)
         {
+            minDes.text=resources.getString(R.string.good)
+            minDes.setTextColor(resources.getColor(R.color.green))
             return resources.getColor(R.color.green)
         }
         else if (num>=30)
         {
+            minDes.text=resources.getString(R.string.fair)
+            minDes.setTextColor(resources.getColor(R.color.yellow))
             return resources.getColor(R.color.yellow)
         }
         else
         {
+            minDes.text=resources.getString(R.string.poor)
+            minDes.setTextColor(resources.getColor(R.color.red))
             return resources.getColor(R.color.red)
         }
 
     }
+    //returns color based on the percentage of days in which the maximum hours were reached
     private fun getStatusColorMax(num:Int):Int
     {
         if (num>=80)
         {
+            maxDes.text=resources.getString(R.string.poor)
+            maxDes.setTextColor(resources.getColor(R.color.red))
             return resources.getColor(R.color.red)
         }
         else if (num>=30)
         {
+            maxDes.text=resources.getString(R.string.fair)
+            maxDes.setTextColor(resources.getColor(R.color.yellow))
             return resources.getColor(R.color.yellow)
         }
         else
         {
+            maxDes.text=resources.getString(R.string.good)
+            maxDes.setTextColor(resources.getColor(R.color.green))
             return resources.getColor(R.color.green)
         }
 

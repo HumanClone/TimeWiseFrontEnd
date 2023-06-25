@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
-import com.example.timewisefrontend.adapters.TimeSheetAdatper
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.TimeSheet
@@ -19,7 +19,6 @@ import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -29,7 +28,7 @@ import kotlin.concurrent.schedule
 
 class TimeSheetFragment : Fragment() {
 
-    private lateinit var adapter:TimeSheetAdatper
+    private lateinit var adapter:TimeSheetAdapter
     private lateinit var recycler:RecyclerView
     var tsMonth:List<TimeSheet> = listOf()
     var tsWeek:List<TimeSheet> = listOf()
@@ -90,6 +89,7 @@ class TimeSheetFragment : Fragment() {
             }
             else
             {
+                ModalView.use=false
                 parentFragmentManager.beginTransaction().replace(R.id.flContent, CreateTs())
                     .commit()
             }
@@ -179,9 +179,9 @@ class TimeSheetFragment : Fragment() {
             activity?.runOnUiThread(Runnable {
                 recyclerview.visibility=View.VISIBLE
                 recyclerview.layoutManager = LinearLayoutManager(context)
-                adapter = TimeSheetAdatper(data)
+                adapter = TimeSheetAdapter(data)
                 recyclerview.adapter = adapter
-                adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener {
+                adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                     override fun onClick(position: Int, model: TimeSheet) {
                         UserDetails.temp=model
                         parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView())

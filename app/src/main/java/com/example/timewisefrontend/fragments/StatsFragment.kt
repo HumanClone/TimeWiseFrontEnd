@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.CategoryAdapter
-import com.example.timewisefrontend.adapters.TimeSheetAdatper
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
@@ -208,12 +208,6 @@ class StatsFragment : Fragment() {
         }
 
 
-
-
-
-
-
-
         val sub=UserDetails.categories.map{it.Name }
         val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item,sub)
         category.setAdapter(adapter)
@@ -221,7 +215,6 @@ class StatsFragment : Fragment() {
             pos=position
         }
 
-        //TODO:uncomment methods on api success
         tabLay.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if(tabLay.selectedTabPosition==0)
@@ -392,13 +385,13 @@ class StatsFragment : Fragment() {
     }
 
 
-    fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView) {
+    private fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView) {
 
 
         recyclerview.layoutManager = LinearLayoutManager(context)
-        val adapter = TimeSheetAdatper(data)
+        val adapter = TimeSheetAdapter(data)
         recyclerview.adapter = adapter
-        adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener{
+        adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener{
             override fun onClick(position: Int, model:TimeSheet) {
                 UserDetails.temp=model
                 parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView()).commit()
@@ -407,7 +400,7 @@ class StatsFragment : Fragment() {
 
     }
 
-    fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
+    private fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
 
 
         recyclerview.layoutManager = LinearLayoutManager(context)

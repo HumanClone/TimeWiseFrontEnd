@@ -44,8 +44,10 @@
         app:itemVerticalPadding="15dp"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/nav_menu"
+        android:enableOnBackInvokedCallback="true"
         app:itemIconSize="40dp"
-        app:itemTextAppearance="?android:attr/textAppearanceLarge"/>
+        app:itemTextAppearance="?android:attr/textAppearanceLarge"
+        tools:targetApi="tiramisu" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

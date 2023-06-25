@@ -26,7 +26,7 @@
     android:adjustViewBounds="true"
     android:maxHeight="300dp"
     android:id="@+id/TSpicture"
-    android:contentDescription="picture"/>
+    android:contentDescription="@string/picture"/>
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -49,7 +49,7 @@
                     android:id="@+id/TSDatelay"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
-                    android:hint="Date"
+                    android:hint="@string/date"
                     android:layout_marginTop="20dp"
                     app:startIconDrawable="@drawable/vector_calendar_month">
 

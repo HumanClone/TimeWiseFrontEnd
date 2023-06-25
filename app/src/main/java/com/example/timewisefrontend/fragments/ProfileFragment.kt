@@ -88,7 +88,7 @@ class ProfileFragment : Fragment() {
 
                     activity?.runOnUiThread(Runnable {
                         progress.visibility=View.GONE
-                        Snackbar.make(view,"Saved", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(view,resources.getString(R.string.saved), Snackbar.LENGTH_SHORT).show()
                     })
 
                 }

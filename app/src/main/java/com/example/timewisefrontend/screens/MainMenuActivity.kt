@@ -16,6 +16,7 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.timewisefrontend.fragments.*
@@ -28,14 +29,12 @@ class MainMenuActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainMenuBinding
     lateinit var toggle: ActionBarDrawerToggle
+    private var savedState: Bundle? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        Toast.makeText(
-//            this@MainMenuActivity,
-//            "Logged in Successfully!",
-//            Toast.LENGTH_SHORT
-//        ).show()
+
         supportRequestWindowFeature(FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         actionBar?.hide()
@@ -142,11 +141,9 @@ class MainMenuActivity : AppCompatActivity() {
         }
         loadFrag(DashboardFragment())
 
-
-
     }
 
-    fun loadFrag(fragment:Fragment)
+    private fun loadFrag(fragment:Fragment)
     {
         val fragmentManager:FragmentManager  =supportFragmentManager
         val fragmentTransaction=fragmentManager.beginTransaction()
@@ -159,6 +156,11 @@ class MainMenuActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.nav_menu , menu)
         return true
     }
+
+
+
+
+
 }
 
 

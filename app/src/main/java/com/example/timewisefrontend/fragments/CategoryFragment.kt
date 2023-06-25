@@ -67,7 +67,7 @@ class CategoryFragment : Fragment() {
                 .setPositiveButton(resources.getString(R.string.create)) { dialog, which ->
                     // Respond to positive button press
                     if (catName.text.isNullOrEmpty()) {
-                        Snackbar.make(view,"No Value given", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(view,resources.getString(R.string.no_values), Snackbar.LENGTH_LONG).show()
                     }
                     else
                     {
@@ -75,7 +75,7 @@ class CategoryFragment : Fragment() {
                         name=catName.text.toString()
                         if (UserDetails.categories.any { it.Name.equals(name) } )
                         {
-                            catName.error="Already exists"
+                            catName.error=resources.getString(R.string.exists)
                         }
                         else
                         {
@@ -87,7 +87,7 @@ class CategoryFragment : Fragment() {
 
                                     progress.visibility=View.GONE
                                     populateRecyclerViewCT(UserDetails.categories,recycle)
-                                    Snackbar.make(view,"Saved", Snackbar.LENGTH_LONG).show()
+                                    Snackbar.make(view,resources.getString(R.string.saved), Snackbar.LENGTH_LONG).show()
                                 })
 
                             }
@@ -170,7 +170,7 @@ class CategoryFragment : Fragment() {
         populateRecyclerViewCT( UserDetails.categories, recycle)
     }
 
-    fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
+   private fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
 
 
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
