@@ -25,7 +25,7 @@
             android:textSize="30dp"
             android:textStyle="bold"
             style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:text="Goals - This Month "/>
+            android:text="@string/goals_this_month"/>
 
 
         <LinearLayout
@@ -49,7 +49,7 @@
                 android:textAlignment="center"
                 android:textStyle="bold"
                 style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-                android:text="Minimum"/>
+                android:text="@string/minimum"/>
             <!--progress bar implementation-->
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progress_bar_min"
@@ -64,7 +64,20 @@
                     android:min="0"
                     android:indeterminate="false"
                     android:textAlignment="center" />
-
+                <TextView
+                    android:id="@+id/progress_text_min_des"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:elevation="1dp"
+                    android:gravity="center"
+                    android:text="bad"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
                 <!--Text implementation in center of the progress bar-->
                 <TextView
                     android:id="@+id/progress_text_min"
@@ -77,6 +90,8 @@
                     android:textAlignment="center"
                     android:textSize="20dp"
                     android:textStyle="bold" />
+
+
             </RelativeLayout>
 
             <Space
@@ -97,7 +112,7 @@
                     android:textSize="20dp"
                     android:textStyle="bold"
                     style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-                    android:text="Maximum"/>
+                    android:text="@string/maximum"/>
 
                 <!--progress bar implementation-->
                 <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -114,13 +129,27 @@
                     android:indeterminate="false"
                     android:textAlignment="center" />
 
+                <TextView
+                    android:id="@+id/progress_text_max_des"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:elevation="1dp"
+                    android:gravity="center"
+                    android:text="bad"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
                 <!--Text implementation in center of the progress bar-->
                 <TextView
                     android:id="@+id/progress_text_max"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_centerInParent="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginStart="20dp"
                     android:gravity="center"
                     android:text="0"
@@ -138,7 +167,7 @@
             android:layout_gravity="center"
             android:textStyle="bold"
             style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:text="Average Hours"/>
+            android:text="@string/average_hours"/>
 
 
 
@@ -165,7 +194,7 @@
                 android:layout_marginStart="0dp"
                 android:textStyle="bold"
                 style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-                android:text=" Min Hours"/>
+                android:text="@string/min_hours"/>
             <TextView
                 style="@style/Widget.Material3.Button.ElevatedButton.Icon"
                 android:layout_width="wrap_content"
@@ -173,7 +202,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:gravity="end|center"
-                android:text=" Max Hours"
+                android:text="@string/max_hours"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -193,7 +222,7 @@
             android:textSize="30dp"
             style="@style/Widget.Material3.Button.ElevatedButton.Icon"
             android:textStyle="bold"
-            android:text="Latest Timesheets"/>
+            android:text="@string/latest_timesheets"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 package com.example.timewisefrontend.fragments
 
-import android.app.Activity
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -12,11 +11,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
-import com.example.timewisefrontend.adapters.TimeSheetAdatper
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import ru.cleverpumpkin.calendar.CalendarDate
 import ru.cleverpumpkin.calendar.CalendarView
 import java.text.SimpleDateFormat
@@ -34,6 +34,7 @@ private lateinit var cal: CalendarView
         return inflater.inflate(R.layout.fragment_calendar, container, false)
     }
 
+    //This creates the calendar and sets the on click listener for the dates
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,19 +42,57 @@ private lateinit var cal: CalendarView
         calSet()
         cal.datesIndicators= indicators()
 
+        //thos listener will display the modal and the timesheets for the selected date if any and
+        // will allow the user to create a new timesheet
         cal.onDateClickListener = { date ->
-            val temp:List<TimeSheet> = UserDetails.ts.filter { it.date.toString().substring(0,10)==date.toString()}
+            Log.d("testing",UserDetails.ts.toString())
+            val day:Int=date.dayOfMonth
+            val month:Int=date.month
+            var dat:String=""
+            dat+= date.year.toString()+"-"
+            dat += if(month<9) {
+            "0"+(month+1)+ "-"
+            } else {
+                (month+1).toString() + "-"
+
+            }
+            dat += if (date.dayOfMonth<10) {
+                "0$day"
+            } else {
+                "$day"
+            }
+            Log.d("testing",dat)
+            ModalView.useDate=dat
+            val temp:List<TimeSheet> = UserDetails.ts.filter { it.date.toString().substring(0,10)==(dat)}
             Log.d("testing",temp.toString())
-            ModalView.date=date.toString()
+            dat=""
+            dat += if (date.dayOfMonth<10) {
+                "0$day-"
+            } else {
+                "$day-"
+            }
+            dat += if(month<9) {
+                "0"+(month+1)+ "-"
+            } else {
+                (month+1).toString() + "-"
+
+            }
+            dat+= date.year.toString()
+            ModalView.date=dat
             ModalView.ts=temp
             val mBS = ModalBottomSheet()
-            mBS.show(parentFragmentManager,this.tag )
+            mBS.show(parentFragmentManager,ModalBottomSheet.TAG)
+
         }
     }
 
+    //this function sets up the calendar
+    //Code is adapted from  https://github.com/CleverPumpkin/CrunchyCalendar
+    //Repository is under the MIT license and marked as free to use and modify
+    //made by Crabgore, rAseri, iMofas, Limanskaya and LadaLarkina
     private fun calSet()
     {
-//        https://github.com/CleverPumpkin/CrunchyCalendar
+
         val calendar = Calendar.getInstance()
 
     // Initial date
@@ -80,6 +119,7 @@ private lateinit var cal: CalendarView
             showYearSelectionView = true
         )
     }
+    //function the=at adds the indicators to the calendar based on the timesheets of the user
     private fun indicators():List<CalendarView.DateIndicator>
     {
         val color:Int= MaterialColors.getColor(requireContext(),
@@ -102,6 +142,7 @@ private lateinit var cal: CalendarView
 
 }
 
+//this class is used to display the timesheets for the selected date
 class ModalBottomSheet : BottomSheetDialogFragment() {
    lateinit var dat:TextView
    lateinit var recyle:RecyclerView
@@ -115,6 +156,7 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.bottomsheet_view, container, false)
     }
 
+    //this function populates the recycler view with the timesheets for the selected date
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -123,6 +165,13 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         noR= view.findViewById(R.id.no_results2)
         dat.text=ModalView.date
         populateRecyclerViewTS(ModalView.ts,recyle)
+        val extBut:ExtendedFloatingActionButton=view.findViewById(R.id.extended_fab_modal)
+        extBut.setOnClickListener {
+            ModalView.use=true
+            parentFragmentManager.beginTransaction().replace(R.id.flContent, CreateTs())
+                .commit()
+            this.dismiss()
+        }
     }
     companion object {
         const val TAG = "ModalBottomSheet"
@@ -137,9 +186,9 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         {
             activity?.runOnUiThread(Runnable {
                 recyclerview.layoutManager = LinearLayoutManager(context)
-                val adapter = TimeSheetAdatper(data)
+                val adapter = TimeSheetAdapter(data)
                 recyclerview.adapter = adapter
-                adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener {
+                adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                     override fun onClick(position: Int, model: TimeSheet) {
                         UserDetails.temp=model
                         parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView())
@@ -157,9 +206,12 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
     }
 }
 
+//this class is used to store the timesheets and the date selected by the user
 object ModalView
 {
     var ts:List<TimeSheet> = emptyList()
+    var useDate:String=""
     var date:String=""
+    var use:Boolean=false
 
 }

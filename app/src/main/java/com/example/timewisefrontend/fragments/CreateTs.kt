@@ -176,7 +176,7 @@ class CreateTs : Fragment() {
                     }
                     catch (e:Exception)
                     {
-                        Snackbar.make(view,"Please ensure hours is a whole number",Snackbar.LENGTH_LONG)
+                        Snackbar.make(view,resources.getString(R.string.whole_number),Snackbar.LENGTH_LONG)
                             .show()
                     }
                 }
@@ -193,7 +193,7 @@ class CreateTs : Fragment() {
 
 
 
-//        https://github.com/wdullaer/MaterialDateTimePicker
+        //https://github.com/wdullaer/MaterialDateTimePicker
         // code atributed
         //used thier very own made date picker because it gave access to selection better that google native one
         val dpd = DatePickerDialog()
@@ -216,7 +216,7 @@ class CreateTs : Fragment() {
 
 
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
+            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
             date.setText(d)
             startDate= "$year-"
             if(monthOfYear<9)
@@ -236,6 +236,14 @@ class CreateTs : Fragment() {
             datelay.error=null
 
         }
+
+        if (ModalView.use)
+        {
+            date.setText(ModalView.date)
+            startDate=ModalView.useDate
+            startDate+="T10:28:51.449943+00:00"
+        }
+
 
         imageView.setOnClickListener{
 
@@ -258,14 +266,10 @@ class CreateTs : Fragment() {
         val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item,sub)
         category.setAdapter(adapter)
 
-
-
-
-
     }
 
 
-    fun save()
+    private fun save()
     {
         progress.visibility=View.VISIBLE
 
@@ -305,7 +309,6 @@ class CreateTs : Fragment() {
         }
         else
         {
-            //TODO:Pass to database
             Log.d("testing","entered else before time object")
             val timeSheet = TimeSheet(
                 userId=UserDetails.userId,
@@ -388,7 +391,7 @@ class CreateTs : Fragment() {
     }
 
     //simple method fed into the string class
-    fun String.isNumber():Boolean
+    private fun String.isNumber():Boolean
     {
         val pattern=Regex("\\d+(\\.\\d+)*")
         return matches(pattern)

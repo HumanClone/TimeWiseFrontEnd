@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:id="@+id/usernamePlaceHolder"
-        android:text="Name Place Holder"
+        android:text="@string/name_place_holder"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/white" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:id="@+id/emailPlaceHolder"
-        android:text="Email Placeholderr"
+        android:text="@string/email_placeholderr"
         android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

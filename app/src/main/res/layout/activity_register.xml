@@ -146,7 +146,7 @@
         android:drawableLeft="@drawable/baseline_work"
         android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="Job"
+        android:hint="@string/job"
         android:inputType="textPersonName"
         android:paddingLeft="20dp"
         android:paddingTop="10dp"

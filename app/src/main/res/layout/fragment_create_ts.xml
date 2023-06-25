@@ -7,7 +7,7 @@
     tools:context=".fragments.CreateTs"
     android:background="?attr/backgroundColor">
 
-<!--    TODO: add validation to the textfields-->
+
 
     <TextView
         android:layout_width="match_parent"
@@ -53,10 +53,8 @@
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:hint="@string/Category"
-
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/vector_error"
-
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:startIconDrawable="@drawable/vector_category">
 

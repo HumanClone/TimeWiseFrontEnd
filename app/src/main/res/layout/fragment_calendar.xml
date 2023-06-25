@@ -7,7 +7,6 @@
     android:background="?attr/backgroundColor"
     tools:context=".fragments.CalendarFragment">
 
-    <!-- TODO: Update blank fragment layout in Part 3 -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

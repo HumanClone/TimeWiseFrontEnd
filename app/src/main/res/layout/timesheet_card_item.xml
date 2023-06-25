@@ -16,7 +16,7 @@
     style="?attr/materialCardViewElevatedStyle"
     android:foreground="?selectableItemBackground"
     android:clickable="true">
-    <!-- TODO: Find a color that workd for both or establish one -->
+    <!-- TODO: Find a color that work for both or establish one -->
 
     <LinearLayout
         android:layout_width="match_parent"
