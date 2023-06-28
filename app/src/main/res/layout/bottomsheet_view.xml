@@ -27,6 +27,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginBottom="30dp"
+            android:textColor="?attr/colorOnSecondary"
             style="@style/Widget.Material3.Button.ElevatedButton.Icon"
             android:text="@string/no_results_found"/>
 

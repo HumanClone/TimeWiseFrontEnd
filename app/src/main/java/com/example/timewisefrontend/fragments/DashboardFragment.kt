@@ -66,10 +66,8 @@ class DashboardFragment : Fragment() {
                     recyclerview.adapter = adapter
                     adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                         override fun onClick(position: Int, model: TimeSheet) {
-                            val tsview = SingleTSView()
-                            val agrs = Bundle()
                             UserDetails.temp=model
-                            parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView())
+                            parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView(),"Ts")
                                 .commit()
                         }
                     })
@@ -83,7 +81,7 @@ class DashboardFragment : Fragment() {
                         override fun onClick(position: Int, model: TimeSheet) {
                             Log.d("testing", "clicked" )
                             UserDetails.temp=model
-                            parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView())
+                            parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView(),"Ts")
                                 .commit()
                         }
                     })

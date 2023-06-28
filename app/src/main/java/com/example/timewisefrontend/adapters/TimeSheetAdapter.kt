@@ -44,6 +44,9 @@ RecyclerView.Adapter<TimeSheetAdapter.MyViewHolder>() {
             holder.Picture.load(item.pictureId)
 
         }
+        else{
+            holder.Picture.load(R.drawable.vector_no_image)
+        }
         holder.Hours.text=item.hours.toString()+" Hours"
 
 

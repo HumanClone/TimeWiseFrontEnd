@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.CategoryAdapter
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
+import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -177,5 +179,21 @@ class CategoryFragment : Fragment() {
         val adapter = CategoryAdapter(data)
         recyclerview.adapter = adapter
 
+       adapter.setOnClickListener(object : CategoryAdapter.OnClickListener {
+           override fun onClick(position: Int, model: Category) {
+
+              val  temp:List<TimeSheet> =UserDetails.ts.filter { it.categoryId==model.id }
+               ModalView.ts=temp
+               ModalView.date=model.Name
+               ModalView.catName=model.Name
+               ModalView.useDate=""
+               val mBS = ModalBottomSheet()
+               mBS.show(parentFragmentManager,ModalBottomSheet.TAG)
+
+           }
+       })
+
     }
+
+
 }

@@ -80,6 +80,7 @@
                 android:layout_height="225dp"
                 android:hint="@string/picture"
                 app:hintEnabled="true"
+                android:background="@drawable/border_image"
                 app:startIconDrawable="@drawable/vector_add_photo">
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -87,7 +88,10 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ImageField"
                 android:layout_gravity="center"
-                android:src="@drawable/vector_add"/>
+                android:adjustViewBounds="true"
+                android:background="@drawable/border_image"
+                app:srcCompat="@drawable/vector_add_pic"
+                />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

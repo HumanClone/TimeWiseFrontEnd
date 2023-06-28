@@ -14,7 +14,6 @@
 
     <ru.cleverpumpkin.calendar.CalendarView
         android:id="@+id/calendar_view"
-        android:backgroundTint="?attr/backgroundColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:calendar_date_text_color="?android:attr/calendarTextColor"

@@ -14,7 +14,7 @@
     style="?attr/materialCardViewElevatedStyle"
     app:cardCornerRadius="15dp"
     android:foreground="?selectableItemBackground"
-    android:backgroundTint="?attr/colorOnSecondary"
+    android:backgroundTint="?attr/colorSecondaryVariant"
     android:clickable="true">
 
     <LinearLayout

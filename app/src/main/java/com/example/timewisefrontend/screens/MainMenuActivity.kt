@@ -23,13 +23,14 @@ import com.example.timewisefrontend.fragments.*
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.slider.LabelFormatter
+import com.google.android.material.slider.Slider
 import com.google.firebase.auth.FirebaseAuth
 
 class MainMenuActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainMenuBinding
     lateinit var toggle: ActionBarDrawerToggle
-    private var savedState: Bundle? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,22 +46,24 @@ class MainMenuActivity : AppCompatActivity() {
 
         val nightModeSwitch = binding.navView.menu.findItem(R.id.night_mode).actionView as MaterialSwitch
         nightModeSwitch.thumbIconDrawable=getDrawable(R.drawable.baseline_sunny_24)
-        nightModeSwitch.text="Day Mode"
+        nightModeSwitch.text=getString(R.string.day_mode)
         nightModeSwitch.textSize=22f
         nightModeSwitch.minHeight=40
         val color = MaterialColors.getColor(this,
             com.google.android.material.R.attr.colorPrimary, Color.BLACK)
         nightModeSwitch.trackTintList= ColorStateList.valueOf(color)
        val colorP = MaterialColors.getColor(this,
-           com.google.android.material.R.attr.colorPrimaryVariant, Color.BLACK)
+           com.google.android.material.R.attr.colorSecondaryVariant, Color.BLACK)
         nightModeSwitch.thumbTintList= ColorStateList.valueOf(colorP)
 
-
+        var dash:Boolean=true
         nightModeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
              if (isChecked)
              {
+                 Log.d("testing","night $dash")
+
                 nightModeSwitch.thumbIconDrawable=getDrawable(R.drawable.baseline_night_24)
-                 nightModeSwitch.text="Night Mode"
+                 nightModeSwitch.text=getString(R.string.night_mode)
                  val color = MaterialColors.getColor(this,
                      com.google.android.material.R.attr.colorPrimary, Color.BLACK)
                  nightModeSwitch.trackTintList= ColorStateList.valueOf(color)
@@ -70,23 +73,45 @@ class MainMenuActivity : AppCompatActivity() {
                 nightModeSwitch.thumbTintList= ColorStateList.valueOf(colorP)
                  AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                  delegate.applyDayNight()
+
+                 val tem= supportFragmentManager.findFragmentByTag("Ts")
+                 if (dash)
+                 {
+                     if (tem!=null && tem.isVisible) {
+                     }
+                     else
+                     {
+                         val slider:Slider =this.findViewById(R.id.avg_slider)
+                         slider.labelBehavior=(LabelFormatter.LABEL_GONE)
+                     }
+//                     val slider:Slider =this.findViewById(R.id.avg_slider)
+//                     slider.labelBehavior=(LabelFormatter.LABEL_GONE)
+                 }
+                 binding.navView.setCheckedItem(R.id.nav_dashboard)
             }
 
              else
             {
+
                  nightModeSwitch.thumbIconDrawable=getDrawable(R.drawable.baseline_sunny_24)
-                 nightModeSwitch.text="Day Mode"
+                 nightModeSwitch.text=getString(R.string.day_mode)
                  val color = MaterialColors.getColor(this,
                      com.google.android.material.R.attr.colorPrimary, Color.BLACK)
                  nightModeSwitch.trackTintList= ColorStateList.valueOf(color)
                  val colorP = MaterialColors.getColor(this,
-                     com.google.android.material.R.attr.colorPrimaryVariant, Color.BLACK)
+                     com.google.android.material.R.attr.colorSecondaryVariant, Color.BLACK)
                  nightModeSwitch.thumbTintList= ColorStateList.valueOf(colorP)
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 delegate.applyDayNight()
+                Log.d("testing","day mode $dash")
+
+
+
+                binding.drawerLayout.closeDrawer(binding.navView)
+                binding.navView.setCheckedItem(R.id.nav_dashboard)
+
             }
 
-            Log.d("testing","onCheckedChanged: $isChecked")
         }
         binding.apply {
             toggle =
@@ -107,25 +132,32 @@ class MainMenuActivity : AppCompatActivity() {
                 when(it.itemId) {
                     R.id.nav_profile -> {loadFrag(ProfileFragment())
                         toolbar.title="Profile"
-                        binding.drawerLayout.closeDrawers() }
+                        binding.drawerLayout.closeDrawers()
+                        dash=false}
                     R.id.nav_dashboard -> { loadFrag(DashboardFragment())
                         toolbar.title=("Dashboard")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        dash=true}
                     R.id.nav_timesheet -> {loadFrag(TimeSheetFragment())
                         toolbar.title=("TimeSheet")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        dash=false}
                     R.id.nav_category -> {loadFrag(CategoryFragment())
                         toolbar.title=("Category")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        dash=false}
                     R.id.nav_stats -> {loadFrag(StatsFragment())
                         toolbar.title=("Statistics")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        dash=false}
                     R.id.nav_graph -> {loadFrag(GraphFragment())
                         toolbar.title=("Graphs")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        dash=false}
                     R.id.nav_calendar -> {loadFrag(CalendarFragment())
                         toolbar.title=("Calendar")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        dash=false}
                     R.id.nav_logout -> {// TODO: removed user data from memory
                                         FirebaseAuth.getInstance().signOut()
                                         UserDetails.email=""
