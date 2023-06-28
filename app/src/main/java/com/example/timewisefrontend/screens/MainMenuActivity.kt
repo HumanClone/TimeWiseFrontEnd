@@ -25,8 +25,6 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.Slider
-import com.google.android.material.slider.LabelFormatter
-import com.google.android.material.slider.Slider
 import com.google.firebase.auth.FirebaseAuth
 
 class MainMenuActivity : AppCompatActivity() {
