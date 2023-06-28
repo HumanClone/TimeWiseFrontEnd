@@ -100,7 +100,6 @@ class TimeSheetFragment : Fragment() {
 
         }
 
-
         getTSWeek()
         getTS()
         getTSMonth()
@@ -129,6 +128,7 @@ class TimeSheetFragment : Fragment() {
                 populateRecyclerViewTS(tsWeek,recycler)
             }
         }
+
         TSmonth.setOnClickListener {
             TSweek.setTextColor(resources.getColor(R.color.white))
             TSmonth.setTextColor(resources.getColor(R.color.yellow))
@@ -141,6 +141,7 @@ class TimeSheetFragment : Fragment() {
             Timer().schedule(1000) {
                 activity?.runOnUiThread(Runnable {
                     progress.visibility=View.GONE
+
                 })
                 populateRecyclerViewTS(tsMonth,recycler)
             }
@@ -172,6 +173,9 @@ class TimeSheetFragment : Fragment() {
 
     private fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView)
     {
+        activity?.runOnUiThread(Runnable {
+            noR.visibility=View.GONE
+        })
         Log.d("testing","populateRecyclerViewTS")
 
         if (data.isNotEmpty())
@@ -184,7 +188,7 @@ class TimeSheetFragment : Fragment() {
                 adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                     override fun onClick(position: Int, model: TimeSheet) {
                         UserDetails.temp=model
-                        parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView())
+                        parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView(),"Ts")
                             .commit()
                     }
                 })
@@ -215,6 +219,14 @@ class TimeSheetFragment : Fragment() {
                     activity?.runOnUiThread(Runnable {
                         noR.visibility=View.VISIBLE
                         populateRecyclerViewTS(emptyList(),recycler)
+                    })
+                }
+                else
+                {
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                        populateRecyclerViewTS(call,recycler)
                     })
                 }
                 tsWeek=call

@@ -15,6 +15,7 @@
     android:paddingTop="30dp"
     android:textSize="30dp"
     android:layout_marginStart="20dp"
+    android:textColor="?attr/colorOnSecondary"
     android:textStyle="bold"
     style="@style/Widget.Material3.Button.ElevatedButton.Icon"
     android:text="@string/Categories"/>

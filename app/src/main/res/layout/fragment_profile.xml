@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:src="@drawable/vector_account_circle_lg"
-                android:background="?attr/colorOnSecondary"
+                android:background="?attr/colorOnPrimary"
                 android:paddingTop="20dp"
                 android:autoSizeMaxTextSize="68dp"
                 android:autoSizeMinTextSize="20dp"/>
@@ -48,8 +48,9 @@
                 android:id="@+id/usernameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:enabled="false"
                 android:textStyle="bold"
+                android:focusable="false"
+                android:cursorVisible="false"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -67,7 +68,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textStyle="bold"
-                android:enabled="false"
+                android:focusable="false"
+                android:cursorVisible="false"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -84,9 +86,9 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:editable="false"
+                android:focusable="false"
                 android:textStyle="bold"
-                android:enabled="false"
+                android:cursorVisible="false"
                 tools:ignore="SpeakableTextPresentCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>

@@ -237,12 +237,7 @@ class CreateTs : Fragment() {
 
         }
 
-        if (ModalView.use)
-        {
-            date.setText(ModalView.date)
-            startDate=ModalView.useDate
-            startDate+="T10:28:51.449943+00:00"
-        }
+
 
 
         imageView.setOnClickListener{
@@ -265,6 +260,22 @@ class CreateTs : Fragment() {
         val sub=UserDetails.categories.map{it.Name }
         val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item,sub)
         category.setAdapter(adapter)
+
+        if (ModalView.use)
+        {
+            if (ModalView.useDate.isEmpty())
+            {
+                ModalView.cat=false
+                pos=UserDetails.categories.indexOf(UserDetails.categories.find { it.Name==ModalView.catName })
+                category.setText(ModalView.catName)
+            }
+            else
+            {
+                date.setText(ModalView.date)
+                startDate = ModalView.useDate
+                startDate += "T10:28:51.449943+00:00"
+            }
+        }
 
     }
 

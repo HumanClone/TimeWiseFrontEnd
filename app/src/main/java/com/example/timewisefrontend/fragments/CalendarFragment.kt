@@ -166,6 +166,7 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         dat.text=ModalView.date
         populateRecyclerViewTS(ModalView.ts,recyle)
         val extBut:ExtendedFloatingActionButton=view.findViewById(R.id.extended_fab_modal)
+        extBut.visibility=View.VISIBLE
         extBut.setOnClickListener {
             ModalView.use=true
             parentFragmentManager.beginTransaction().replace(R.id.flContent, CreateTs())
@@ -176,6 +177,11 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "ModalBottomSheet"
 
+    }
+
+    private fun close ()
+    {
+        this.dismiss()
     }
 
 
@@ -191,8 +197,11 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
                 adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                     override fun onClick(position: Int, model: TimeSheet) {
                         UserDetails.temp=model
-                        parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView())
+                        parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView(),"Ts")
                             .commit()
+                        activity?.runOnUiThread(Runnable {
+                            close()
+                        })
                     }
                 })
             })
@@ -213,5 +222,7 @@ object ModalView
     var useDate:String=""
     var date:String=""
     var use:Boolean=false
+    var cat:Boolean=false
+    var catName:String=""
 
 }

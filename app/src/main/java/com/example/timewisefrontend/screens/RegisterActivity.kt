@@ -118,8 +118,8 @@ class RegisterActivity : AppCompatActivity() {
                             inputUser.text.toString(),
                             it.email!!,
                              inputUserJob.text.toString(),
-                            null,
-                            null
+                            1,
+                            0
                         )
                         //addUser(user)
                         addUser(user)
