@@ -98,6 +98,11 @@
     <string name="day_mode">Day Mode</string>
     <string name="night_mode">Night Mode</string>
     <string name="calendar">Calendar</string>
+    <string name="graph">Graph</string>
+    <string name="total_hours">Total Hours For Each Day</string>
+    <string name="th">Total Hours</string>
+    <string name="date_error">Start Date Cannot Be After End Date</string>
+    <string name="enter_date">Enter Date</string>
 
 
 </resources>

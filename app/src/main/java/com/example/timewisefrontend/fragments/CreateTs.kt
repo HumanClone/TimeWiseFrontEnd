@@ -226,7 +226,7 @@ class CreateTs : Fragment() {
 
 
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
+            val d:String=year.toString()+"-"+(monthOfYear+1)+"-"+dayOfMonth
             date.setText(d)
             startDate= "$year-"
             if(monthOfYear<9)

@@ -117,7 +117,7 @@ class StatsFragment : Fragment() {
             }
         }
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
+            val d:String=year.toString()+"-"+(monthOfYear+1)+"-"+dayOfMonth
             calStart.set(year,monthOfYear,dayOfMonth)
             startDate=""
             startDate += if(monthOfYear<9) {
@@ -137,7 +137,7 @@ class StatsFragment : Fragment() {
 
         }
         dpd2.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
+            val d:String=year.toString()+"-"+(monthOfYear+1)+"-"+dayOfMonth
             calEnd.set(year,monthOfYear,dayOfMonth)
             endDate=""
             endDate += if(monthOfYear<9) {

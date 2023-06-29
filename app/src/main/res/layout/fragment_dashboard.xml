@@ -96,9 +96,9 @@
 
             </RelativeLayout>
 
-            <Space
-                android:layout_width="60dp"
-                android:layout_height="match_parent"/>
+<!--            <Space-->
+<!--                android:layout_width="60dp"-->
+<!--                android:layout_height="match_parent"/>-->
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -125,6 +125,7 @@
                     app:trackColor="@color/grey"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
+                    android:layout_centerInParent="true"
                     app:trackThickness="15dp"
                     android:layout_centerVertical="true"
                     android:max="100"
@@ -219,6 +220,7 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:paddingTop="20dp"/>
 
         <TextView

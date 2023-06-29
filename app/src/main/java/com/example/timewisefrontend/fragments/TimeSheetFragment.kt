@@ -1,5 +1,7 @@
 package com.example.timewisefrontend.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -20,8 +23,13 @@ import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import java.io.File
+import java.io.IOException
 import java.time.LocalDate
 import java.util.*
 import kotlin.concurrent.schedule
@@ -34,8 +42,10 @@ class TimeSheetFragment : Fragment() {
     var tsMonth:List<TimeSheet> = listOf()
     var tsWeek:List<TimeSheet> = listOf()
     private lateinit var noR:TextView
+    private lateinit var csvFile: File
 
     var date:String=""
+    private var csvContent: String? = null
 
 
     override fun onCreateView(
@@ -106,7 +116,7 @@ class TimeSheetFragment : Fragment() {
 
         extendedFabEx.setOnClickListener {
             //TODO: Export to function goes here
-
+            exportToExcel()
         }
 
         getTSWeek()
@@ -326,5 +336,89 @@ class TimeSheetFragment : Fragment() {
         populateRecyclerViewTS(UserDetails.ts,recycler)
     }
 
+
+    private val SAVE_CSV_REQUEST_CODE = 1
+
+    private fun exportToExcel() {
+        val jsonString = UserDetails.ts.map { Gson().toJson(it) }
+        val jsonList: List<TimeSheet> = jsonString.map { Gson().fromJson(it, TimeSheet::class.java) }
+        Log.d("testing",jsonList.toString())
+        convertJsonToSpreadsheet(jsonList)
+    }
+
+
+
+    private fun convertJsonToSpreadsheet(jsonList: List<TimeSheet>) {
+        val headers = arrayOf("User ID", "Category ID", "Picture ID", "Description", "Hours", "Start Date")
+
+        val content = StringBuilder()
+
+        // Append headers to the CSV content
+        content.append(headers.joinToString(separator = ","))
+        content.append("\n")
+
+        // Append data rows to the CSV content
+        for (timeSheet in jsonList) {
+            val rowData = arrayOf(
+                timeSheet.userId ?: "",
+                timeSheet.categoryId ?: "",
+                timeSheet.pictureId ?: "",
+                timeSheet.description ?: "",
+                timeSheet.hours.toString(),
+                timeSheet.date ?: ""
+            )
+            content.append(rowData.joinToString(separator = ","))
+            content.append("\n")
+        }
+
+        val csvFileName = "data.csv"
+        csvFile = File(requireContext().cacheDir, csvFileName)
+
+        try {
+            // Write the CSV content to the file
+            csvFile.writeText(content.toString())
+
+            // Create a Uri from the file
+            val csvFileUri = FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.fileprovider",
+                csvFile
+            )
+
+            // Create an intent to send the CSV file
+            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+            intent.type = "text/csv"
+            intent.putExtra(Intent.EXTRA_TITLE, csvFileName)
+            intent.putExtra(Intent.EXTRA_STREAM, csvFileUri)
+
+            // Grant write permission to the receiving app
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+
+            // Start the activity with the intent
+            startActivityForResult(intent, SAVE_CSV_REQUEST_CODE)
+        } catch (e: IOException) {
+            // Handle the error
+            e.printStackTrace()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SAVE_CSV_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                try {
+                    requireContext().contentResolver.openOutputStream(uri)?.use { outputStream ->
+                        outputStream.write(csvFile.readBytes())
+                    }
+                    Snackbar.make(requireView(), "Data exported successfully", Snackbar.LENGTH_SHORT).show()
+                } catch (e: IOException) {
+                    // Handle the error
+                    e.printStackTrace()
+                    Snackbar.make(requireView(), "Something went wrong try again later", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
 }

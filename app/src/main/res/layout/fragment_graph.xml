@@ -1,12 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/backgroundColor"
     tools:context=".fragments.GraphFragment">
 
-<!--    TODO: Implement GraphFragment-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:paddingEnd="20dp"
+        android:orientation="vertical">
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:layout_gravity="top|center"-->
+<!--            android:textColor="?attr/colorOnSecondary"-->
+<!--            android:textSize="25dp"-->
+<!--            android:textStyle="bold"-->
+<!--            style="@style/Widget.Material3.Button.ElevatedButton.Icon"-->
+<!--            android:text="@string/total_hours"/>-->
+
+        <com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
+            android:id="@+id/chart_view"
+            android:layout_width="match_parent"
+            android:background="?attr/backgroundColor"
+            android:backgroundTint="?attr/backgroundColor"
+            android:layout_height="500dp">
+
+        </com.github.aachartmodel.aainfographics.aachartcreator.AAChartView>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="60dp"
+            android:paddingStart="20dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/DateLay1"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:hint="@string/start"
+                android:contextClickable="true"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/vector_error"
+                app:startIconDrawable="@drawable/vector_calendar_month">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/DateFieldStart"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:textIsSelectable="false"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/DateLay2"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="30dp"
+                android:hint="@string/end"
+                android:contextClickable="true"
+                android:focusable="false"
+                app:errorEnabled="true"
+                app:errorIconDrawable="@drawable/vector_error"
+                app:startIconDrawable="@drawable/vector_calendar_month">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/DateFieldEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:textIsSelectable="false"
+                    android:inputType="none"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extended_fabgraph"
+        app:backgroundTint="?attr/colorSecondary"
+        app:iconTint="@color/white"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/Cr"
+        android:text="Reset"
+        app:icon="@drawable/vector_update"
+        app:tint="@color/white"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extended_fabgraph2"
+        app:backgroundTint="?attr/colorSecondary"
+        app:iconTint="@color/white"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|start"
+        android:contentDescription="@string/Cr"
+        android:text="Apply Dates"
+        app:iconGravity="end"
+        app:icon="@drawable/vector_renew"
+        app:tint="@color/white"/>
 
 </FrameLayout>
