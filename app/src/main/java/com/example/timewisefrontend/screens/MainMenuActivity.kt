@@ -131,17 +131,20 @@ class MainMenuActivity : AppCompatActivity() {
                 it.isChecked=true
                 when(it.itemId) {
                     R.id.nav_profile -> {loadFrag(ProfileFragment())
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                    dash=false}
                     R.id.nav_dashboard -> { loadFrag(DashboardFragment())
                         binding.drawerLayout.closeDrawers()
                         toolbar.setNavigationOnClickListener {
                             drawerLayout.open()
-                        }}
+                        }
+                        dash=true}
                     R.id.nav_timesheet -> {loadFrag(TimeSheetFragment())
                         binding.drawerLayout.closeDrawers()
                         toolbar.setNavigationOnClickListener {
                             drawerLayout.open()
-                        }}
+                        }
+                        dash=false}
                     R.id.nav_category -> {loadFrag(CategoryFragment())
                         binding.drawerLayout.closeDrawers()
                     toolbar.setNavigationOnClickListener {
@@ -151,14 +154,20 @@ class MainMenuActivity : AppCompatActivity() {
                         binding.drawerLayout.closeDrawers()
                         toolbar.setNavigationOnClickListener {
                             drawerLayout.open()
-                        }}
+                        }
+                        dash=false}
                     R.id.nav_graph -> {loadFrag(GraphFragment())
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        toolbar.setNavigationOnClickListener {
+                            drawerLayout.open()
+                        }
+                        dash=false}
                     R.id.nav_calendar -> {loadFrag(CalendarFragment())
                         binding.drawerLayout.closeDrawers()
                         toolbar.setNavigationOnClickListener {
                             drawerLayout.open()
-                        }}
+                        }
+                        dash=false}
                     R.id.nav_logout -> {// TODO: removed user data from memory
                                         FirebaseAuth.getInstance().signOut()
                                         UserDetails.email=""
