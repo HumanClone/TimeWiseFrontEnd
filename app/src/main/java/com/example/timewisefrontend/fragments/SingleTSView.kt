@@ -1,16 +1,19 @@
 package com.example.timewisefrontend.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import coil.load
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
+import com.google.android.material.textfield.TextInputEditText
 
 
 class SingleTSView : Fragment() {
@@ -28,23 +31,32 @@ class SingleTSView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_back)
+        toolbar.title=("Time Sheet Details")
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
 
         item= UserDetails.temp
-        var Date: TextView =view.findViewById(R.id.TSdate)
-        var Category: TextView =view.findViewById(R.id.TScategory)
-        var Description: TextView =view.findViewById(R.id.TSdescription)
+
+        var Date: TextInputEditText =view.findViewById(R.id.TSdate)
+        var Category: TextInputEditText =view.findViewById(R.id.TScategory)
+        var Description: TextInputEditText =view.findViewById(R.id.TSdescription)
         var Picture: ImageView =view.findViewById(R.id.TSpicture)
-        var Hours: TextView =view.findViewById(R.id.TShours)
+        var Hours: TextInputEditText =view.findViewById(R.id.TShours)
 
         //sets the view with better headings + values
-
-        Date.text="Date: " + item.date.toString().substring(0,10)
-        Category.text= "CAtegory: "+UserDetails.categories.find { it.id.equals(item.categoryId)}!!.Name //item.category.Name
-        Description.text="Description: "+ item.description
+        Log.d("testing",item.date.toString())
+        Date.setText( item.date.toString().substring(0,10))
+        Category.setText( UserDetails.categories.find { it.id.equals(item.categoryId)}!!.Name )
+        Description.setText(item.description)
         Picture.load(item.pictureId)
-        Hours.text=item.hours.toString()+" hours"
+        Hours.setText(item.hours.toString())
 
     }
+
+
 
 
 

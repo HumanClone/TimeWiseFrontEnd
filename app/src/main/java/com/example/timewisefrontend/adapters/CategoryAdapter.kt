@@ -8,10 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.Category
+import com.example.timewisefrontend.models.TimeSheet
 
 class CategoryAdapter (var data: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.MyViewHolder>() {
-
+    private var onClickListener: CategoryAdapter.OnClickListener?=null
 
 //bind the lements withthe view holder
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -34,12 +35,30 @@ class CategoryAdapter (var data: List<Category>) :
         val item = data[position]
         Log.d("testing","here")
         holder.name.text=item.Name
-        if (item.Totalhours.toString().isNullOrEmpty())
+        if (item.Totalhours.toString().isEmpty())
         {
             holder.hourHeader.text=null
         }
         holder.hours.text=item.Totalhours?.toInt().toString()
+
+
+
+        holder.itemView.setOnClickListener {
+            if (onClickListener != null) {
+                onClickListener!!.onClick(position, item )
+            }
+        }
     }
 
+
+
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+    // onClickListener Interface
+    interface OnClickListener {
+        fun onClick(position: Int, model: Category)
+    }
 
 }

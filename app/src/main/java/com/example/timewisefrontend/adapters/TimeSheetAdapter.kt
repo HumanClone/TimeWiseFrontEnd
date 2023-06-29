@@ -11,8 +11,8 @@ import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
 
-class TimeSheetAdatper(var data: List<TimeSheet>) :
-RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
+class TimeSheetAdapter(var data: List<TimeSheet>) :
+RecyclerView.Adapter<TimeSheetAdapter.MyViewHolder>() {
  private var onClickListener:OnClickListener?=null
 
     //binds and sets elements and values in a viewholder  to that of each object
@@ -43,6 +43,9 @@ RecyclerView.Adapter<TimeSheetAdatper.MyViewHolder>() {
         {
             holder.Picture.load(item.pictureId)
 
+        }
+        else{
+            holder.Picture.load(R.drawable.vector_no_image)
         }
         holder.Hours.text=item.hours.toString()+" Hours"
 

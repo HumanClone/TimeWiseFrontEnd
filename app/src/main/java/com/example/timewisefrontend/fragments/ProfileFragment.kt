@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
@@ -50,7 +51,9 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.Profile)
         // Inflate the layout for this fragment
         usernameEditText = view.findViewById(R.id.usernameEditText)
         emailEditText = view.findViewById(R.id.emailEditText)
@@ -81,14 +84,14 @@ class ProfileFragment : Fragment() {
                     maxEditText.text.toString().toInt(),
                     minEditText.text.toString().toInt())
 
-                    updateUser(user)
+                updateUser(user)
                 UserDetails.max=maxEditText.text.toString().toInt()
                 UserDetails.min= minEditText.text.toString().toInt()
                 Timer().schedule(2000) {
 
                     activity?.runOnUiThread(Runnable {
                         progress.visibility=View.GONE
-                        Snackbar.make(view,"Saved", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(view,resources.getString(R.string.saved), Snackbar.LENGTH_SHORT).show()
                     })
 
                 }
@@ -107,18 +110,18 @@ class ProfileFragment : Fragment() {
 
     private fun valid():Boolean
     {
-        var valid:Boolean=true;
+        var valid:Boolean=true
         if (maxEditText.text.toString().toInt()>minEditText.text.toString().toInt())
         {
             if (maxEditText.text.isNullOrEmpty())
             {
                 maxEditText.error=getString(R.string.error_input)+" Max Daily Hours"
-                valid=false;
+                valid=false
             }
             else if (maxEditText.text.toString().toInt()>20)
             {
                 maxEditText.error="Max Daily Hours Cannot be Greater Than 20"
-                valid=false;
+                valid=false
             }
             else
             {
@@ -127,12 +130,12 @@ class ProfileFragment : Fragment() {
             if (minEditText.text.isNullOrEmpty())
             {
                 minEditText.error=getString(R.string.error_input)+" Max Daily Hours"
-                valid=false;
+                valid=false
             }
             else if (minEditText.text.toString().toInt()<0)
             {
                 minEditText.error="Min Daily Hours Cannot be Less Than 0"
-                valid=false;
+                valid=false
             }
             else
             {

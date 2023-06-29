@@ -5,23 +5,23 @@
     android:background="?attr/colorPrimary"
     android:gravity="bottom"
     android:padding="20dp"
-    android:layout_height="200dp">
+    android:layout_height="120dp">
 
 
 
 
-    <ImageView
-        android:layout_width="90dp"
-        android:layout_gravity="center|left"
-        android:layout_height="90dp"
-        android:src="@drawable/logoround" />
+<!--    <ImageView-->
+<!--        android:layout_width="90dp"-->
+<!--        android:layout_gravity="center|left"-->
+<!--        android:layout_height="90dp"-->
+<!--        android:src="@drawable/logoround" />-->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:id="@+id/usernamePlaceHolder"
-        android:text="Name Place Holder"
+        android:text="@string/name_place_holder"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/white" />
 
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:id="@+id/emailPlaceHolder"
-        android:text="Email Placeholderr"
+        android:text="@string/email_placeholderr"
         android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 

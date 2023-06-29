@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.CategoryAdapter
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
+import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -43,6 +46,9 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.Category)
         var name:String
         val catName:TextInputEditText= TextInputEditText(requireContext())
         recycle=view.findViewById(R.id.category_recycler_category)
@@ -67,7 +73,7 @@ class CategoryFragment : Fragment() {
                 .setPositiveButton(resources.getString(R.string.create)) { dialog, which ->
                     // Respond to positive button press
                     if (catName.text.isNullOrEmpty()) {
-                        Snackbar.make(view,"No Value given", Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(view,resources.getString(R.string.no_values), Snackbar.LENGTH_LONG).show()
                     }
                     else
                     {
@@ -75,7 +81,7 @@ class CategoryFragment : Fragment() {
                         name=catName.text.toString()
                         if (UserDetails.categories.any { it.Name.equals(name) } )
                         {
-                            catName.error="Already exists"
+                            catName.error=resources.getString(R.string.exists)
                         }
                         else
                         {
@@ -87,7 +93,7 @@ class CategoryFragment : Fragment() {
 
                                     progress.visibility=View.GONE
                                     populateRecyclerViewCT(UserDetails.categories,recycle)
-                                    Snackbar.make(view,"Saved", Snackbar.LENGTH_LONG).show()
+                                    Snackbar.make(view,resources.getString(R.string.saved), Snackbar.LENGTH_LONG).show()
                                 })
 
                             }
@@ -97,6 +103,20 @@ class CategoryFragment : Fragment() {
                 .setView(catName)
                 .show()
         }
+
+        recycle.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                // Called when the scroll state changes (e.g., idle, dragging, settling)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    extendedFab.extend()  // Extend the FAB if scroll state is idle
+                }
+                if(newState==RecyclerView.SCROLL_STATE_DRAGGING)
+                {
+                    extendedFab.shrink()
+                }
+            }
+        })
     }
 
     //adds category
@@ -105,7 +125,7 @@ class CategoryFragment : Fragment() {
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
-        Log.d("testing","String of Object  "+ category.toString())
+        Log.d("testing", "String of Object  $category")
         GlobalScope.launch{
             timewiseapi.addCategory(category).enqueue(
                 object : Callback<Category> {
@@ -156,12 +176,28 @@ class CategoryFragment : Fragment() {
         populateRecyclerViewCT( UserDetails.categories, recycle)
     }
 
-    fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
+   private fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
 
 
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
         val adapter = CategoryAdapter(data)
         recyclerview.adapter = adapter
 
+       adapter.setOnClickListener(object : CategoryAdapter.OnClickListener {
+           override fun onClick(position: Int, model: Category) {
+
+              val  temp:List<TimeSheet> =UserDetails.ts.filter { it.categoryId==model.id }
+               ModalView.ts=temp
+               ModalView.date=model.Name
+               ModalView.catName=model.Name
+               ModalView.useDate=""
+               val mBS = ModalBottomSheet()
+               mBS.show(parentFragmentManager,ModalBottomSheet.TAG)
+
+           }
+       })
+
     }
+
+
 }

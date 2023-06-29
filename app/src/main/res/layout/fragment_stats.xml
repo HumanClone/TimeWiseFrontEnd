@@ -6,12 +6,8 @@
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?attr/backgroundColor"
-    tools:context=".fragments.StatsFragament"
+    tools:context=".fragments.StatsFragment"
     android:scrollbars="none">
-
-
-
-
 
 
 
@@ -20,10 +16,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/tabLay"
         android:paddingTop="10dp"
-        android:background="?attr/colorPrimaryVariant"
+        android:background="?attr/colorPrimary"
         app:tabTextColor="@color/white"
         app:tabIconTint="@color/white"
-        app:tabSelectedTextColor="?attr/colorPrimary"
+        app:tabSelectedTextColor="?attr/colorOnPrimary"
         android:contentDescription="@string/Stats">
 
         <com.google.android.material.tabs.TabItem
@@ -119,17 +115,15 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:scrollbars="vertical"
             android:fadeScrollbars="true"
+            android:layout_marginBottom="20dp"
             android:id="@+id/stats_recycler"
             android:paddingTop="20dp"/>
-
 
     </LinearLayout>
 
@@ -140,6 +134,8 @@
         android:layout_height="wrap_content"
         android:elevation="1dp"
         android:indeterminate="true"
+        app:showAnimationBehavior="inward"
+        app:hideAnimationBehavior="inward"
         android:layout_gravity="center"
         app:indicatorColor="?attr/colorSecondary"
         app:indicatorSize="150dp"
@@ -156,5 +152,19 @@
         android:contentDescription="@string/Cr"
         app:srcCompat="@drawable/vector_search"
         app:tint="@color/white"/>
+
+    <TextView
+        android:id="@+id/no_results1"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:elevation="1dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnSecondary"
+        android:layout_marginBottom="30dp"
+        style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+        android:text="@string/no_results_found"/>
 
 </FrameLayout>

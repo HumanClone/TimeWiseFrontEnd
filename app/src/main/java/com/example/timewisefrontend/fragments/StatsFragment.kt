@@ -9,12 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.adapters.CategoryAdapter
-import com.example.timewisefrontend.adapters.TimeSheetAdatper
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.Category
@@ -33,7 +35,7 @@ import java.util.*
 import kotlin.concurrent.schedule
 
 
-class StatsFragament : Fragment() {
+class StatsFragment : Fragment() {
 
     lateinit var dateStart:TextInputEditText
     lateinit var dateEnd:TextInputEditText
@@ -51,6 +53,7 @@ class StatsFragament : Fragment() {
     var pos:Int=-1
     var startDate:String=""
     var endDate: String=""
+    private lateinit var noR: TextView
 
 
     override fun onCreateView(
@@ -66,6 +69,9 @@ class StatsFragament : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.Stats)
         tabLay=view.findViewById(R.id.tabLay)
         progress=view.findViewById(R.id.progressStats)
         category=view.findViewById(R.id.CatFieldStat)
@@ -78,6 +84,7 @@ class StatsFragament : Fragment() {
         dateEnd.inputType=(InputType.TYPE_NULL)
         progress.visibility=View.GONE
         recycler=view.findViewById(R.id.stats_recycler)
+        noR=view.findViewById(R.id.no_results1)
 
 
         //setting variables and on click listeners
@@ -92,6 +99,7 @@ class StatsFragament : Fragment() {
             {
                 if (!dateEnd.text.isNullOrEmpty())
                 {
+                    calEnd.add(Calendar.DAY_OF_MONTH,-1)
                     dpd.maxDate=calEnd
                 }
                 dpd.show(parentFragmentManager,"date range")
@@ -102,23 +110,25 @@ class StatsFragament : Fragment() {
             {
                 if (!dateStart.text.isNullOrEmpty())
                 {
+                    calStart.add(Calendar.DAY_OF_MONTH,+1)
                     dpd2.minDate=calStart
                 }
                 dpd2.show(parentFragmentManager,"date range")
             }
         }
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
+            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
             calStart.set(year,monthOfYear,dayOfMonth)
+            startDate=""
             startDate += if(monthOfYear<9) {
                 "0"+(monthOfYear+1)+ "/"
             } else {
                 (monthOfYear+1).toString() + "/"
             }
             startDate += if (dayOfMonth<10) {
-                "0"+dayOfMonth.toString()+"/"
+                "0$dayOfMonth/"
             } else {
-                dayOfMonth.toString()+"/"
+                "$dayOfMonth/"
             }
             startDate+= year
             //startDate=dayOfMonth.toString()+"%2F"+(monthOfYear+1)+"%2F"+year
@@ -127,17 +137,18 @@ class StatsFragament : Fragment() {
 
         }
         dpd2.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
+            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
             calEnd.set(year,monthOfYear,dayOfMonth)
+            endDate=""
             endDate += if(monthOfYear<9) {
                 "0"+(monthOfYear+1)+ "/"
             } else {
                 (monthOfYear+1).toString() + "/"
             }
             endDate += if (dayOfMonth<10) {
-                "0"+dayOfMonth.toString()+"/"
+                "0$dayOfMonth/"
             } else {
-                dayOfMonth.toString()+"/"
+                "$dayOfMonth/"
             }
             endDate+= year
             dateEnd.setText(d)
@@ -149,6 +160,7 @@ class StatsFragament : Fragment() {
         extendedFab.setOnClickListener {
             // Respond to Extended FAB click
             progress.visibility=View.VISIBLE
+            noR.visibility=View.GONE
 
             if (dateStart.text.isNullOrEmpty() || dateEnd.text.isNullOrEmpty() )
             {
@@ -158,7 +170,8 @@ class StatsFragament : Fragment() {
                      datelay1.error=getString(R.string.error_select) +" Date"
                      datelay2.error=getString(R.string.error_select) +" Date"
                      catlay.error=getString(R.string.error_select)+ "A Category"
-                     Snackbar.make(view,getString(R.string.error_input)+" Either a Date Range,Category Or Both",Snackbar.LENGTH_LONG).show()
+                     Snackbar.make(view,getString(R.string.error_input)+" Either a Date Range, Category Or Both",Snackbar.LENGTH_LONG).show()
+                     progress.visibility=View.GONE
                  }
                 else
                  {
@@ -166,11 +179,13 @@ class StatsFragament : Fragment() {
                     {
                         datelay1.error=getString(R.string.error_select) +" Date"
                         Snackbar.make(view,getString(R.string.error_input)+" A Start Date",Snackbar.LENGTH_LONG).show()
+                        progress.visibility=View.GONE
                     }
                     else if(dateEnd.text.isNullOrEmpty() && !dateStart.text.isNullOrEmpty())
                     {
                         datelay2.error=getString(R.string.error_select) +" Date"
                         Snackbar.make(view,getString(R.string.error_input)+" An End Date",Snackbar.LENGTH_LONG).show()
+                        progress.visibility=View.GONE
                     }
                     else
                     {
@@ -179,7 +194,7 @@ class StatsFragament : Fragment() {
                         }
                         catch(e:Exception)
                         {
-
+                            progress.visibility=View.GONE
                         }
 
                     }
@@ -197,17 +212,12 @@ class StatsFragament : Fragment() {
                 catch (e:Exception)
                 {
                     Snackbar.make(view,getString(R.string.error_idk),Snackbar.LENGTH_LONG).show()
+                    progress.visibility=View.GONE
                 }
 
 
             }
         }
-
-
-
-
-
-
 
 
         val sub=UserDetails.categories.map{it.Name }
@@ -217,7 +227,6 @@ class StatsFragament : Fragment() {
             pos=position
         }
 
-        //TODO:uncomment methods on api success
         tabLay.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if(tabLay.selectedTabPosition==0)
@@ -388,27 +397,42 @@ class StatsFragament : Fragment() {
     }
 
 
-    fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView) {
+    private fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView) {
 
 
         recyclerview.layoutManager = LinearLayoutManager(context)
-        val adapter = TimeSheetAdatper(data)
+        val adapter = TimeSheetAdapter(data)
         recyclerview.adapter = adapter
-        adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener{
+        adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener{
             override fun onClick(position: Int, model:TimeSheet) {
                 UserDetails.temp=model
-                parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView()).commit()
+                parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView(),"Ts")
+                    .addToBackStack( "tag" ).commit()
             }
         })
 
     }
 
-    fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
+    private fun populateRecyclerViewCT(data: List<Category>, recyclerview: RecyclerView) {
 
 
         recyclerview.layoutManager = LinearLayoutManager(context)
         val adapter = CategoryAdapter(data)
         recyclerview.adapter = adapter
+
+        adapter.setOnClickListener(object : CategoryAdapter.OnClickListener {
+            override fun onClick(position: Int, model: Category) {
+
+                val  temp:List<TimeSheet> =UserDetails.ts.filter { it.categoryId==model.id }
+                ModalView.ts=temp
+                ModalView.date=model.Name
+                ModalView.catName=model.Name
+                ModalView.useDate=""
+                val mBS = ModalBottomSheet()
+                mBS.show(parentFragmentManager,ModalBottomSheet.TAG)
+
+            }
+        })
 
     }
 
@@ -428,6 +452,17 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
+                }
+                else
+                {
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                    })
                 }
                 catResults=call
                 Log.d("testing", call.toString())
@@ -455,6 +490,17 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
+                }
+                else
+                {
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                    })
                 }
                 catResults=call
                 Log.d("testing", call.toString())
@@ -484,9 +530,22 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
+                }
+                else
+                {
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                    })
                 }
                 tsResults=call
                 Log.d("testing", call.toString())
+                Log.d("testing", recycler.visibility.toString())
+
 
             }
             catch (e:kotlin.KotlinNullPointerException)
@@ -510,6 +569,17 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
+                }
+                else
+                {
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                    })
                 }
                 tsResults=call
                 Log.d("testing", call.toString())
@@ -536,6 +606,17 @@ class StatsFragament : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.GONE
+                        noR.visibility=View.VISIBLE
+                    })
+                }
+                else
+                {
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                    })
                 }
                 tsResults=call
                 Log.d("testing", call.toString())

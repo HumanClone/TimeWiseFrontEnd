@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
-import com.example.timewisefrontend.adapters.TimeSheetAdatper
+import com.example.timewisefrontend.adapters.TimeSheetAdapter
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
 import com.example.timewisefrontend.models.TimeSheet
@@ -27,10 +29,11 @@ import kotlin.concurrent.schedule
 
 class TimeSheetFragment : Fragment() {
 
-    lateinit var adapter:TimeSheetAdatper
-    lateinit var recycler:RecyclerView
+    private lateinit var adapter:TimeSheetAdapter
+    private lateinit var recycler:RecyclerView
     var tsMonth:List<TimeSheet> = listOf()
     var tsWeek:List<TimeSheet> = listOf()
+    private lateinit var noR:TextView
 
     var date:String=""
 
@@ -47,30 +50,34 @@ class TimeSheetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.TimeSheet)
+        Log.d("testing","Timesheet View Created")
         recycler=view.findViewById(R.id.timesheet_recycler_timesheet)
+        noR=view.findViewById(R.id.no_results)
         val cal= LocalDate.now()
-        if(cal.monthValue<10)
+        if(date.isEmpty())
         {
-            date+="0"+(cal.monthValue)+ "/"
-        }
-        else
-        {
-            date+=(cal.monthValue).toString() + "/"
-        }
-        if (cal.dayOfMonth<10)
-        {
-            date+="0"+cal.dayOfMonth.toString()+"/"
-        }
-        else
-        {
-            date+=cal.dayOfMonth.toString()+"/"
-        }
+            date += if(cal.monthValue<10) {
+                "0"+(cal.monthValue)+ "/"
+            } else {
+                (cal.monthValue).toString() + "/"
+            }
+            date += if (cal.dayOfMonth<10) {
+                "0"+cal.dayOfMonth.toString()+"/"
+            } else {
+                cal.dayOfMonth.toString()+"/"
+            }
 
 
-        date+= cal.year
-        Log.d("testing",date)
+            date+= cal.year
+            Log.d("testing",date)
+        }
+
 
         val extendedFab:ExtendedFloatingActionButton= view.findViewById(R.id.extended_fab)
+        val extendedFabEx:ExtendedFloatingActionButton= view.findViewById(R.id.extended_fab_ex)
         extendedFab.setOnClickListener {
             // Respond to Extended FAB click
 
@@ -80,22 +87,26 @@ class TimeSheetFragment : Fragment() {
                     .setTitle(getString(R.string.newCat))
                     .setMessage(getString(R.string.error_Cat))
                     .setNeutralButton(resources.getString(R.string.close)) { dialog, which ->
-                        // Respond to neutral button press
-
-
 
                     }
-                    .setPositiveButton("OK") { dialog, which ->
+                    .setPositiveButton("Go to Categories") { dialog, which ->
                         // Respond to positive button press
-
+                        parentFragmentManager.beginTransaction().replace(R.id.flContent,
+                            CategoryFragment()).commit()
                     }
                     .show()
             }
             else
             {
+                ModalView.use=false
                 parentFragmentManager.beginTransaction().replace(R.id.flContent, CreateTs())
-                    .commit()
+                    .addToBackStack( "tag" ).commit()
             }
+        }
+
+        extendedFabEx.setOnClickListener {
+            //TODO: Export to function goes here
+
         }
 
         getTSWeek()
@@ -108,66 +119,94 @@ class TimeSheetFragment : Fragment() {
         val TSall:Button=view.findViewById(R.id.TSAll)
         progress.visibility=View.GONE
         populateRecyclerViewTS(tsWeek,recycler)
+        TSweek.setTextColor(resources.getColor(R.color.yellow))
 
         TSweek.setOnClickListener {
+            TSweek.setTextColor(resources.getColor(R.color.yellow))
+            TSmonth.setTextColor(resources.getColor(R.color.white))
+            TSall.setTextColor(resources.getColor(R.color.white))
             activity?.runOnUiThread(Runnable {
                 progress.visibility=View.VISIBLE
+                noR.visibility=View.GONE
             })
             getTSWeek()
             Timer().schedule(1000) {
-
-                populateRecyclerViewTS(tsWeek,recycler)
                 activity?.runOnUiThread(Runnable {
                     progress.visibility=View.GONE
                 })
+                populateRecyclerViewTS(tsWeek,recycler)
             }
         }
-        TSmonth.setOnClickListener {
 
+        TSmonth.setOnClickListener {
+            TSweek.setTextColor(resources.getColor(R.color.white))
+            TSmonth.setTextColor(resources.getColor(R.color.yellow))
+            TSall.setTextColor(resources.getColor(R.color.white))
             activity?.runOnUiThread(Runnable {
                 progress.visibility=View.VISIBLE
+                noR.visibility=View.GONE
             })
             getTSMonth()
             Timer().schedule(1000) {
-
-                populateRecyclerViewTS(tsMonth,recycler)
                 activity?.runOnUiThread(Runnable {
                     progress.visibility=View.GONE
+
                 })
+                populateRecyclerViewTS(tsMonth,recycler)
             }
         }
         TSall.setOnClickListener {
-            activity?.runOnUiThread(Runnable {
-                progress.visibility=View.VISIBLE
-            })
-            populateRecyclerViewTS(UserDetails.ts,recycler)
-            activity?.runOnUiThread(Runnable {
-                progress.visibility=View.GONE
-            })
+            TSweek.setTextColor(resources.getColor(R.color.white))
+            TSmonth.setTextColor(resources.getColor(R.color.white))
+            TSall.setTextColor(resources.getColor(R.color.yellow))
 
+            populateRecyclerViewTS(UserDetails.ts,recycler)
         }
 
-
-
+        recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                // Called when the scroll state changes (e.g., idle, dragging, settling)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    extendedFab.extend()
+                    extendedFabEx.extend()
+                }
+                if(newState==RecyclerView.SCROLL_STATE_DRAGGING)
+                {
+                    extendedFab.shrink()
+                    extendedFabEx.shrink()
+                }
+            }
+        })
     }
 
-    fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView) {
+    private fun populateRecyclerViewTS(data: List<TimeSheet>, recyclerview: RecyclerView)
+    {
+        activity?.runOnUiThread(Runnable {
+            noR.visibility=View.GONE
+        })
+        Log.d("testing","populateRecyclerViewTS")
 
-
-        if (data.isNotEmpty()) {
+        if (data.isNotEmpty())
+        {
             activity?.runOnUiThread(Runnable {
+                recyclerview.visibility=View.VISIBLE
                 recyclerview.layoutManager = LinearLayoutManager(context)
-
-
-                adapter = TimeSheetAdatper(data)
+                adapter = TimeSheetAdapter(data)
                 recyclerview.adapter = adapter
-                adapter.setOnClickListener(object : TimeSheetAdatper.OnClickListener {
+                adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                     override fun onClick(position: Int, model: TimeSheet) {
                         UserDetails.temp=model
-                        parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView())
-                            .commit()
+                        parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView(),"Ts")
+                            .addToBackStack( "tag" ).commit()
                     }
                 })
+            })
+        }
+        else
+        {
+            activity?.runOnUiThread(Runnable {
+                recyclerview.visibility=View.GONE
             })
         }
     }
@@ -186,6 +225,18 @@ class TimeSheetFragment : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        noR.visibility=View.VISIBLE
+                        populateRecyclerViewTS(emptyList(),recycler)
+                    })
+                }
+                else
+                {
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                        populateRecyclerViewTS(call,recycler)
+                    })
                 }
                 tsWeek=call
 
@@ -195,6 +246,10 @@ class TimeSheetFragment : Fragment() {
             catch (e:kotlin.KotlinNullPointerException)
             {
                 Log.d("testing","no data")
+                activity?.runOnUiThread(Runnable {
+                    noR.visibility=View.VISIBLE
+                    populateRecyclerViewTS(emptyList(),recycler)
+                })
             }
 
         }
@@ -214,6 +269,10 @@ class TimeSheetFragment : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        noR.visibility=View.VISIBLE
+                        populateRecyclerViewTS(emptyList(),recycler)
+                    })
                 }
                 tsMonth=call
                 Log.d("testing", call.toString())
@@ -222,6 +281,10 @@ class TimeSheetFragment : Fragment() {
             catch (e:kotlin.KotlinNullPointerException)
             {
                 Log.d("testing","no data")
+                activity?.runOnUiThread(Runnable {
+                    noR.visibility=View.VISIBLE
+                    populateRecyclerViewTS(emptyList(),recycler)
+                })
             }
 
         }
@@ -240,6 +303,10 @@ class TimeSheetFragment : Fragment() {
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
+                    activity?.runOnUiThread(Runnable {
+                        noR.visibility=View.VISIBLE
+                        populateRecyclerViewTS(emptyList(),recycler)
+                    })
                 }
 
                 Log.d("testing", call.toString())
@@ -249,6 +316,10 @@ class TimeSheetFragment : Fragment() {
             catch (e:kotlin.KotlinNullPointerException)
             {
                 Log.d("testing","no data")
+                activity?.runOnUiThread(Runnable {
+                    noR.visibility=View.VISIBLE
+                    populateRecyclerViewTS(emptyList(),recycler)
+                })
             }
 
         }

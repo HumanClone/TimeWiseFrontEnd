@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.timewisefrontend.R
@@ -99,6 +100,15 @@ class CreateTs : Fragment() {
         date.setKeyListener(null)
         progress.visibility=View.GONE
 
+
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.title=("Create Time Sheet")
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_back)
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
+
         //validation sand setting onclick listeners
 
         val extendedFab: ExtendedFloatingActionButton = view.findViewById(R.id.extended_fabCS)
@@ -176,7 +186,7 @@ class CreateTs : Fragment() {
                     }
                     catch (e:Exception)
                     {
-                        Snackbar.make(view,"Please ensure hours is a whole number",Snackbar.LENGTH_LONG)
+                        Snackbar.make(view,resources.getString(R.string.whole_number),Snackbar.LENGTH_LONG)
                             .show()
                     }
                 }
@@ -193,7 +203,7 @@ class CreateTs : Fragment() {
 
 
 
-//        https://github.com/wdullaer/MaterialDateTimePicker
+        //https://github.com/wdullaer/MaterialDateTimePicker
         // code atributed
         //used thier very own made date picker because it gave access to selection better that google native one
         val dpd = DatePickerDialog()
@@ -216,9 +226,9 @@ class CreateTs : Fragment() {
 
 
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
+            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
             date.setText(d)
-            startDate=year.toString()+"-"
+            startDate= "$year-"
             if(monthOfYear<9)
             {
                 startDate+="0"+(monthOfYear+1)+ "-"
@@ -227,18 +237,18 @@ class CreateTs : Fragment() {
             {
                 startDate+=(monthOfYear+1).toString() + "-"
             }
-            if (dayOfMonth<10)
-            {
-                startDate+="0"+dayOfMonth.toString()
-            }
-            else
-            {
-                startDate+=dayOfMonth.toString()
+            startDate += if (dayOfMonth<10) {
+                "0$dayOfMonth"
+            } else {
+                dayOfMonth.toString()
             }
             startDate+="T10:28:51.449943+00:00"
             datelay.error=null
 
         }
+
+
+
 
         imageView.setOnClickListener{
 
@@ -261,14 +271,26 @@ class CreateTs : Fragment() {
         val adapter=  ArrayAdapter(requireContext(), R.layout.dropdown_item,sub)
         category.setAdapter(adapter)
 
-
-
-
+        if (ModalView.use)
+        {
+            if (ModalView.useDate.isEmpty())
+            {
+                ModalView.cat=false
+                pos=UserDetails.categories.indexOf(UserDetails.categories.find { it.Name==ModalView.catName })
+                category.setText(ModalView.catName)
+            }
+            else
+            {
+                date.setText(ModalView.date)
+                startDate = ModalView.useDate
+                startDate += "T10:28:51.449943+00:00"
+            }
+        }
 
     }
 
 
-    fun save()
+    private fun save()
     {
         progress.visibility=View.VISIBLE
 
@@ -308,7 +330,6 @@ class CreateTs : Fragment() {
         }
         else
         {
-            //TODO:Pass to database
             Log.d("testing","entered else before time object")
             val timeSheet = TimeSheet(
                 userId=UserDetails.userId,
@@ -391,7 +412,7 @@ class CreateTs : Fragment() {
     }
 
     //simple method fed into the string class
-    fun String.isNumber():Boolean
+    private fun String.isNumber():Boolean
     {
         val pattern=Regex("\\d+(\\.\\d+)*")
         return matches(pattern)
@@ -403,7 +424,7 @@ class CreateTs : Fragment() {
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
-        Log.d("testing","String of Object  "+ pic.toString())
+        Log.d("testing", "String of Object  $pic")
         GlobalScope.launch{
             timewiseapi.addPic(pic).enqueue(
                 object : Callback<Picture> {
@@ -430,7 +451,7 @@ class CreateTs : Fragment() {
         val timewiseapi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
 
         // passing data from our text fields to our model class.
-        Log.d("testing","String of Object  "+ ts.toString())
+        Log.d("testing", "String of Object  $ts")
         Log.d("testing",Gson().toJson(ts))
         GlobalScope.launch{
             timewiseapi.addTS(ts).enqueue(
@@ -508,6 +529,10 @@ class CreateTs : Fragment() {
 
         }
     }
+
+
+
+
     
 
 }

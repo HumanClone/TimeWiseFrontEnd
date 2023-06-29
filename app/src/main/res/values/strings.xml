@@ -51,6 +51,10 @@
     <string name="maxH">Max Daily Hours</string>
     <string name="minH">Min Daily Hours</string>
     <string name="accH">Already have an account!</string>
+    <string name="poor">Poor</string>
+    <string name="weak">Weak</string>
+    <string name="fair">Fair</string>
+    <string name="good">Good</string>
 
     <string name="start">Start</string>
     <string name="end">End</string>
@@ -75,8 +79,25 @@
     <string name="nav_calendar">nav_calendar</string>
     <string name="nav_stats">nav_stats</string>
     <string name="nav_help">nav_help</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_results_found">No Results Found</string>
+    <string name="add_sheet">Add Sheet</string>
+    <string name="goals_this_month">Goals - This Month</string>
+    <string name="minimum">Minimum</string>
+    <string name="maximum">Maximum</string>
+    <string name="average_hours">Average Hours</string>
+    <string name="min_hours">Min Hours</string>
+    <string name="max_hours">Max Hours</string>
+    <string name="latest_timesheets">Latest Timesheets</string>
+    <string name="export_all_sheets">Export All Sheets</string>
+    <string name="name_place_holder">Name Place Holder</string>
+    <string name="email_placeholderr">Email Placeholderr</string>
+    <string name="no_values">No Values Given</string>
+    <string name="exists">Already Exists</string>
+    <string name="saved">Saved</string>
+    <string name="whole_number">Please ensure hours is a whole number</string>
+    <string name="day_mode">Day Mode</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="calendar">Calendar</string>
 
 
 </resources>

@@ -9,6 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="base_background">#2E4F4F</color>
     <color name="light_mint">#CBE4DE</color>
+    <color name="yellow">#FFFF00</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#90EE90</color>
+    <color name="grey">#D3D3D3</color>
 
 
 </resources>

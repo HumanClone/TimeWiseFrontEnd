@@ -3,12 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/backgroundColor"
     tools:context=".fragments.CalendarFragment">
 
-    <!-- TODO: Update blank fragment layout in Part 3 -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/Calendar" />
+
+    <ru.cleverpumpkin.calendar.CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:calendar_date_text_color="?android:attr/calendarTextColor"
+        app:calendar_day_bar_weekend_text_color="@color/red"
+        app:calendar_month_text_color="?android:attr/calendarTextColor"/>
+
+
 
 </FrameLayout>

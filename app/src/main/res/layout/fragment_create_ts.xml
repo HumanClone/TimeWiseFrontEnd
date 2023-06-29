@@ -7,7 +7,7 @@
     tools:context=".fragments.CreateTs"
     android:background="?attr/backgroundColor">
 
-<!--    TODO: add validation to the textfields-->
+
 
     <TextView
         android:layout_width="match_parent"
@@ -53,10 +53,8 @@
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:hint="@string/Category"
-
             app:errorEnabled="true"
             app:errorIconDrawable="@drawable/vector_error"
-
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             app:startIconDrawable="@drawable/vector_category">
 
@@ -82,6 +80,7 @@
                 android:layout_height="225dp"
                 android:hint="@string/picture"
                 app:hintEnabled="true"
+                android:background="@drawable/border_image"
                 app:startIconDrawable="@drawable/vector_add_photo">
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -89,7 +88,10 @@
                 android:layout_height="match_parent"
                 android:id="@+id/ImageField"
                 android:layout_gravity="center"
-                android:src="@drawable/vector_add"/>
+                android:adjustViewBounds="true"
+                android:background="@drawable/border_image"
+                app:srcCompat="@drawable/vector_add_pic"
+                />
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
