@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -49,6 +50,10 @@ class CategoryFragment : Fragment() {
         val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
         toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
         toolbar.title=getString(R.string.Category)
+        toolbar.setNavigationOnClickListener {
+            val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
+            drawerLayout.open()
+        }
         var name:String
         val catName:TextInputEditText= TextInputEditText(requireContext())
         recycle=view.findViewById(R.id.category_recycler_category)

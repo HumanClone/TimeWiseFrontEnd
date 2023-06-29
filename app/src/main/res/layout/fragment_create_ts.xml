@@ -79,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="225dp"
                 android:hint="@string/picture"
+                android:backgroundTint="?attr/backgroundColor"
                 app:hintEnabled="true"
                 android:background="@drawable/border_image"
                 app:startIconDrawable="@drawable/vector_add_photo">
@@ -87,6 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/ImageField"
+                android:backgroundTint="?attr/backgroundColor"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:background="@drawable/border_image"

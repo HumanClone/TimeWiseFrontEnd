@@ -97,9 +97,9 @@ class DashboardFragment : Fragment() {
         val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
         toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
         toolbar.title=getString(R.string.Dashboard)
-        toolbar.setNavigationOnClickListener {
+       toolbar.setNavigationOnClickListener {
             val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
-            drawerLayout.open()
+             drawerLayout.open()
         }
         recycleTS=view.findViewById(R.id.dashboard_recycler_timesheet)
         slider =view.findViewById(R.id.avg_slider)

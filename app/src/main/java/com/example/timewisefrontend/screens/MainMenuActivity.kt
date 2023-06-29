@@ -164,7 +164,8 @@ class MainMenuActivity : AppCompatActivity() {
                         binding.drawerLayout.closeDrawers()
                     toolbar.setNavigationOnClickListener {
                         drawerLayout.open()
-                    }}
+                    }
+                    dash=false}
                     R.id.nav_stats -> {loadFrag(StatsFragment())
                         binding.drawerLayout.closeDrawers()
                         toolbar.setNavigationOnClickListener {
