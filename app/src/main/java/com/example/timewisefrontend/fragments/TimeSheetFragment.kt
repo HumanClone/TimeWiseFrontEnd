@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -49,23 +50,31 @@ class TimeSheetFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.TimeSheet)
+        Log.d("testing","Timesheet View Created")
         recycler=view.findViewById(R.id.timesheet_recycler_timesheet)
         noR=view.findViewById(R.id.no_results)
         val cal= LocalDate.now()
-        date += if(cal.monthValue<10) {
-            "0"+(cal.monthValue)+ "/"
-        } else {
-            (cal.monthValue).toString() + "/"
-        }
-        date += if (cal.dayOfMonth<10) {
-            "0"+cal.dayOfMonth.toString()+"/"
-        } else {
-            cal.dayOfMonth.toString()+"/"
-        }
+        if(date.isEmpty())
+        {
+            date += if(cal.monthValue<10) {
+                "0"+(cal.monthValue)+ "/"
+            } else {
+                (cal.monthValue).toString() + "/"
+            }
+            date += if (cal.dayOfMonth<10) {
+                "0"+cal.dayOfMonth.toString()+"/"
+            } else {
+                cal.dayOfMonth.toString()+"/"
+            }
 
 
-        date+= cal.year
-        Log.d("testing",date)
+            date+= cal.year
+            Log.d("testing",date)
+        }
+
 
         val extendedFab:ExtendedFloatingActionButton= view.findViewById(R.id.extended_fab)
         val extendedFabEx:ExtendedFloatingActionButton= view.findViewById(R.id.extended_fab_ex)
@@ -91,7 +100,7 @@ class TimeSheetFragment : Fragment() {
             {
                 ModalView.use=false
                 parentFragmentManager.beginTransaction().replace(R.id.flContent, CreateTs())
-                    .commit()
+                    .addToBackStack( "tag" ).commit()
             }
         }
 
@@ -189,7 +198,7 @@ class TimeSheetFragment : Fragment() {
                     override fun onClick(position: Int, model: TimeSheet) {
                         UserDetails.temp=model
                         parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView(),"Ts")
-                            .commit()
+                            .addToBackStack( "tag" ).commit()
                     }
                 })
             })

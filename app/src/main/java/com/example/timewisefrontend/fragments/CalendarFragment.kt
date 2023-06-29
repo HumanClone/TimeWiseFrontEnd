@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -159,7 +160,9 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
     //this function populates the recycler view with the timesheets for the selected date
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.calendar)
         dat= view.findViewById(R.id.modal_date)
         recyle= view.findViewById(R.id.modal_recycler_timesheet)
         noR= view.findViewById(R.id.no_results2)
@@ -170,7 +173,7 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
         extBut.setOnClickListener {
             ModalView.use=true
             parentFragmentManager.beginTransaction().replace(R.id.flContent, CreateTs())
-                .commit()
+                .addToBackStack( "tag" ).commit()
             this.dismiss()
         }
     }
@@ -198,7 +201,7 @@ class ModalBottomSheet : BottomSheetDialogFragment() {
                     override fun onClick(position: Int, model: TimeSheet) {
                         UserDetails.temp=model
                         parentFragmentManager.beginTransaction().replace(R.id.flContent, SingleTSView(),"Ts")
-                            .commit()
+                            .addToBackStack( "tag" ).commit()
                         activity?.runOnUiThread(Runnable {
                             close()
                         })

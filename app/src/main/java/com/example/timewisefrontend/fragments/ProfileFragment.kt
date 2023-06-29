@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import androidx.appcompat.widget.Toolbar
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
@@ -50,7 +51,9 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.Profile)
         // Inflate the layout for this fragment
         usernameEditText = view.findViewById(R.id.usernameEditText)
         emailEditText = view.findViewById(R.id.emailEditText)

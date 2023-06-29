@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import coil.load
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.models.TimeSheet
@@ -30,8 +31,15 @@ class SingleTSView : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_back)
+        toolbar.title=("Time Sheet Details")
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
 
         item= UserDetails.temp
+
         var Date: TextInputEditText =view.findViewById(R.id.TSdate)
         var Category: TextInputEditText =view.findViewById(R.id.TScategory)
         var Description: TextInputEditText =view.findViewById(R.id.TSdescription)
@@ -47,6 +55,8 @@ class SingleTSView : Fragment() {
         Hours.setText(item.hours.toString())
 
     }
+
+
 
 
 

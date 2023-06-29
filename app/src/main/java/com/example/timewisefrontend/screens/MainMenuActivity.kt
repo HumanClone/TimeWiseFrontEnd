@@ -5,18 +5,23 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.databinding.ActivityMainMenuBinding
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.Window.FEATURE_NO_TITLE
 import android.view.WindowManager
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.timewisefrontend.fragments.*
@@ -31,19 +36,23 @@ class MainMenuActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainMenuBinding
     lateinit var toggle: ActionBarDrawerToggle
-
+    private var exit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         supportRequestWindowFeature(FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+
+
         actionBar?.hide()
         binding = ActivityMainMenuBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
         val toolbar: Toolbar =  findViewById(R.id.toolbar)
         toolbar.title=("Dashboard")
-
+        setSupportActionBar(toolbar)
         val nightModeSwitch = binding.navView.menu.findItem(R.id.night_mode).actionView as MaterialSwitch
         nightModeSwitch.thumbIconDrawable=getDrawable(R.drawable.baseline_sunny_24)
         nightModeSwitch.text="Day Mode"
@@ -109,7 +118,7 @@ class MainMenuActivity : AppCompatActivity() {
                 ActionBarDrawerToggle(this@MainMenuActivity, drawerLayout,toolbar, R.string.open, R.string.close)
             drawerLayout.addDrawerListener(toggle)
             toggle.syncState()
-            supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
             val header:View=navView.getHeaderView(0)
             val email:TextView=header.findViewById(R.id.emailPlaceHolder)
             email.text=UserDetails.email
@@ -122,26 +131,34 @@ class MainMenuActivity : AppCompatActivity() {
                 it.isChecked=true
                 when(it.itemId) {
                     R.id.nav_profile -> {loadFrag(ProfileFragment())
-                        toolbar.title="Profile"
-                        binding.drawerLayout.closeDrawers() }
+                        binding.drawerLayout.closeDrawers()}
                     R.id.nav_dashboard -> { loadFrag(DashboardFragment())
-                        toolbar.title=("Dashboard")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        toolbar.setNavigationOnClickListener {
+                            drawerLayout.open()
+                        }}
                     R.id.nav_timesheet -> {loadFrag(TimeSheetFragment())
-                        toolbar.title=("TimeSheet")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        toolbar.setNavigationOnClickListener {
+                            drawerLayout.open()
+                        }}
                     R.id.nav_category -> {loadFrag(CategoryFragment())
-                        toolbar.title=("Category")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                    toolbar.setNavigationOnClickListener {
+                        drawerLayout.open()
+                    }}
                     R.id.nav_stats -> {loadFrag(StatsFragment())
-                        toolbar.title=("Statistics")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        toolbar.setNavigationOnClickListener {
+                            drawerLayout.open()
+                        }}
                     R.id.nav_graph -> {loadFrag(GraphFragment())
-                        toolbar.title=("Graphs")
                         binding.drawerLayout.closeDrawers()}
                     R.id.nav_calendar -> {loadFrag(CalendarFragment())
-                        toolbar.title=("Calendar")
-                        binding.drawerLayout.closeDrawers()}
+                        binding.drawerLayout.closeDrawers()
+                        toolbar.setNavigationOnClickListener {
+                            drawerLayout.open()
+                        }}
                     R.id.nav_logout -> {// TODO: removed user data from memory
                                         FirebaseAuth.getInstance().signOut()
                                         UserDetails.email=""
@@ -165,16 +182,6 @@ class MainMenuActivity : AppCompatActivity() {
         val fragmentTransaction=fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.flContent,fragment).commit()
     }
-
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.nav_menu , menu)
-        return true
-    }
-
-
-
 
 
 }

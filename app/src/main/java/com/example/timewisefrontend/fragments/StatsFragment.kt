@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -68,6 +69,9 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.Stats)
         tabLay=view.findViewById(R.id.tabLay)
         progress=view.findViewById(R.id.progressStats)
         category=view.findViewById(R.id.CatFieldStat)
@@ -113,8 +117,9 @@ class StatsFragment : Fragment() {
             }
         }
         dpd.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
+            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
             calStart.set(year,monthOfYear,dayOfMonth)
+            startDate=""
             startDate += if(monthOfYear<9) {
                 "0"+(monthOfYear+1)+ "/"
             } else {
@@ -132,8 +137,9 @@ class StatsFragment : Fragment() {
 
         }
         dpd2.setOnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            val d:String =  dayOfMonth.toString() +"/"+(monthOfYear+1)+"/"+year
+            val d:String =  dayOfMonth.toString() +"-"+(monthOfYear+1)+"-"+year
             calEnd.set(year,monthOfYear,dayOfMonth)
+            endDate=""
             endDate += if(monthOfYear<9) {
                 "0"+(monthOfYear+1)+ "/"
             } else {
@@ -400,7 +406,8 @@ class StatsFragment : Fragment() {
         adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener{
             override fun onClick(position: Int, model:TimeSheet) {
                 UserDetails.temp=model
-                parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView(),"Ts").commit()
+                parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView(),"Ts")
+                    .addToBackStack( "tag" ).commit()
             }
         })
 

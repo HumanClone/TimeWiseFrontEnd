@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.timewisefrontend.R
@@ -98,6 +99,15 @@ class CreateTs : Fragment() {
         date.inputType=(InputType.TYPE_NULL)
         date.setKeyListener(null)
         progress.visibility=View.GONE
+
+
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.title=("Create Time Sheet")
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_back)
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
 
         //validation sand setting onclick listeners
 
@@ -519,6 +529,10 @@ class CreateTs : Fragment() {
 
         }
     }
+
+
+
+
     
 
 }
