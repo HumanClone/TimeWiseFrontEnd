@@ -1,7 +1,9 @@
 package com.example.timewisefrontend.screens
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -53,9 +55,22 @@ class MainMenuActivity : AppCompatActivity() {
         val toolbar: Toolbar =  findViewById(R.id.toolbar)
         toolbar.title=("Dashboard")
         setSupportActionBar(toolbar)
+        val isDarkThemeEnabled = isSystemInDarkTheme(this)
+
         val nightModeSwitch = binding.navView.menu.findItem(R.id.night_mode).actionView as MaterialSwitch
-        nightModeSwitch.thumbIconDrawable=getDrawable(R.drawable.baseline_sunny_24)
-        nightModeSwitch.text="Day Mode"
+        if (isDarkThemeEnabled)
+        {
+            nightModeSwitch.isChecked=true
+            nightModeSwitch.thumbIconDrawable=getDrawable(R.drawable.baseline_night_24)
+            nightModeSwitch.text=getString(R.string.night_mode)
+        }
+        else
+        {
+            nightModeSwitch.isChecked=false
+            nightModeSwitch.thumbIconDrawable=getDrawable(R.drawable.baseline_sunny_24)
+            nightModeSwitch.text=getString(R.string.day_mode)
+        }
+
         nightModeSwitch.textSize=22f
         nightModeSwitch.minHeight=40
         val color = MaterialColors.getColor(this,
@@ -190,6 +205,10 @@ class MainMenuActivity : AppCompatActivity() {
         val fragmentManager:FragmentManager  =supportFragmentManager
         val fragmentTransaction=fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.flContent,fragment).commit()
+    }
+    private fun isSystemInDarkTheme(context: Context): Boolean {
+        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 
 

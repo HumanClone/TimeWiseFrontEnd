@@ -102,6 +102,7 @@
     <string name="total_hours">Total Hours For Each Day</string>
     <string name="th">Total Hours</string>
     <string name="date_error">Start Date Cannot Be After End Date</string>
+    <string name="enter_date">Enter Date</string>
 
 
 </resources>

@@ -63,6 +63,7 @@ interface TimeWiseApi {
     @GET("TimeSheet/GetTimesheet")
     fun getTimesheet(@Query("TimesheetId")timesheetId:String):Call<TimeSheet>
 
+    @Headers("Content-Type: application/json")
     @GET("/TimeSheet/GetAllUserTimesheets")
     suspend fun getAllTimesheets(@Query("UserId")userId:String):List<TimeSheet>
 

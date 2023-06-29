@@ -39,6 +39,10 @@ private lateinit var cal: CalendarView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
+        toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
+        toolbar.title=getString(R.string.calendar)
+
         cal=view.findViewById(R.id.calendar_view)
         calSet()
         cal.datesIndicators= indicators()
