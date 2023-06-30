@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -72,6 +73,10 @@ class StatsFragment : Fragment() {
         val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
         toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
         toolbar.title=getString(R.string.Stats)
+        toolbar.setNavigationOnClickListener {
+            val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
+            drawerLayout.open()
+        }
         tabLay=view.findViewById(R.id.tabLay)
         progress=view.findViewById(R.id.progressStats)
         category=view.findViewById(R.id.CatFieldStat)

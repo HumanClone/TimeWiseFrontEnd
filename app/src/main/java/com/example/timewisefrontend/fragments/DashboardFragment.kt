@@ -177,8 +177,26 @@ class DashboardFragment : Fragment() {
         progMin.progress=min.toInt()
         progMin.setIndicatorColor(getStatusColorMin(min.toInt()))
         minText.text=min.toInt().toString()+" %"
-        slider.valueFrom=UserDetails.min.toFloat()
-        slider.valueTo=UserDetails.max.toFloat()
+        Log.d("testing",UserDetails.min.toString())
+        Log.d("testing",UserDetails.max.toString())
+        Log.d("testing",average.toString())
+        Log.d("testing","Before set values")
+        if (UserDetails.min==0)
+        {
+            slider.valueFrom=1.0.toFloat()
+        }
+        else
+        {
+            slider.valueFrom=UserDetails.min.toFloat()
+        }
+        if (UserDetails.max>=UserDetails.min)
+        {
+            slider.valueTo=UserDetails.min+1.toFloat()
+        }
+        else
+        {
+            slider.valueTo=UserDetails.max.toFloat()
+        }
         slider.value=average.toFloat()
         if (average>UserDetails.max)
         {
@@ -224,10 +242,12 @@ class DashboardFragment : Fragment() {
             try {
 
                 Log.d("testing",UserDetails.userId+"\t"+date)
-                val call:List<TimeSheet> = timeWiseApi.getTSMonth(UserDetails.userId,date)
+                //val call:List<TimeSheet> = timeWiseApi.getTSMonth(UserDetails.userId,date)
+                val call:List<TimeSheet> = timeWiseApi.getTS30(UserDetails.userId,date)
                 if (call.isEmpty())
                 {
-                    Log.d("testing","no values ")
+                    Log.d("testing"," empty no values ")
+                    return@launch
                 }
 
                 var tempList:List<Int> = call.groupBy { it.date }.map { it.value.sumOf { it.hours } }
@@ -235,27 +255,21 @@ class DashboardFragment : Fragment() {
                 Log.d("testing", tempList.toString())
                 minCount=0
                 maxCount=0
-                tempList.forEach()
-                {
-                    if (it>=UserDetails.max)
-                    {
-                        maxCount+=1
-                    }
-                    if (it>=UserDetails.min)
-                    {
-                        minCount+=1
-                    }
-                }
+                minCount=tempList.count { it>=UserDetails.min }
+                maxCount=tempList.count { it>=UserDetails.max }
+
                 Log.d("testing",minCount.toString()+"\t"+maxCount.toString())
 
-                //TODO:Change to 30 depending on discussion
-                max= (maxCount/cal.dayOfMonth.toDouble())*100
-                min= (minCount/cal.dayOfMonth.toDouble())*100
+                max= (maxCount/tempList.size.toDouble())*100
+                min= (minCount/tempList.size.toDouble())*100
                 average=tempList.average()
+                average= if(average == null)0.0 else average
+
                 activity?.runOnUiThread(Runnable {
                     minMaxDisplay()
                 })
                 Log.d("testing", "$max%\t$min%\t$average")
+                Log.d("testing", "Month DOne")
             }
             catch (e:kotlin.KotlinNullPointerException)
             {

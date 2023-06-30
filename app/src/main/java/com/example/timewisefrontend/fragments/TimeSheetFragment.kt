@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.FileProvider
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.timewisefrontend.R
@@ -25,9 +26,13 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import java.io.BufferedWriter
 import java.io.File
 import java.io.IOException
 import java.time.LocalDate
@@ -63,6 +68,10 @@ class TimeSheetFragment : Fragment() {
         val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
         toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
         toolbar.title=getString(R.string.TimeSheet)
+        toolbar.setNavigationOnClickListener {
+            val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
+            drawerLayout.open()
+        }
         Log.d("testing","Timesheet View Created")
         recycler=view.findViewById(R.id.timesheet_recycler_timesheet)
         noR=view.findViewById(R.id.no_results)
@@ -349,7 +358,7 @@ class TimeSheetFragment : Fragment() {
 
 
     private fun convertJsonToSpreadsheet(jsonList: List<TimeSheet>) {
-        val headers = arrayOf("User ID", "Category ID", "Picture ID", "Description", "Hours", "Start Date")
+        val headers = arrayOf("Category", "Picture", "Description", "Hours", "Start Date")
 
         val content = StringBuilder()
 
@@ -360,12 +369,11 @@ class TimeSheetFragment : Fragment() {
         // Append data rows to the CSV content
         for (timeSheet in jsonList) {
             val rowData = arrayOf(
-                timeSheet.userId ?: "",
-                timeSheet.categoryId ?: "",
-                timeSheet.pictureId ?: "",
-                timeSheet.description ?: "",
-                timeSheet.hours.toString(),
-                timeSheet.date ?: ""
+                UserDetails.categories.find { it.id.equals(timeSheet.categoryId)}?.Name?.trim() ?: "",
+                            timeSheet.pictureId?.trim() ?: "",
+                            timeSheet.description.trim() ?: "",
+                            timeSheet.hours.toString(),
+                            timeSheet.date ?: ""
             )
             content.append(rowData.joinToString(separator = ","))
             content.append("\n")
@@ -373,6 +381,7 @@ class TimeSheetFragment : Fragment() {
 
         val csvFileName = "data.csv"
         csvFile = File(requireContext().cacheDir, csvFileName)
+        Log.d("testing",content.toString())
 
         try {
             // Write the CSV content to the file
@@ -402,6 +411,52 @@ class TimeSheetFragment : Fragment() {
         }
     }
 
+//    private fun convertJsonToSpreadsheet(jsonList: List<TimeSheet>) {
+//
+//        val headers = arrayOf("Category", "Picture", "Description", "Hours", "Start Date")
+//        val csvFileName = "data.csv"
+//        val csvFile = File(requireContext().cacheDir, csvFileName)
+//
+//        runBlocking {
+//            withContext(Dispatchers.IO) {
+//                csvFile.bufferedWriter().use { writer ->
+//                    // Write headers to the CSV file
+//                    writer.writeRow(headers)
+//
+//                    // Write data rows to the CSV file
+//                    jsonList.forEach { timeSheet ->
+//                        val rowData = arrayOf(
+//                            UserDetails.categories.find { it.id.equals(timeSheet.categoryId)}?.Name?.trim() ?: "",
+//                            timeSheet.pictureId?.trim() ?: "",
+//                            timeSheet.description.trim() ?: "",
+//                            timeSheet.hours.toString(),
+//                            timeSheet.date ?: ""
+//                        )
+//                        writer.writeRow(rowData)
+//                    }
+//                }
+//            }
+//        }
+//
+//        Log.d("testing",csvFile.readText())
+//
+//        val csvFileUri = FileProvider.getUriForFile(
+//            requireContext(),
+//            "${requireContext().packageName}.fileprovider",
+//            csvFile
+//        )
+//
+//        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+//        intent.type = "text/csv"
+//        intent.putExtra(Intent.EXTRA_TITLE, csvFileName)
+//        intent.putExtra(Intent.EXTRA_STREAM, csvFileUri)
+//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+//
+//        startActivityForResult(intent, SAVE_CSV_REQUEST_CODE)
+//    }
+
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -420,5 +475,10 @@ class TimeSheetFragment : Fragment() {
             }
         }
     }
+
+//    private suspend fun BufferedWriter.writeRow(rowData: Array<String>) {
+//        write(rowData.joinToString(separator = ","))
+//        newLine()
+//    }
 
 }

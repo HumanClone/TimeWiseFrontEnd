@@ -125,7 +125,7 @@ class MainMenuActivity : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 delegate.applyDayNight()
             }
-
+            binding.navView.setCheckedItem(R.id.nav_dashboard)
             Log.d("testing","onCheckedChanged: $isChecked")
         }
         binding.apply {

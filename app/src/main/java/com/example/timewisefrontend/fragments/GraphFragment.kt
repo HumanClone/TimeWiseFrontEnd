@@ -67,7 +67,7 @@ class GraphFragment : Fragment() {
             val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
             drawerLayout.open()
         }
-        temp= UserDetails.ts.groupBy { it.date }.map { (date, list) ->
+        temp= UserDetails.ts.reversed().groupBy { it.date }.map { (date, list) ->
             GraphData(
                 date = format.parse(date!!.substring(0,10))!!,
                 dateString= date.substring(0,10),
@@ -198,7 +198,7 @@ class GraphFragment : Fragment() {
    private fun updateGraph(start:String, end:String)
     {
         val format = SimpleDateFormat("yyyy-MM-dd")
-        temp= UserDetails.ts.filter {
+        temp= UserDetails.ts.reversed().filter {
             format.parse(it.date!!.substring(0,10))!!.after(format.parse(start))
                     && format.parse(it.date.substring(0,10))!!.before(format.parse(end))
         }.groupBy { it.date }.map { (date, list) ->
