@@ -67,6 +67,8 @@ interface TimeWiseApi {
     @GET("/TimeSheet/GetAllUserTimesheets")
     suspend fun getAllTimesheets(@Query("UserId")userId:String):List<TimeSheet>
 
+
+
     @GET("/TimeSheet/GetAllTimesheetsOnWeeks")
     suspend fun getTSWeek(@Query("UserId")userId:String,
                   @Query("date")Date:String):
@@ -77,7 +79,10 @@ interface TimeWiseApi {
                    @Query("date")Date:String):
             List<TimeSheet>
 
-
+    @GET("/TimeSheet/GetAllUserTimesheetsFor30Days")
+    suspend fun getTS30(@Query("UserId")userId:String,
+                        @Query("date")Date:String):
+            List<TimeSheet>
 
     //Stats Screen methods
     @GET("TimeSheet/GetAllTimesheetsInRange")

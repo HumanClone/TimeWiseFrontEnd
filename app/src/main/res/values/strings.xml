@@ -81,7 +81,7 @@
     <string name="nav_help">nav_help</string>
     <string name="no_results_found">No Results Found</string>
     <string name="add_sheet">Add Sheet</string>
-    <string name="goals_this_month">Goals - This Month</string>
+    <string name="goals_this_month">Goals - Last 30 Days</string>
     <string name="minimum">Minimum</string>
     <string name="maximum">Maximum</string>
     <string name="average_hours">Average Hours</string>

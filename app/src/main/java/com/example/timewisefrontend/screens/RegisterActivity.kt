@@ -121,10 +121,12 @@ class RegisterActivity : AppCompatActivity() {
                             1,
                             0
                         )
-                        //addUser(user)
+
                         addUser(user)
                         UserDetails.userId = it.uid
                         UserDetails.job=inputUserJob.text.toString()
+                        UserDetails.max= 1
+                        UserDetails.min=0
 
                         mLoadingBar.dismiss()
                     }
