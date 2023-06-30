@@ -1,93 +1,199 @@
-# TimeWiseFrontEnd
-This is the repository that we will use for the android application 
-This is TimeWise a alpha version of a work/time tracker in which you can log and track your daily hours in a specific category and then you it for you own purposes.
-This app makes use of Google's native material design as well as thier cloud storage infrastructure such as firebase. Target is using Android Tiramisu, 
+![Static Badge](https://img.shields.io/badge/Kotlin-Kotlin?label=Language&labelColor=purple) ![Static Badge](https://img.shields.io/badge/MIT-License?label=License&labelColor=blue) ![Static Badge](https://img.shields.io/badge/Android-Platform?label=Platform)</br>
 
+# TimeWise
 
-# APP Walkthrough
+Timewise is an Android application which allows users to log their hours spent on various categories and assign themself a daily maximum and minimum.
 
-## Register and Login 
-
-### Register
-Here the USer can Register for the App by provideing thier details 
-
-![Register](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/9f011fd0-11c7-4caa-ae0d-6fe19472b89c)
-<br>
-<br>
-### Login 
-User will enter thier credentials which will be validated and upon success be signed into that app, which causes the app to load the needed data from the database through the api 
-
-![Login](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/d7ae365a-6300-4875-9985-0a09f8f0f109)
-<br>
-<br>
-## Main Menu with Appdrawer Fragments
-from here the user is led to the dashboard of the app in which if they had any data willbe populated on to the screen else the screen will not display anything and they can us the rest of the app and create user data 
-
-![Main_Menu](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/9e6417ed-9a27-4c53-a366-910cb20ba918)
-
-
-### Dashboard
-this fragment begins with the loading of the last 5 timesheets and categoriesof the user plus total hours in each category 
-
-![Dashboard](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/45b8d354-1717-4a1c-8579-c0d692cb05df)
-
-
-### Profile 
-here the user can view thier details and change the max and min daily hours on thier profile 
-
-![Profile](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/396b23ad-388b-45a4-92ed-d8b2a0c899f0)
-
-
-### Category 
-Here the user will be able to view all categories of thiers and create a new category by tapping the button 
-
-![Category ](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/5f774a7e-fa3f-4b2e-8d32-1b97e6c66682)
-
-
-### TimeSheet 
-here the user will be able to view their own timesheets in certain criteria = eg, week ,month and all. which is done by selecting the buttons on the screen however when the fragment is first loaded the user will see the timesheets in the current week <br>
-
-![TimeSheet](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/d43c6db0-9360-4fe0-9995-ccbcf031dcd5)
-
-### Single TimeSheet View 
-this view creates itself when a user clicks on a timesheet entry, in rder to better view the details and picture of the entry 
-
-
-### Create TimeSheet
-here the user can enter the details and create a sheet with an optional picture that would be uploaded to firebase as well and will be saved it the timesheet and shown in any view of the timesheet but in proportion to the selected view 
-
-
-![CreateTS](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/a2671eb2-c88b-4ad6-8fb9-c5e2f82f7922)
-
-
-### Statistics 
-here the user willbe able to search through either the categories or timesheets based on the tab selected as well as search either a date range or category or both 
-if the user wishes to create a new timesheet they need to click the new sheet button and will be take to the screen to create a new sheet 
-
-![Stats](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/0d31f324-381f-4c7b-bec2-4affd32b99d6)
-
-## Logout 
-here the user will be able to logout from the app and reset the user data on them 
-
-
-# Requirements and Dependencies 
-Android 13 API level 33 <br>
-Needs to have the firebase auth, storage and real-time SDKs<br>
-Android device/emulator must have access to the internet as well as Google Services 
-### Device Requirements
-4GB of Ram <br>
-at least 1GB of storage for application<br> 
-Android 13 API level 33<br>
-Google Services
-
-# End notes 
-The application does have a dark theme that is triggered by the system default theme whether it is light or dark 
-further versions will improve on the visual with more data tracker and comparisons being displayed on the dashboard 
-
-
-# Run App
-To run the app you can either build the apk from android studio and load that onto your device or build/compile the application and lauch on android emulator
+This app makes use of e material design as well as Firebase for cloud storage infrastructure.
+Target is using Android Tiramisu `(API 33)`
 
 
 
+#### API
 
+[![API](https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/f3f34ecb-b380-4a41-97c4-3f7031ce95be)](https://github.com/HumanClone/TImeWiseBackEnd)
+
+This project uses an API to faciliatate data entry and retrival
+
+***
+
+
+
+## Features
+
+- Account Creation
+- Category Creation
+- Time Sheet Creation
+- Setting a maximum and miminmum daily goal
+- Optional Picture upload
+- Calendar View
+- Dynamic theme
+- Dynamic Graph
+- Searching functionality
+- Modal Views that have intutitve uses
+- Export  data as a `.csv `
+
+***
+
+## Application Walkthrough
+
+### Register and Login
+
+`Register`
+-
+User can simple enter thier details and create an account on the database
+
+
+`Login`
+-
+User can simply enter thier credentials to log into the application
+
+### Creating A Category 
+
+User can click button to create a new category  
+
+
+### Creating A Time Sheet
+
+User can create a Time Sheet in which they can choose whether they want to upload a picture or not
+
+`Entry Points`
+
+<div>
+Time Sheet
+Category
+Calendar
+</div>
+
+
+
+### Full View of a Time Sheet
+User can click on any Time Sheet item to view the full details 
+
+`Entry Points`
+<div>
+Dashboard
+Time Sheet
+Category 
+</div>
+
+<div>
+Statistics(Time Sheet)
+Statistics(Category)
+Calendar
+</div>
+
+### Exporting Data 
+By selecting the button the application will create a .csv file containing information about all the Time Sheets. This file can then be saved onto the devices storage system and then opened in a spreadsheet or an appropirate app
+
+### Searching
+Here the user can search and filter timesheets or categories based on either a time period, a category or both. if they choose to do a time period for categoies they only see the total hours in that category for the selected period 
+
+### Graph
+This is a dynamic graph that displays the total hours logged on days by the user either in thier entirity or for a selectable period
+To see a detailed value of each point simply click on it 
+
+Hide and show data
+
+dynamic shaping 
+
+### Calendar
+This shows all dates that contain a Time Sheet in the form of a calendar with the feature of viewing and even creating a new entry on a date
+
+### Dynamic Theme
+
+The theme of the application is set automatically based on the user's system theme, but there is a manual switch to change it as well
+
+***
+
+## App Interface
+
+<div>
+Dashboard
+Profile
+Category 
+</div>
+<div>
+Time Sheet 
+Create Time Sheet
+View Time Sheet
+</div>
+
+<div>
+Statistics
+Calendar
+Graph 
+</div>
+
+***
+
+## Dependencies
+
+This project makes use of the following:
+
+- [Material Design V3](https://m3.material.io/)
+- [AAChartCore](https://github.com/AAChartModel/AAChartCore-Kotlin)
+- [Crunchy Calendar](https://github.com/CleverPumpkin/CrunchyCalendar)
+- [Firebase](https://firebase.google.com/retr)
+- [Retrofit2](https://square.github.io/retrofit/)
+- [GSON](https://github.com/google/gson) 
+
+***
+
+## Requirements
+
+>- Firebase authentiction
+>- Android Tirimasu (API 33)
+>- Google Servcies
+
+## How to Run
+
+>>Download APK provided
+or
+Download repository zip and ope in Android Studio and build and run
+***
+
+## Change Log
+
+### Version 1.1
+
+
+> - Fixed bugs that led to crashes
+> - Updates Dashboard with a view on percentage of goals accomplished in the last 30 days
+> - Major visual redesign and updates
+> - Added Calendar view
+> - Added Dynamic Graph
+> - Added Manual Theme Change 
+
+
+***
+
+## End Notes
+
+
+***
+
+## License
+
+```en
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import com.example.timewisefrontend.R
 import com.example.timewisefrontend.api.RetrofitHelper
 import com.example.timewisefrontend.api.TimeWiseApi
@@ -54,6 +55,10 @@ class ProfileFragment : Fragment() {
         val toolbar: Toolbar =  requireActivity().findViewById(R.id.toolbar)
         toolbar.navigationIcon=resources.getDrawable(R.drawable.vector_nav)
         toolbar.title=getString(R.string.Profile)
+        toolbar.setNavigationOnClickListener {
+            val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
+            drawerLayout.open()
+        }
         // Inflate the layout for this fragment
         usernameEditText = view.findViewById(R.id.usernameEditText)
         emailEditText = view.findViewById(R.id.emailEditText)
