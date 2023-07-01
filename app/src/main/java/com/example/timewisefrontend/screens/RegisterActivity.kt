@@ -47,6 +47,13 @@ class RegisterActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         mLoadingBar = ProgressDialog(this)
 
+        UserDetails.email=""
+        UserDetails.name=""
+        UserDetails.userId=""
+        UserDetails.categories= emptyList()
+        UserDetails.ts= emptyList()
+        UserDetails.min=1
+        UserDetails.max=2
 
         val registerButton = findViewById<Button>(R.id.btnRegister)
         registerButton.setOnClickListener {

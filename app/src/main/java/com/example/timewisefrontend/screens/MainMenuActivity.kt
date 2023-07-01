@@ -27,6 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.example.timewisefrontend.fragments.*
+import com.example.timewisefrontend.models.TimeSheet
 import com.example.timewisefrontend.models.UserDetails
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.materialswitch.MaterialSwitch
@@ -190,6 +191,9 @@ class MainMenuActivity : AppCompatActivity() {
                                         UserDetails.name=""
                                         UserDetails.userId=""
                                         UserDetails.categories= emptyList()
+                                        UserDetails.ts= emptyList()
+                                        UserDetails.min=1
+                                        UserDetails.max=2
                                         val intent = Intent(this@MainMenuActivity, StartActivity ::class.java)
                                         startActivity(intent)}
                 }
