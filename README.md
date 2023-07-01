@@ -36,26 +36,34 @@ This project uses an API to faciliatate data entry and retrival
 ***
 
 ## Application Walkthrough
+</br>
 
 ### Register and Login
+
+</br>
 
 `Register`
 -
 User can simple enter thier details and create an account on the database
 
 <img src='' width='24%'>
+</br>
 
 `Login`
 -
 User can simply enter thier credentials to log into the application
 
 <img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/a514af0a-994a-47b1-af82-6bcfc066652e' width='24%' >
+</br>
+</br>
 
 ### Creating A Category 
 
 User can click button to create a new category  
 
 <img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/75d08c0c-7697-44f9-83e4-add7804dfda8' width='24%'>
+</br>
+</br>
 
 ### Creating A Time Sheet
 
@@ -73,6 +81,8 @@ User can create a Time Sheet in which they can choose whether they want to uploa
 |Time Sheet | Category  | Calendar| 
 |:---------:|:---------:|:---------:|
 |<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/9bc20c4c-444f-406c-889a-8aaf2cf8a619' width='70%'> | <img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/2c9e4b03-5dc5-4664-a92e-307afdc8a55f' width='70%' >|<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/d1804154-bdcf-41e2-ad2d-3123ab244a7c' >|
+</br>
+</br>
 
 ### Full View of a Time Sheet
 User can click on any Time Sheet item to view the full details
@@ -97,9 +107,11 @@ User can click on any Time Sheet item to view the full details
 By selecting the button the application will create a .csv file containing information about all the Time Sheets. This file can then be saved onto the devices storage system and then opened in a spreadsheet or an appropirate app
 
 <img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/db941cbd-e6df-4fce-8aaa-1df6dedcfd15' width='24%'>
+</br>
 
 ### Searching
 Here the user can search and filter timesheets or categories based on either a time period, a category or both. if they choose to do a time period for categoies they only see the total hours in that category for the selected period 
+</br>
 
 `Time Sheet`
 -
@@ -108,6 +120,7 @@ Here the user can search and filter timesheets or categories based on either a t
 |:---------:|:---------:|:---------:|
 |<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/0ffacabe-8ed8-4269-a1eb-cfb143d06a44'> | <img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/38b0d572-255b-4ef2-a15e-4958a1b0c01e' width='70%' >|<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/78683e02-ed5a-4378-a479-26cb3d3ddcdb' >|
 
+</br>
 
 `Category`
 -
@@ -116,7 +129,7 @@ Here the user can search and filter timesheets or categories based on either a t
 |:---------:|:---------:|:---------:|
 |<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/2d3f678f-e028-4fb9-b9f6-66141d9586b8'> | <img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/14da6fe4-d2d5-4a96-a248-03404a2afd1c' width='70%' >|<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/13f0bc1f-6006-44ad-8da0-80c4037380e6' >|
 
-
+</br>
 
 ### Graph
 This is a dynamic graph that displays the total hours logged on days by the user either in thier entirity or for a selectable period
@@ -125,14 +138,18 @@ To see a detailed value of each point simply click on it
 | Interaction | Filtering |
 |:---------:|:---------:|
 |<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/cfdfa42a-8994-4caa-903e-d9c161b18ae0' >|<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/fe3ae066-5e5f-43d9-92f0-3b6b371a605b' width='200%'>|
-
+</br>
 
 ### Calendar
 This shows all dates that contain a Time Sheet in the form of a calendar with the feature of viewing and even creating a new entry on a date
-<img  src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/d99d877d-0391-4c46-9e64-9859190034ef' width="24%" >
+<img  src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/8c657b93-52b1-4e46-8145-3bb80a0785f8' width="24%" >
+
+
+</br>
+
 ### Dynamic Theme
 
-The theme of the application is set automatically based on the user's system theme, but there is a manual switch to change it as well
+The theme of the application is set automatically based on the user's system theme, but there is a manual switch to change it as well </br>
 <img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/76ecc4f9-4ff0-4d89-86ec-d44c4d8dbe56' width='24%'>
 
 ***
@@ -175,6 +192,7 @@ This project makes use of the following:
 >- Firebase authentiction
 >- Android Tirimasu (API 33)
 >- Google Servcies
+</br>
 
 ## How to Run
 
