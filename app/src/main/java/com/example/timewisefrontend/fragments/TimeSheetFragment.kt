@@ -75,6 +75,7 @@ class TimeSheetFragment : Fragment() {
         Log.d("testing","Timesheet View Created")
         recycler=view.findViewById(R.id.timesheet_recycler_timesheet)
         noR=view.findViewById(R.id.no_results)
+        noR.visibility=View.GONE
         val cal= LocalDate.now()
         if(date.isEmpty())
         {
@@ -130,8 +131,8 @@ class TimeSheetFragment : Fragment() {
 
         getTSWeek()
         getTS()
-        getTSMonth()
         getTSWeek()
+
         val progress: CircularProgressIndicator=view.findViewById(R.id.progressTS)
         val TSweek:Button=view.findViewById(R.id.TSWeek)
         val TSmonth:Button=view.findViewById(R.id.TSMonth)
@@ -139,7 +140,7 @@ class TimeSheetFragment : Fragment() {
         progress.visibility=View.GONE
         populateRecyclerViewTS(tsWeek,recycler)
         TSweek.setTextColor(resources.getColor(R.color.yellow))
-
+        TSweek.performClick()
         TSweek.setOnClickListener {
             TSweek.setTextColor(resources.getColor(R.color.yellow))
             TSmonth.setTextColor(resources.getColor(R.color.white))
@@ -162,12 +163,14 @@ class TimeSheetFragment : Fragment() {
             TSmonth.setTextColor(resources.getColor(R.color.yellow))
             TSall.setTextColor(resources.getColor(R.color.white))
             activity?.runOnUiThread(Runnable {
+                Log.d("testing","First start")
                 progress.visibility=View.VISIBLE
                 noR.visibility=View.GONE
             })
             getTSMonth()
             Timer().schedule(1000) {
                 activity?.runOnUiThread(Runnable {
+                    Log.d("testing","First end")
                     progress.visibility=View.GONE
 
                 })
@@ -226,12 +229,17 @@ class TimeSheetFragment : Fragment() {
         {
             activity?.runOnUiThread(Runnable {
                 recyclerview.visibility=View.GONE
+                noR.visibility=View.VISIBLE
             })
         }
     }
 
     private fun getTSWeek()
     {
+        activity?.runOnUiThread(Runnable {
+            recycler.visibility=View.VISIBLE
+            noR.visibility=View.GONE
+        })
         Log.d("testing","Week")
         val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
@@ -287,7 +295,7 @@ class TimeSheetFragment : Fragment() {
                 val call:List<TimeSheet> = timeWiseApi.getTSMonth(UserDetails.userId,date)
                 if (call.isEmpty())
                 {
-                    Log.d("testing","no values ")
+                    Log.d("testing","Empty no values ")
                     activity?.runOnUiThread(Runnable {
                         noR.visibility=View.VISIBLE
                         populateRecyclerViewTS(emptyList(),recycler)
@@ -299,7 +307,7 @@ class TimeSheetFragment : Fragment() {
             }
             catch (e:kotlin.KotlinNullPointerException)
             {
-                Log.d("testing","no data")
+                Log.d("testing","break no data")
                 activity?.runOnUiThread(Runnable {
                     noR.visibility=View.VISIBLE
                     populateRecyclerViewTS(emptyList(),recycler)
@@ -373,7 +381,7 @@ class TimeSheetFragment : Fragment() {
                             timeSheet.pictureId?.trim() ?: "",
                             timeSheet.description.trim() ?: "",
                             timeSheet.hours.toString(),
-                            timeSheet.date ?: ""
+                            timeSheet.date.toString().substring(0,10) ?: ""
             )
             content.append(rowData.joinToString(separator = ","))
             content.append("\n")
@@ -411,49 +419,6 @@ class TimeSheetFragment : Fragment() {
         }
     }
 
-//    private fun convertJsonToSpreadsheet(jsonList: List<TimeSheet>) {
-//
-//        val headers = arrayOf("Category", "Picture", "Description", "Hours", "Start Date")
-//        val csvFileName = "data.csv"
-//        val csvFile = File(requireContext().cacheDir, csvFileName)
-//
-//        runBlocking {
-//            withContext(Dispatchers.IO) {
-//                csvFile.bufferedWriter().use { writer ->
-//                    // Write headers to the CSV file
-//                    writer.writeRow(headers)
-//
-//                    // Write data rows to the CSV file
-//                    jsonList.forEach { timeSheet ->
-//                        val rowData = arrayOf(
-//                            UserDetails.categories.find { it.id.equals(timeSheet.categoryId)}?.Name?.trim() ?: "",
-//                            timeSheet.pictureId?.trim() ?: "",
-//                            timeSheet.description.trim() ?: "",
-//                            timeSheet.hours.toString(),
-//                            timeSheet.date ?: ""
-//                        )
-//                        writer.writeRow(rowData)
-//                    }
-//                }
-//            }
-//        }
-//
-//        Log.d("testing",csvFile.readText())
-//
-//        val csvFileUri = FileProvider.getUriForFile(
-//            requireContext(),
-//            "${requireContext().packageName}.fileprovider",
-//            csvFile
-//        )
-//
-//        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-//        intent.type = "text/csv"
-//        intent.putExtra(Intent.EXTRA_TITLE, csvFileName)
-//        intent.putExtra(Intent.EXTRA_STREAM, csvFileUri)
-//        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-//
-//        startActivityForResult(intent, SAVE_CSV_REQUEST_CODE)
-//    }
 
 
 
@@ -476,9 +441,6 @@ class TimeSheetFragment : Fragment() {
         }
     }
 
-//    private suspend fun BufferedWriter.writeRow(rowData: Array<String>) {
-//        write(rowData.joinToString(separator = ","))
-//        newLine()
-//    }
+
 
 }

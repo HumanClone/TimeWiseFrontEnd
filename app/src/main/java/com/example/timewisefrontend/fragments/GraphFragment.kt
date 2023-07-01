@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.graphics.toColor
@@ -43,6 +44,7 @@ class GraphFragment : Fragment() {
     var calStart=Calendar.getInstance()
     var calEnd=Calendar.getInstance()
     private lateinit var chart:AAChartView
+    private lateinit var noR: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,21 +69,9 @@ class GraphFragment : Fragment() {
             val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
             drawerLayout.open()
         }
-        temp= UserDetails.ts.reversed().groupBy { it.date }.map { (date, list) ->
-            GraphData(
-                date = format.parse(date!!.substring(0,10))!!,
-                dateString= date.substring(0,10),
-                hours = list.sumByDouble { it.hours.toDouble() },
-                max = UserDetails.max.toDouble(),
-                min = UserDetails.min.toDouble()
-            )
-        }
 
-
-
-        Log.d("testing",temp.toString())
-        Log.d("testing",temp[0].date.toString()+"\t"+temp[0].hours.toString())
-
+        noR=view.findViewById(R.id.no_results)
+        noR.visibility=View.GONE
         drawGraph()
 
 
@@ -197,6 +187,14 @@ class GraphFragment : Fragment() {
 
    private fun updateGraph(start:String, end:String)
     {
+        noR.visibility=View.GONE
+        if (UserDetails.ts.isEmpty()) {
+            // Handle the case when there is no data available
+            // Display a message or perform appropriate action
+            noR.visibility=View.VISIBLE
+            return
+        }
+
         val format = SimpleDateFormat("yyyy-MM-dd")
         temp= UserDetails.ts.reversed().filter {
             format.parse(it.date!!.substring(0,10))!!.after(format.parse(start))
@@ -210,6 +208,8 @@ class GraphFragment : Fragment() {
                 min = UserDetails.min.toDouble()
             )
         }
+        Log.d("testing",temp.toString())
+        Log.d("testing",temp[0].date.toString()+"\t"+temp[0].hours.toString())
 
         val dates=temp.map { it.dateString }
 
@@ -221,7 +221,24 @@ class GraphFragment : Fragment() {
             android.R.attr.calendarTextColor, Color.BLACK).toColor()
         val rgb2 =  Color.rgb(color2.red(), color2.green(), color2.blue())
         val hex2 = String.format("#%06X", 0xFFFFFF and rgb2)
-
+        if (temp.isEmpty()) {
+            // Handle the case when there is no data available
+            // Display a message or perform appropriate action
+            val chartModel:AAChartModel = AAChartModel()
+                .chartType(AAChartType.Areasplinerange)
+                .title(getString(R.string.total_hours))
+                .titleStyle(AAStyle().color(hex2))
+                .backgroundColor(hex)
+                .axesTextColor(hex2)
+                .dataLabelsEnabled(true)
+                .xAxisLabelsEnabled(true)
+                .legendEnabled(true)
+                .categories(dates.toTypedArray())
+                .yAxisTitle(getString(R.string.th))
+            chart.aa_drawChartWithChartModel(chartModel)
+            noR.visibility=View.VISIBLE
+            return
+        }
 
         val chartModel:AAChartModel = AAChartModel()
             .chartType(AAChartType.Areasplinerange)
@@ -272,6 +289,27 @@ class GraphFragment : Fragment() {
     // used to implement the graph
     private fun drawGraph()
     {
+        noR.visibility=View.GONE
+        if (UserDetails.ts.isEmpty()) {
+            // Handle the case when there is no data available
+
+            noR.visibility=View.VISIBLE
+            return
+        }
+
+
+        val format = SimpleDateFormat("yyyy-MM-dd")
+        temp= UserDetails.ts.reversed().groupBy { it.date }.map { (date, list) ->
+            GraphData(
+                date = format.parse(date!!.substring(0,10))!!,
+                dateString= date.substring(0,10),
+                hours = list.sumByDouble { it.hours.toDouble() },
+                max = UserDetails.max.toDouble(),
+                min = UserDetails.min.toDouble()
+            )
+        }
+        Log.d("testing",temp[0].date.toString()+"\t"+temp[0].hours.toString())
+
         val color = MaterialColors.getColor(requireContext(),
             com.google.android.material.R.attr.backgroundColor, Color.BLACK).toColor()
         val rgb =  Color.rgb(color.red(), color.green(), color.blue())
@@ -282,6 +320,23 @@ class GraphFragment : Fragment() {
         val hex2 = String.format("#%06X", 0xFFFFFF and rgb2)
         Log.d("testing",hex.toString())
         val dates=temp.map { it.dateString }
+        if (UserDetails.ts.isEmpty()) {
+        // Handle the case when there is no data available
+        val chartModel:AAChartModel = AAChartModel()
+            .chartType(AAChartType.Areasplinerange)
+            .title(getString(R.string.total_hours))
+            .titleStyle(AAStyle().color(hex2))
+            .backgroundColor(hex)
+            .axesTextColor(hex2)
+            .dataLabelsEnabled(true)
+            .xAxisLabelsEnabled(true)
+            .legendEnabled(true)
+            .categories(dates.toTypedArray())
+            .yAxisTitle(getString(R.string.th))
+        chart.aa_drawChartWithChartModel(chartModel)
+        noR.visibility=View.VISIBLE
+        return
+    }
         val chartModel: AAChartModel = AAChartModel()
             .backgroundColor(hex)
             .axesTextColor(hex2)
