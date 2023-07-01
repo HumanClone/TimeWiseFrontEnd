@@ -36,11 +36,9 @@ This project uses an API to faciliatate data entry and retrival
 ***
 
 ## Application Walkthrough
-</br>
 
 ### Register and Login
 
-</br>
 
 `Register`
 -
