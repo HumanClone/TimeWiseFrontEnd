@@ -54,6 +54,8 @@ class CategoryFragment : Fragment() {
             val drawerLayout: DrawerLayout = requireActivity().findViewById(R.id.drawer_layout)
             drawerLayout.open()
         }
+        Log.d("testing", "onViewCreated: "+UserDetails.categories)
+
         var name:String
         val catName:TextInputEditText= TextInputEditText(requireContext())
         recycle=view.findViewById(R.id.category_recycler_category)
@@ -82,6 +84,7 @@ class CategoryFragment : Fragment() {
                     }
                     else
                     {
+                        Log.d("testing", "create")
                         progress.visibility=View.VISIBLE
                         name=catName.text.toString()
                         if (UserDetails.categories.any { it.Name.equals(name) } )
@@ -122,6 +125,8 @@ class CategoryFragment : Fragment() {
                 }
             }
         })
+
+        getUserCategoriesNorm()
     }
 
     //adds category
@@ -138,6 +143,7 @@ class CategoryFragment : Fragment() {
                     override fun onFailure(call: Call<Category>, t: Throwable) {
                         Log.d("testing", "Failure")
                         UserDetails.categories+category
+                        Log.d("testing", UserDetails.categories.toString())
                         getUserCategoriesNorm()
                     }
 
@@ -158,18 +164,19 @@ class CategoryFragment : Fragment() {
     //gets categories to update local list
     private fun getUserCategoriesNorm()
     {
+        Log.d("testing","Getting all")
         val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
             try {
-                val call:List<Category> = timeWiseApi.getAllCategoriesNorm(UserDetails.userId)
+                val call:List<Category> = timeWiseApi.getAllCatHours(UserDetails.userId)
                 if (call.isEmpty())
                 {
                     Log.d("testing","no values ")
                 }
                 UserDetails.categories=call
 
-                Log.d("testing", call.toString())
+                Log.d("testing","Got all"+ call.toString())
 
             }
             catch (e:kotlin.KotlinNullPointerException)
@@ -185,6 +192,7 @@ class CategoryFragment : Fragment() {
 
 
         recyclerview.layoutManager = LinearLayoutManager(requireContext())
+       Log.d("testing", "populateRecyclerViewCT: "+data)
         val adapter = CategoryAdapter(data)
         recyclerview.adapter = adapter
 

@@ -82,7 +82,6 @@ class DashboardFragment : Fragment() {
                     recyclerview.adapter = adapter
                     adapter.setOnClickListener(object : TimeSheetAdapter.OnClickListener {
                         override fun onClick(position: Int, model: TimeSheet) {
-                            Log.d("testing", "clicked" )
                             UserDetails.temp=model
                             parentFragmentManager.beginTransaction().replace(R.id.flContent,SingleTSView(),"Ts")
                                 .addToBackStack( "tag" ).commit()
@@ -160,7 +159,7 @@ class DashboardFragment : Fragment() {
             }
             catch (e:kotlin.KotlinNullPointerException)
             {
-                Log.d("testing","no data")
+                Log.d("testing","no data fail")
             }
 
         }
@@ -177,10 +176,8 @@ class DashboardFragment : Fragment() {
         progMin.progress=min.toInt()
         progMin.setIndicatorColor(getStatusColorMin(min.toInt()))
         minText.text=min.toInt().toString()+" %"
-        Log.d("testing",UserDetails.min.toString())
-        Log.d("testing",UserDetails.max.toString())
-        Log.d("testing",average.toString())
-        Log.d("testing","Before set values")
+
+        Log.d("testing","average"+average.toString())
         if (UserDetails.min==0)
         {
             slider.valueFrom=1.0.toFloat()
@@ -235,7 +232,6 @@ class DashboardFragment : Fragment() {
 
 
         date+= cal.year
-        Log.d("testing","Month")
         val timeWiseApi = RetrofitHelper.getInstance().create(TimeWiseApi::class.java)
         // launching a new coroutine
         GlobalScope.launch {
@@ -269,11 +265,11 @@ class DashboardFragment : Fragment() {
                     minMaxDisplay()
                 })
                 Log.d("testing", "$max%\t$min%\t$average")
-                Log.d("testing", "Month DOne")
+                Log.d("testing", "Month Done")
             }
             catch (e:kotlin.KotlinNullPointerException)
             {
-                Log.d("testing","no data")
+                Log.d("testing","no data fail")
             }
 
         }
