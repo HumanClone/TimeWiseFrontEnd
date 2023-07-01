@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+            android:angle="45"
+                android:endColor="?attr/colorPrimary"
+                android:centerColor="?attr/colorPrimaryVariant"
+                android:startColor="?attr/colorOnPrimary"
+            android:type="linear" />
+        </shape>
+    </item>
+</selector>
+
+
+<!--    android:endColor="?attr/colorPrimary"-->
+<!--    android:centerColor="?attr/colorPrimaryVariant"-->
+<!--    android:startColor="?attr/colorOnPrimary"-->
+
+<!--    android:endColor="?attr/colorPrimary"-->
+<!--    android:centerColor="?attr/colorOnPrimary"-->
+<!--    android:startColor="?attr/colorPrimaryVariant"-->
+
+<!--    android:endColor="?attr/colorPrimary"-->
+<!--    android:centerColor="?attr/colorSecondary"-->
+<!--    android:startColor="?attr/colorSecondaryVariant"-->
+
+<!--    android:endColor="?attr/colorSecondaryVariant"-->
+<!--    android:centerColor="?attr/colorPrimaryVariant"-->
+<!--    android:startColor="?attr/colorPrimary"-->

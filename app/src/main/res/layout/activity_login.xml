@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.LoginActivity"
-    android:background="@drawable/bdimage">
+    android:background="@drawable/background">
 
     <TextView
         android:id="@+id/Logo"
