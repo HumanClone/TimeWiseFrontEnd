@@ -189,7 +189,7 @@ class DashboardFragment : Fragment() {
         {
             slider.valueFrom=UserDetails.min.toFloat()
         }
-        if (UserDetails.max>=UserDetails.min)
+        if (UserDetails.max<=UserDetails.min)
         {
             slider.valueTo=UserDetails.min+1.toFloat()
         }
