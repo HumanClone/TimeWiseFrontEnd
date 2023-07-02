@@ -26,12 +26,14 @@ This project uses an API to faciliatate data entry and retrival
 - Time Sheet Creation
 - Setting a maximum and miminmum daily goal
 - Optional Picture upload
-- Calendar View
-- Dynamic theme
+>- Calendar View
+>- Dynamic theme
 - Dynamic Graph
 - Searching functionality
 - Modal Views that have intutitve uses
-- Export  data as a `.csv `
+>- Export  data as a `.csv `
+
+the 3 features above were chosen and not part of the original requirement
 
 ***
 
