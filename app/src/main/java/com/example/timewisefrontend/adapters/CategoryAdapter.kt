@@ -33,13 +33,17 @@ class CategoryAdapter (var data: List<Category>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = data[position]
-        Log.d("testing","here")
+
         holder.name.text=item.Name
-        if (item.Totalhours.toString().isEmpty())
+        if (item.Totalhours.toString().isEmpty()||item.Totalhours.toString()=="null")
         {
-            holder.hourHeader.text=0.toString()
+            holder.hours.text="0"
+            Log.d("testing", "onBindViewHolder: "+item.Totalhours.toString())
         }
-        holder.hours.text=item.Totalhours?.toInt().toString()
+        else
+        {
+            holder.hours.text=item.Totalhours?.toInt().toString()
+        }
 
 
 

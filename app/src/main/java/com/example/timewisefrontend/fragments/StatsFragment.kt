@@ -246,6 +246,10 @@ class StatsFragment : Fragment() {
                             progress.visibility=View.GONE
                         })
                     }
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                    })
                     dateStart.text=null
                     dateEnd.text=null
                     category.text=null
@@ -266,6 +270,10 @@ class StatsFragment : Fragment() {
                     dateStart.text=null
                     dateEnd.text=null
                     category.text=null
+                    activity?.runOnUiThread(Runnable {
+                        recycler.visibility=View.VISIBLE
+                        noR.visibility=View.GONE
+                    })
                 }
             }
 
