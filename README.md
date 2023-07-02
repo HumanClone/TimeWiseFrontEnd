@@ -44,8 +44,9 @@ This project uses an API to faciliatate data entry and retrival
 -
 User can simple enter thier details and create an account on the database
 
-<img src='' width='24%'>
+<img src='https://github.com/HumanClone/TimeWiseFrontEnd/assets/74468682/08672da6-ec91-4254-b7da-bdb6c081bd13' width='24%'>
 </br>
+
 
 `Login`
 -
@@ -216,6 +217,8 @@ Download repository zip and ope in Android Studio and build and run
 
 ## End Notes
 
+There are a few sections that were not covered for the sake of time such as validation, which is very extensive in the application and would have taken to much of the file o go into detail for.</br>
+This was my first full fledged android project and was throuoghly enjoyable</br>
 
 ***
 
